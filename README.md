@@ -1,2 +1,2 @@
 # caos
-Simple Project Dependencies Manager for Python3
+Simple Dependencies Manager for Python3 Projects
