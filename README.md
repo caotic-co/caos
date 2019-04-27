@@ -4,10 +4,10 @@
     </a>
     <h1 align="center">CAOS</h1>
     <br>
+    Simple Dependencies Manager for Python3 Projects
 </p>
-Simple Dependencies Manager for Python3 Projects
 
-REQUIREMENTS
+Requirements
 ------------
 
 The minimum requirements for this project is to have installed Python >= 3.4.
