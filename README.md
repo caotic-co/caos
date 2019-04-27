@@ -4,7 +4,7 @@
     </a>
     <h1 align="center">CAOS</h1>
     <br>
-    Simple Dependencies Manager for Python3 Projects
+    <p align="center">Simple Dependencies Manager for Python3 Projects</p>
 </p>
 
 Requirements
