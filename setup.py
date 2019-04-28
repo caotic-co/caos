@@ -10,8 +10,8 @@ full_description = '''
 
 
 setup(
-    name='caos',  
-    version='1.0',
+    name="caos",  
+    version="1.0",
     author="Team Camilo",
     author_email="camilo.ospinaa@gmail.com",
     description="caos - Simple Dependencies Manager for Python3 Projects",
@@ -36,6 +36,6 @@ setup(
         "console_scripts": ["caos=caos:console"],
     },
 
-    python_requires='>3, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, <4',
+    python_requires=">3, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*,  <4",
     
  )

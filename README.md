@@ -10,7 +10,10 @@ Simple Dependencies Manager for Python3 Projects
 REQUIREMENTS
 ------------
 
-The minimum requirements for this project is to have installed Python >= 3.4.
+The minimum requirements for this project is to have installed Python >= 3.5
+with the following dependencies updated:
+    -pip
+    -virtualenv
 
 
 Installation using PIP
@@ -42,3 +45,51 @@ To install the module in your local system use the following commmand (be sure t
 ~~~
 python -m pip install dist/caos-x.x-py3-none-any.whl
 ~~~
+
+Unit Testing
+------------
+To run the unit tests for the source code go the root of the cloned project "caos/" and run
+~~~
+python -m unittest discover .\tests
+~~~
+
+Usage
+------------
+Once installed you can use "caos" trough the command line
+
+Arguments
+    init
+        Create the .json template file for the project
+    prepare
+        Create a virtual environment and download the project dependencies
+    test
+        Run all the unit tests
+    run
+        Execute the main entry point script for the project
+
+Examples
+    Create the caos.json file in the current directory
+    ~~~
+    caos init
+    ~~~
+        
+    Set up a virtual environment with the project dependencies
+    ~~~
+    caos prepare
+    ~~~
+        
+    Execute all the unit tests available
+    ~~~
+    caos test
+    ~~~
+        
+    Run the main script of the project
+    ~~~
+    caos run
+    ~~~
+        
+    Run the main script of the project sending some arguments 
+    ~~~
+    caos run arg1 arg2
+    ~~~
+        
