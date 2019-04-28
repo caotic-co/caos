@@ -1,3 +1,4 @@
+
 <p align="center">
     <a href="https://github.com/ospinakamilo/caos" target="_blank">
         <img src="https://github.com/ospinakamilo/caos/blob/master/docs/img/caos_logo.svg" height="100px">
@@ -10,11 +11,10 @@
 Requirements
 ------------
 
-The minimum requirements for this project is to have installed Python >= 3.5
-with the following dependencies updated:
-    -pip
-    -virtualenv
+The minimum requirements for this project is to have installed Python >= 3.5 with the following dependencies updated:
 
+ - pip
+ - virtualenv
 
 Installation using PIP
 ------------
@@ -57,39 +57,28 @@ Usage
 ------------
 Once installed you can use "caos" trough the command line
 
-Arguments
-    init
-        Create the .json template file for the project
-    prepare
-        Create a virtual environment and download the project dependencies
-    test
-        Run all the unit tests
-    run
-        Execute the main entry point script for the project
+**Arguments**
+ - **init** - Create the .json template file for the project
+ - **prepare** - Create a virtual environment and download the project dependencies
+ - **test** - Run all the unit tests
+ - **run** - Execute the main entry point script for the project
 
-Examples
-    Create the caos.json file in the current directory
-    ~~~
-    caos init
-    ~~~
-        
-    Set up a virtual environment with the project dependencies
-    ~~~
-    caos prepare
-    ~~~
-        
-    Execute all the unit tests available
-    ~~~
-    caos test
-    ~~~
-        
-    Run the main script of the project
-    ~~~
-    caos run
-    ~~~
-        
-    Run the main script of the project sending some arguments 
-    ~~~
-    caos run arg1 arg2
-    ~~~
-        
+**Examples**
+```console
+username@host:~$ caos init     #Create the caos.json file in the current directory
+```  
+```console
+username@host:~$ caos prepare  #Set up a virtual environment with the project dependencies
+```          
+```console
+username@host:~$ caos test     #Execute all the unit tests available
+```
+ ```console
+username@host:~$ caos run      #Run the main script of the project
+```
+```console
+username@host:~$ caos arg1     #Run the main script of the project sending some argument 
+```
+```console
+username@host:~$ caos help     #Get a similar set of instructions to these one
+```
