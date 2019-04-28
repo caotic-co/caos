@@ -17,4 +17,4 @@ elif _CURRENT_OS == _WINDOWS:
 _PROJECT_PATH = os.path.abspath(path="../caos")
 _SRC_PATH = os.path.abspath(path="../caos/src")
 _ENTRY_POINT = os.path.abspath(path="../caos/src/__main__.py")
-_OUT_TEST = os.path.abspath(path="../caos/tests/out")
+_OUT_TEST = os.path.abspath(path="../caos/tests/out_test")
