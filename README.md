@@ -62,6 +62,7 @@ Once installed you can use "caos" trough the command line
  - **prepare** - Create a virtual environment and download the project dependencies
  - **test** - Run all the unit tests
  - **run** - Execute the main entry point script for the project
+ - **Help** - Get documentation about the arguments and usage
 
 **Examples**
 ```console
