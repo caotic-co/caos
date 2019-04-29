@@ -4,10 +4,10 @@ import os
 import sys
 import unittest
 import tests.constants
-from src.caos import console
-from src.caos.__main__ import _INIT_COMMAND
-from src.caos._internal.init import _console_messages
-from src.caos._internal.templates.caos_json import example_template
+from caos import console
+from caos.__main__ import _INIT_COMMAND
+from caos._internal.init import _console_messages
+from caos._internal.templates.caos_json import example_template
 
 os.chdir(tests.constants._OUT_TEST_FOLDER)
 import common #Import common only after changing folder

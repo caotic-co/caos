@@ -4,7 +4,7 @@ import os
 import venv
 import json
 import common.constants
-from src.caos._internal.exceptions import VenvExistsError
+from caos._internal.exceptions import VenvExistsError
 
 _console_messages={
     "success":"Success: Virtual environment created",

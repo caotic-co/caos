@@ -2,7 +2,7 @@
 
 import os
 import common.constants
-from src.caos._internal.templates.caos_json import example_template
+from caos._internal.templates.caos_json import example_template
 
 
 _console_messages={

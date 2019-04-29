@@ -48,7 +48,7 @@ python -m pip install dist/caos-x.x-py3-none-any.whl
 
 Unit Testing
 ------------
-To run the unit tests for the source code go the root of the cloned project "caos/" and run
+To run the unit tests for the source code go the 'src' folder of the cloned project "caos/src/" and run
 ~~~
 python -m unittest discover ./tests
 ~~~

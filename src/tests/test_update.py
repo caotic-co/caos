@@ -5,9 +5,9 @@ import sys
 import shutil
 import unittest
 import tests.constants
-from src.caos import console
-from src.caos.__main__ import _INIT_COMMAND, _PREPARE_COMMAND, _UPDATE_COMMAND
-from src.caos._internal.update import _console_messages
+from caos import console
+from caos.__main__ import _INIT_COMMAND, _PREPARE_COMMAND, _UPDATE_COMMAND
+from caos._internal.update import _console_messages
 
 os.chdir(tests.constants._OUT_TEST_FOLDER)
 import common #Import common only after changing folder

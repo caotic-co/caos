@@ -3,8 +3,8 @@
 import sys
 import unittest
 import common.utils
-from src.caos import console
-from src.caos.__main__ import _console_messages
+from caos import console
+from caos.__main__ import _console_messages
 
 class TestInit(unittest.TestCase):
 

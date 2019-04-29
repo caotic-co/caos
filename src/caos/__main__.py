@@ -1,7 +1,7 @@
 """Simple Dependencies Manager for Python3 Projects"""
 
 import sys
-from src.caos._internal import init, prepare, update
+from caos._internal import init, prepare, update
 
 __all__=["console"]
 

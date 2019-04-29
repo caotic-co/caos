@@ -5,7 +5,7 @@ import re
 import json
 import subprocess
 import common
-from src.caos._internal.exceptions import (
+from caos._internal.exceptions import (
     VenvNotFound, VenvBinariesMissing, InvalidJSON, MissingJSONKeys,
     InvalidVersionFormat, InvalidMainScriptPath, InvalidTestsPath, DownloadDependenciesError
 )
