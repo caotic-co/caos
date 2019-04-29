@@ -38,7 +38,7 @@ git clone https://github.com/ospinakamilo/caos
 
 In the location where you cloned the repository run the next command:
 ~~~
-python setup.py bdist_wheel
+python setup.py sdist bdist_wheel
 ~~~
 This will create a folder called 'dist' which contatins the module to install.
 To install the module in your local system use the following commmand (be sure to validate the version number in the file):
