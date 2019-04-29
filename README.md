@@ -82,7 +82,7 @@ username@host:~$ caos test     #Execute all the unit tests available
 username@host:~$ caos run      #Run the main script of the project
 ```
 ```console
-username@host:~$ caos arg1     #Run the main script of the project sending some argument 
+username@host:~$ caos run arg1 #Run the main script of the project sending some argument 
 ```
 ```console
 username@host:~$ caos help     #Get a similar set of instructions to the ones shown here
