@@ -3,7 +3,6 @@
 import sys
 import unittest
 import common.utils
-
 from src.caos import console
 from src.caos.__main__ import _console_messages
 
@@ -19,7 +18,5 @@ class TestInit(unittest.TestCase):
         out = common.utils.get_func_without_params_stdout(func=console) 
         self.assertEqual(out, _console_messages["need_help"])
 
-
 if __name__ == '__main__':
     unittest.main()
-

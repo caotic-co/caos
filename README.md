@@ -50,7 +50,7 @@ Unit Testing
 ------------
 To run the unit tests for the source code go the root of the cloned project "caos/" and run
 ~~~
-python -m unittest discover .\tests
+python -m unittest discover ./tests
 ~~~
 
 Usage
