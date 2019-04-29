@@ -53,7 +53,7 @@ setup(
     long_description=full_description,
     long_description_content_type='text/markdown',
     url="https://github.com/ospinakamilo/caos/",
-    keywords='distutils easy_install egg setuptools wheel virtualenv dependencies manager ppm',
+    keywords='caos virtualenv dependencies manager ppm pipenv venv distutils easy_install egg setuptools wheel',
     classifiers=[
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
