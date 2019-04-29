@@ -1,7 +1,7 @@
 
 <p align="center">
     <a href="https://github.com/ospinakamilo/caos" target="_blank">
-        <img src="https://github.com/ospinakamilo/caos/blob/master/docs/img/caos_logo.svg" height="100px">
+        <img src="https://github.com/ospinakamilo/caos/blob/master/src/docs/img/caos_logo.svg" height="100px">
     </a>
     <h1 align="center">CAOS</h1>
     <br>
