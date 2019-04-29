@@ -16,7 +16,7 @@ The minimum requirements for this project is to have installed Python >= 3.5 wit
  - pip
  - virtualenv
 
-Installation using PIP from the Python Package Index
+Installation from the Python Package Index using PIP
 ------------
 Run the following command if you have access to pip
 ~~~
