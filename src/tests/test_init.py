@@ -23,10 +23,10 @@ class TestInit(unittest.TestCase):
         if exists:
             os.remove(path=common.constants._CAOS_JSON_FILE)
 
-        sys.argv = [sys.argv[0], _INIT_COMMAND]
+        sys.argv = [common.constants._UNIT_TEST_SUITE_NAME, _INIT_COMMAND]
         out = common.utils.get_func_without_params_stdout(func=console) 
 
-        self.assertEqual(out, _console_messages["success"])
+        self.assertTrue(_console_messages["success"] in out)
 
         exists = os.path.isfile(path=common.constants._CAOS_JSON_FILE)
         if exists:
@@ -45,7 +45,7 @@ class TestInit(unittest.TestCase):
         sys.argv = [sys.argv[0], _INIT_COMMAND]
         out = common.utils.get_func_without_params_stdout(func=console) 
 
-        self.assertEqual(out, _console_messages["file_exists"])
+        self.assertTrue(_console_messages["file_exists"] in out)
 
 if __name__ == '__main__':
     unittest.main()

@@ -61,7 +61,7 @@ Once installed you can use "caos" trough the command line
  - **init** - Create the .json template file for the project
  - **prepare** - Create a new virtual environment
  - **update** - Download the project dependencies
- - **test** - Run all the unit tests
+ - **test** - Run all the unit tests using th unittest framework
  - **run** - Execute the main entry point script for the project
  - **help** - Get documentation about the arguments and usage
 
@@ -76,7 +76,7 @@ username@host:~$ caos prepare  #Set up a new virtual environment
 username@host:~$ caos update   #Download the project dependencies into the virtual environment
 ``` 
 ```console
-username@host:~$ caos test     #Execute all the unit tests available
+username@host:~$ caos test     #Execute all the unit tests available using the unnittest framework
 ```
  ```console
 username@host:~$ caos run      #Run the main script of the project

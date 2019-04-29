@@ -1,5 +1,5 @@
-example_template=\
-'''{
+example_template='''\
+{
     "require":{
         "pip": "latest",
         "flask": "1.0.2"

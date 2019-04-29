@@ -1,21 +1,25 @@
-"""Validate the behaviour of the prepare module"""
+"""Validate the behaviour of the run module"""
 
 import os
 import sys
 import shutil
 import unittest
+import common #Import common only after changing folder
 import tests.constants
+import tests.templates
 from caos import console
-from caos.__main__ import _INIT_COMMAND, _PREPARE_COMMAND, _UPDATE_COMMAND
+from caos.__main__ import _INIT_COMMAND, _PREPARE_COMMAND, _UPDATE_COMMAND, _TEST_COMMAND
 from caos.__main__ import _console_messages as console_messages
-from caos._internal.update import _console_messages as update_messages
+from caos._internal.test import _console_messages as test_messages
 
 os.chdir(tests.constants._OUT_TEST_FOLDER)
-import common #Import common only after changing folder
 
-class TestUpdate(unittest.TestCase):
 
-    def test_update(self) -> None:   
+class TestTest(unittest.TestCase):
+    
+
+    def test_test(self) -> None:
+           
         exists_venv = os.path.isdir(common.constants._CAOS_VENV_DIR)
         if exists_venv:
             shutil.rmtree(path=common.constants._CAOS_VENV_DIR)
@@ -34,12 +38,13 @@ class TestUpdate(unittest.TestCase):
             shutil.rmtree(path="./tests")
         os.mkdir("./tests")
         
-        exists_main_py = os.path.isfile("./src/main.py")
-        if exists_main_py:
-            os.remove(path="./src/main.py")
-        with open(file="./src/main.py", mode="w") as main_py:
-            main_py.write("")
+        test_py = os.path.isfile("./tests/test.py")
+        if test_py:
+            os.remove(path="./tests/test.py")
 
+        with open(file="./tests/test.py", mode="w") as test_py:            
+            test_py.write(tests.templates.python_unit_test_file)       
+               
         sys.argv = [common.constants._UNIT_TEST_SUITE_NAME, _INIT_COMMAND]
         out = common.utils.get_func_without_params_stdout(func=console)
 
@@ -47,11 +52,13 @@ class TestUpdate(unittest.TestCase):
         out = common.utils.get_func_without_params_stdout(func=console)
         
         sys.argv = [common.constants._UNIT_TEST_SUITE_NAME, _UPDATE_COMMAND]
-        out = common.utils.get_func_without_params_stdout(func=console) 
+        out = common.utils.get_func_without_params_stdout(func=console)
+         
+        sys.argv = [common.constants._UNIT_TEST_SUITE_NAME, _TEST_COMMAND]
+        out = common.utils.get_func_without_params_stdout(func=console)
 
-        self.assertTrue("Collecting" in out)
-        self.assertTrue("Installing collected packages" in out)
-        self.assertTrue("Successfully installed" in out)
+        self.assertTrue("OK" in out)
+        self.assertFalse("FAILED (failures=" in out)
 
 if __name__ == '__main__':
     unittest.main()

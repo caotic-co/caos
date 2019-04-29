@@ -13,7 +13,7 @@ _console_messages={
     "permission_error": "Fail: Virtual environment could not be created due to permission errors",
 }
 
-def create_venv():
+def create_venv(is_unittest:bool = False):
     try:
         exists = os.path.isdir(common.constants._CAOS_VENV_DIR)
         if exists:

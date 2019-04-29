@@ -12,7 +12,7 @@ _console_messages={
     "permission_error": "Fail: caos.json could not be created due to permission errors",
 }
 
-def create_json():
+def create_json(is_unittest:bool = False):
     try:
         exists = os.path.isfile(path=common.constants._CAOS_JSON_FILE)
         if exists:
