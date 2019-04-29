@@ -15,6 +15,8 @@ _HELP = '''
             Create the .json template file for the project
         prepare
             Create a virtual environment and download the project dependencies
+        update
+            Download the project dependencies
         test
             Run all the unit tests
         run
@@ -26,6 +28,9 @@ _HELP = '''
 
         caos prepare
             Set up a virtual environment with the project dependencies
+
+        caos update
+            Download the project dependencies into the virtual environment
         
         caos test
             Execute all the unit tests available
