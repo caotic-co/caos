@@ -59,7 +59,8 @@ Once installed you can use "caos" trough the command line
 
 **Arguments**
  - **init** - Create the .json template file for the project
- - **prepare** - Create a virtual environment and download the project dependencies
+ - **prepare** - Create a new virtual environment
+ - **update** - Download the project dependencies
  - **test** - Run all the unit tests
  - **run** - Execute the main entry point script for the project
  - **help** - Get documentation about the arguments and usage
@@ -69,8 +70,11 @@ Once installed you can use "caos" trough the command line
 username@host:~$ caos init     #Create the caos.json file in the current directory
 ```  
 ```console
-username@host:~$ caos prepare  #Set up a virtual environment with the project dependencies
-```          
+username@host:~$ caos prepare  #Set up a new virtual environment
+```
+```console
+username@host:~$ caos update   #Download the project dependencies into the virtual environment
+``` 
 ```console
 username@host:~$ caos test     #Execute all the unit tests available
 ```
@@ -81,5 +85,5 @@ username@host:~$ caos run      #Run the main script of the project
 username@host:~$ caos arg1     #Run the main script of the project sending some argument 
 ```
 ```console
-username@host:~$ caos help     #Get a similar set of instructions to these one
+username@host:~$ caos help     #Get a similar set of instructions to the ones shown here
 ```
