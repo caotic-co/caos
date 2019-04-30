@@ -4,7 +4,7 @@ import os
 import sys
 import subprocess
 import caos.common
-import caos._internal.update as update_module
+from caos._internal import update as update_module
 from caos._internal.exceptions import (
     VenvNotFound, VenvBinariesMissing, InvalidJSON, MissingJSONKeys,
     InvalidVersionFormat, InvalidMainScriptPath
@@ -29,7 +29,8 @@ def _execute_main_script(main_file_path:str , args:list, is_unittest:bool = Fals
         process=subprocess.run(
             [os.path.abspath(path=caos.common.constants._PYTHON_PATH), os.path.abspath(path=main_file_path)] + args,
             universal_newlines=True,
-            capture_output= True
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
         )
         print(process.stdout)
         print(process.stderr)

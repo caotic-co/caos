@@ -3,7 +3,7 @@
 import os
 import subprocess
 import caos.common
-import caos._internal.update as update_module
+from caos._internal import update as update_module
 from caos._internal.exceptions import (
     VenvNotFound, VenvBinariesMissing, InvalidJSON, MissingJSONKeys,
     InvalidVersionFormat, InvalidTestsPath
@@ -26,13 +26,15 @@ def _tests_folder_exists(json_data:dict) -> bool:
 def _execute_unittests(tests_path:str ,is_unittest:bool = False) -> None:
     if is_unittest:
         process=subprocess.run(
-        [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path)],
+            [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path)],
             universal_newlines=True,
-            capture_output=True
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
         )
         print(process.stdout)
         print(process.stderr)
         return
+    
 
     process=subprocess.run(
         [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path)],

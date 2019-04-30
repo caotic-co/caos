@@ -54,6 +54,9 @@ class TestTest(unittest.TestCase):
         sys.argv = [caos.common.constants._UNIT_TEST_SUITE_NAME, _TEST_COMMAND]
         out = caos.common.utils.get_func_without_params_stdout(func=console)
 
+        with open("./errors.log", "w") as log:
+            log.write(out) 
+
         self.assertTrue("OK" in out)
         self.assertFalse("FAILED (failures=" in out)
 

@@ -78,7 +78,8 @@ def _download_and_updated_packages(json_data:dict, is_unittest:bool = False) -> 
         download_dependencies_process = subprocess.run(
             [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "pip", "install", "--force-reinstall", "pip"] + packages,
             universal_newlines=True,
-            capture_output= True      
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE     
         )
         print(download_dependencies_process.stdout)
         print(download_dependencies_process.stderr)
