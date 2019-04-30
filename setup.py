@@ -49,7 +49,7 @@ username@host:~$ caos version  #Display the current installed version
 
 setup(
     name="caos",  
-    version="1.0.4",
+    version="1.0.5",
     author="Team Camilo",
     author_email="camilo.ospinaa@gmail.com",
     description="caos - Simple Dependencies Manager for Python3 Projects",
