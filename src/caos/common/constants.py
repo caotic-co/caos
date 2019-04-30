@@ -1,7 +1,7 @@
 import os
 from caos.common import utils
 
-_CAOS_VERSION = "1.0.3"
+_CAOS_VERSION = "1.0.4"
 
 _LINUX_UNIX = 'linux_unix'
 _WINDOWS = 'windows'
