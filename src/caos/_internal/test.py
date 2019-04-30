@@ -73,7 +73,7 @@ def run_tests(is_unittest:bool = False) -> None:
     except InvalidJSON:
         print(update_module._console_messages["invalid_json"])
     except MissingJSONKeys:
-        print(update_module._console_messages["json_mising_keysprint"])
+        print(update_module._console_messages["json_mising_keys"])
     except InvalidVersionFormat:
         print(update_module._console_messages["version_format_error"])
     except InvalidTestsPath:

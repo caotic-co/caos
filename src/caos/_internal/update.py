@@ -120,7 +120,7 @@ def update_dependencies(is_unittest:bool = False) -> None:
     except InvalidJSON:
         print(_console_messages["invalid_json"])
     except MissingJSONKeys:
-        print(_console_messages["json_mising_keysprint"])
+        print(_console_messages["json_mising_keys"])
     except InvalidVersionFormat:
         print(_console_messages["version_format_error"])
     except DownloadDependenciesError:
