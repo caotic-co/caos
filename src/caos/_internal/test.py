@@ -37,9 +37,7 @@ def _execute_unittests(tests_path:str ,is_unittest:bool = False) -> None:
     
 
     process=subprocess.run(
-        [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path)],
-        universal_newlines=True,
-        shell=True
+        [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path)]
     )
     
 def run_tests(is_unittest:bool = False) -> None:

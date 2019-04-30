@@ -37,9 +37,7 @@ def _execute_main_script(main_file_path:str , args:list, is_unittest:bool = Fals
         return
 
     process=subprocess.run(
-        [os.path.abspath(path=caos.common.constants._PYTHON_PATH), os.path.abspath(path=main_file_path)] + args,
-        universal_newlines=True,
-        shell=True
+        [os.path.abspath(path=caos.common.constants._PYTHON_PATH), os.path.abspath(path=main_file_path)] + args
     )
     
 
