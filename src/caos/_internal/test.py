@@ -2,7 +2,7 @@
 
 import os
 import subprocess
-import common
+import caos.common
 import caos._internal.update as update_module
 from caos._internal.exceptions import (
     VenvNotFound, VenvBinariesMissing, InvalidJSON, MissingJSONKeys,
@@ -17,7 +17,7 @@ _console_messages={
 }
 
 def _tests_folder_exists(json_data:dict) -> bool:
-    exists = os.path.isdir(json_data[common.constants._CAOS_JSON_TESTS_KEY])
+    exists = os.path.isdir(json_data[caos.common.constants._CAOS_JSON_TESTS_KEY])
     if exists:
         return True
     else:
@@ -26,7 +26,7 @@ def _tests_folder_exists(json_data:dict) -> bool:
 def _execute_unittests(tests_path:str ,is_unittest:bool = False) -> None:
     if is_unittest:
         process=subprocess.run(
-        [os.path.abspath(path=common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path)],
+        [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path)],
             universal_newlines=True,
             capture_output=True
         )
@@ -35,7 +35,7 @@ def _execute_unittests(tests_path:str ,is_unittest:bool = False) -> None:
         return
 
     process=subprocess.run(
-        [os.path.abspath(path=common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path)],
+        [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path)],
         universal_newlines=True,
         shell=True
     )
@@ -62,7 +62,7 @@ def run_tests(is_unittest:bool = False) -> None:
         if not _tests_folder_exists(json_data=json_data):
                 raise InvalidTestsPath()
         
-        _execute_unittests(tests_path=json_data[common.constants._CAOS_JSON_TESTS_KEY], is_unittest=is_unittest)   
+        _execute_unittests(tests_path=json_data[caos.common.constants._CAOS_JSON_TESTS_KEY], is_unittest=is_unittest)   
 
     except FileNotFoundError:
         print(update_module._console_messages["no_json_found"])

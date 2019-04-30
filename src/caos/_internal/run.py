@@ -3,7 +3,7 @@
 import os
 import sys
 import subprocess
-import common
+import caos.common
 import caos._internal.update as update_module
 from caos._internal.exceptions import (
     VenvNotFound, VenvBinariesMissing, InvalidJSON, MissingJSONKeys,
@@ -18,7 +18,7 @@ _console_messages={
 }
 
 def _main_file_exists(json_data:dict) -> bool:
-    exists = os.path.isfile(path=json_data[common.constants._CAOS_JSON_MAIN_KEY])
+    exists = os.path.isfile(path=json_data[caos.common.constants._CAOS_JSON_MAIN_KEY])
     if exists:
         return True
     else:
@@ -27,7 +27,7 @@ def _main_file_exists(json_data:dict) -> bool:
 def _execute_main_script(main_file_path:str , args:list, is_unittest:bool = False) -> None:
     if is_unittest:
         process=subprocess.run(
-            [os.path.abspath(path=common.constants._PYTHON_PATH), os.path.abspath(path=main_file_path)] + args,
+            [os.path.abspath(path=caos.common.constants._PYTHON_PATH), os.path.abspath(path=main_file_path)] + args,
             universal_newlines=True,
             capture_output= True
         )
@@ -36,7 +36,7 @@ def _execute_main_script(main_file_path:str , args:list, is_unittest:bool = Fals
         return
 
     process=subprocess.run(
-        [os.path.abspath(path=common.constants._PYTHON_PATH), os.path.abspath(path=main_file_path)] + args,
+        [os.path.abspath(path=caos.common.constants._PYTHON_PATH), os.path.abspath(path=main_file_path)] + args,
         universal_newlines=True,
         shell=True
     )
@@ -64,7 +64,7 @@ def run_main_script(args:list, is_unittest:bool = False) -> None:
         if not _main_file_exists(json_data=json_data):
             raise InvalidMainScriptPath()
 
-        _execute_main_script(main_file_path=json_data[common.constants._CAOS_JSON_MAIN_KEY], args=args, is_unittest=is_unittest)       
+        _execute_main_script(main_file_path=json_data[caos.common.constants._CAOS_JSON_MAIN_KEY], args=args, is_unittest=is_unittest)       
         
     except FileNotFoundError:
         print(update_module._console_messages["no_json_found"])

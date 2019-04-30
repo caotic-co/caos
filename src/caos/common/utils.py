@@ -1,6 +1,6 @@
 import os
 import io
-import common.constants as constants
+from caos.common import constants
 from contextlib import redirect_stdout
 
 #OS Utils

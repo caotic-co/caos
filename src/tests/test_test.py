@@ -4,7 +4,7 @@ import os
 import sys
 import shutil
 import unittest
-import common #Import common only after changing folder
+import caos.common
 import tests.constants
 import tests.templates
 from caos import console
@@ -14,19 +14,16 @@ from caos._internal.test import _console_messages as test_messages
 
 os.chdir(tests.constants._OUT_TEST_FOLDER)
 
+class TestTest(unittest.TestCase):    
 
-class TestTest(unittest.TestCase):
-    
-
-    def test_test(self) -> None:
-           
-        exists_venv = os.path.isdir(common.constants._CAOS_VENV_DIR)
+    def test_test(self) -> None:           
+        exists_venv = os.path.isdir(caos.common.constants._CAOS_VENV_DIR)
         if exists_venv:
-            shutil.rmtree(path=common.constants._CAOS_VENV_DIR)
+            shutil.rmtree(path=caos.common.constants._CAOS_VENV_DIR)
         
-        exists_caos_json = os.path.isfile(path=common.constants._CAOS_JSON_FILE)
+        exists_caos_json = os.path.isfile(path=caos.common.constants._CAOS_JSON_FILE)
         if exists_caos_json:
-            os.remove(path=common.constants._CAOS_JSON_FILE)
+            os.remove(path=caos.common.constants._CAOS_JSON_FILE)
 
         exists_src = os.path.isdir("./src")
         if exists_src:
@@ -45,17 +42,17 @@ class TestTest(unittest.TestCase):
         with open(file="./tests/test.py", mode="w") as test_py:            
             test_py.write(tests.templates.python_unit_test_file)       
                
-        sys.argv = [common.constants._UNIT_TEST_SUITE_NAME, _INIT_COMMAND]
-        out = common.utils.get_func_without_params_stdout(func=console)
+        sys.argv = [caos.common.constants._UNIT_TEST_SUITE_NAME, _INIT_COMMAND]
+        out = caos.common.utils.get_func_without_params_stdout(func=console)
 
-        sys.argv = [common.constants._UNIT_TEST_SUITE_NAME, _PREPARE_COMMAND]
-        out = common.utils.get_func_without_params_stdout(func=console)
+        sys.argv = [caos.common.constants._UNIT_TEST_SUITE_NAME, _PREPARE_COMMAND]
+        out = caos.common.utils.get_func_without_params_stdout(func=console)
         
-        sys.argv = [common.constants._UNIT_TEST_SUITE_NAME, _UPDATE_COMMAND]
-        out = common.utils.get_func_without_params_stdout(func=console)
+        sys.argv = [caos.common.constants._UNIT_TEST_SUITE_NAME, _UPDATE_COMMAND]
+        out = caos.common.utils.get_func_without_params_stdout(func=console)
          
-        sys.argv = [common.constants._UNIT_TEST_SUITE_NAME, _TEST_COMMAND]
-        out = common.utils.get_func_without_params_stdout(func=console)
+        sys.argv = [caos.common.constants._UNIT_TEST_SUITE_NAME, _TEST_COMMAND]
+        out = caos.common.utils.get_func_without_params_stdout(func=console)
 
         self.assertTrue("OK" in out)
         self.assertFalse("FAILED (failures=" in out)

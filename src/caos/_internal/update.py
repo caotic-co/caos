@@ -4,7 +4,7 @@ import os
 import re
 import json
 import subprocess
-import common
+import caos.common
 from caos._internal.exceptions import (
     VenvNotFound, VenvBinariesMissing, InvalidJSON, MissingJSONKeys,
     InvalidVersionFormat, InvalidMainScriptPath, InvalidTestsPath, DownloadDependenciesError
@@ -25,40 +25,40 @@ _console_messages={
 }
 
 def _json_exists() -> bool:
-    exists = os.path.isfile(path=common.constants._CAOS_JSON_FILE)
+    exists = os.path.isfile(path=caos.common.constants._CAOS_JSON_FILE)
     return True if exists else False
 
 def _venv_exists() -> bool:
-    exists = os.path.isdir(common.constants._CAOS_VENV_DIR)
+    exists = os.path.isdir(caos.common.constants._CAOS_VENV_DIR)
     return True if exists else False
 
 def _are_venv_binaries_available() -> bool:
-    exists_python = os.path.isfile(path=common.constants._PYTHON_PATH)
-    exists_pip = os.path.isfile(path=common.constants._PIP_PATH)
-    exists_activate = os.path.isfile(path=common.constants._ACTIVATE_PATH)
+    exists_python = os.path.isfile(path=caos.common.constants._PYTHON_PATH)
+    exists_pip = os.path.isfile(path=caos.common.constants._PIP_PATH)
+    exists_activate = os.path.isfile(path=caos.common.constants._ACTIVATE_PATH)
     return exists_python and exists_pip and exists_activate
 
 def _read_json_file() -> dict:
     try:
-        with open(file=common.constants._CAOS_JSON_FILE, mode="r") as json_file:  
+        with open(file=caos.common.constants._CAOS_JSON_FILE, mode="r") as json_file:  
             return json.load(json_file)
     except Exception:
         raise InvalidJSON()
 
 def _is_json_syntax_correct(json_data:dict) -> bool:
-    all_keys_exist = set(common.constants._CAOS_JSON_KEYS).issubset(json_data)
+    all_keys_exist = set(caos.common.constants._CAOS_JSON_KEYS).issubset(json_data)
     if all_keys_exist:
         return True
     return False
 
 def _are_packages_versions_format_valid(json_data:dict) -> bool:
-    for version in json_data[common.constants._CAOS_JSON_REQUIRE_KEY].values():        
+    for version in json_data[caos.common.constants._CAOS_JSON_REQUIRE_KEY].values():        
         match_pattern= False
-        for pattern in common.constants._CAOS_JSON_PACKAGE_VERSION_PATTERNS:
+        for pattern in caos.common.constants._CAOS_JSON_PACKAGE_VERSION_PATTERNS:
             if re.match(pattern, version):
                 match_pattern = True
                 break 
-        if match_pattern or version in common.constants._CAOS_JSON_PACKAGE_VALID_VERSIONS:
+        if match_pattern or version in caos.common.constants._CAOS_JSON_PACKAGE_VALID_VERSIONS:
             return True
     return False
 
@@ -66,8 +66,8 @@ def _are_packages_versions_format_valid(json_data:dict) -> bool:
 
 def _download_and_updated_packages(json_data:dict, is_unittest:bool = False) -> None:
     packages = []
-    for p, v in json_data[common.constants._CAOS_JSON_REQUIRE_KEY].items():
-        if v == common.constants._CAOS_LATEST_VERSION:
+    for p, v in json_data[caos.common.constants._CAOS_JSON_REQUIRE_KEY].items():
+        if v == caos.common.constants._CAOS_LATEST_VERSION:
             package = p          
         else:
             package = "{0}=={1}".format(p,v)
@@ -76,7 +76,7 @@ def _download_and_updated_packages(json_data:dict, is_unittest:bool = False) -> 
     
     if is_unittest:
         download_dependencies_process = subprocess.run(
-            [os.path.abspath(path=common.constants._PYTHON_PATH), "-m", "pip", "install", "--force-reinstall", "pip"] + packages,
+            [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "pip", "install", "--force-reinstall", "pip"] + packages,
             universal_newlines=True,
             capture_output= True      
         )
@@ -85,7 +85,7 @@ def _download_and_updated_packages(json_data:dict, is_unittest:bool = False) -> 
         return
     
     download_dependencies_process = subprocess.run(
-        [os.path.abspath(path=common.constants._PYTHON_PATH), "-m", "pip", "install", "--force-reinstall", "pip"] + packages,
+        [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "pip", "install", "--force-reinstall", "pip"] + packages,
         universal_newlines=True,
         shell=True
     )

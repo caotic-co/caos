@@ -1,5 +1,7 @@
 import os
-import common.utils
+from caos.common import utils
+
+_CAOS_VERSION = "1.0.2"
 
 _LINUX_UNIX = 'linux_unix'
 _WINDOWS = 'windows'
@@ -10,7 +12,7 @@ _CAOS_JSON_FILE = "./caos.json"
 _CAOS_VENV_DIR = "./venv"
 
 #CAOS PYTHON VENV
-_CURRENT_OS = common.utils.get_os_type()
+_CURRENT_OS = utils.get_os_type()
 if _CURRENT_OS == _LINUX_UNIX:
     _VENV_BINARIES_PATH = _CAOS_VENV_DIR+ "/bin"
     _PYTHON_PATH = _CAOS_VENV_DIR+ "/bin/python"

@@ -1,7 +1,7 @@
 """Simple Dependencies Manager for Python3 Projects"""
 
 import sys
-import common
+import caos.common
 from caos._internal import init, prepare, update, run, test
 
 __all__=["console"]
@@ -11,6 +11,10 @@ _HELP = '''
         Simple Dependencies Manager for Python3 Projects
 
     ARGUMENTS
+        help
+            Get documentation about the arguments and usage
+        version
+            Show the installed version
         init
             Create the .json template file for the project
         prepare
@@ -23,6 +27,12 @@ _HELP = '''
             Execute the main entry point script for the project
 
     EXAMPLES
+        caos help
+            Get a similar set of instructions to the ones shown here
+            
+        caos version
+            Display the current installed version
+
         caos init
             Creates the caos.json file in the current directory
 
@@ -42,18 +52,20 @@ _HELP = '''
             Run the main script of the project sending some arguments         
 '''
 _HELP_COMMAND = "help"
+_VERSION_COMMAND = "version"
 _INIT_COMMAND = "init"
 _PREPARE_COMMAND = "prepare"
 _UPDATE_COMMAND = "update"
 _TEST_COMMAND = "test"
 _RUN_COMMAND = "run"
 
-_valid_commands=[_HELP_COMMAND, _INIT_COMMAND, _PREPARE_COMMAND, _UPDATE_COMMAND,_TEST_COMMAND, _RUN_COMMAND]
+_valid_commands=[_HELP_COMMAND, _VERSION_COMMAND, _INIT_COMMAND, _PREPARE_COMMAND, _UPDATE_COMMAND,_TEST_COMMAND, _RUN_COMMAND]
 
 _console_messages={
     "need_help":"Unknown Argument, if you need help try typing 'caos help'",
     "in_progress":"In Progress...",
     "help": _HELP,
+    "version": "You are using caos version {0}".format(caos.common.constants._CAOS_VERSION)
 }
 
 def console() -> None:
@@ -65,7 +77,7 @@ def console() -> None:
         return
 
     args = sys.argv[1:]
-    _is_unittest = True if sys.argv[0] == common.constants._UNIT_TEST_SUITE_NAME else False   
+    _is_unittest = True if sys.argv[0] == caos.common.constants._UNIT_TEST_SUITE_NAME else False   
     command = args[0].lower()
 
     if _is_unittest:
@@ -73,6 +85,8 @@ def console() -> None:
             print(_console_messages["need_help"])
         elif command == _HELP_COMMAND:
             print(_console_messages["help"])
+        elif command == _VERSION_COMMAND:
+            print(_console_messages["version"])
         elif command == _INIT_COMMAND:
             init.create_json(is_unittest=True)
         elif command == _PREPARE_COMMAND:
@@ -90,6 +104,8 @@ def console() -> None:
         print(_console_messages["need_help"])
     elif command == _HELP_COMMAND:
         print(_console_messages["help"])
+    elif command == _VERSION_COMMAND:
+        print(_console_messages["version"])
     elif command == _INIT_COMMAND:
         init.create_json()
     elif command == _PREPARE_COMMAND:

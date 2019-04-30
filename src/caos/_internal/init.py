@@ -1,7 +1,7 @@
 """init - Create the .json template file for the project"""
 
 import os
-import common.constants
+import caos.common.constants
 from caos._internal.templates.caos_json import example_template
 
 
@@ -14,11 +14,11 @@ _console_messages={
 
 def create_json(is_unittest:bool = False):
     try:
-        exists = os.path.isfile(path=common.constants._CAOS_JSON_FILE)
+        exists = os.path.isfile(path=caos.common.constants._CAOS_JSON_FILE)
         if exists:
             raise FileExistsError()
 
-        with open(file=common.constants._CAOS_JSON_FILE, mode="w") as caos_json_file:
+        with open(file=caos.common.constants._CAOS_JSON_FILE, mode="w") as caos_json_file:
             caos_json_file.write(example_template)
         print(_console_messages["success"])
     except FileExistsError:

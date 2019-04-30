@@ -64,6 +64,7 @@ Once installed you can use "caos" trough the command line
  - **test** - Run all the unit tests using th unittest framework
  - **run** - Execute the main entry point script for the project
  - **help** - Get documentation about the arguments and usage
+ - **version** - Show the installed version
 
 **Examples**
 ```console
@@ -86,4 +87,7 @@ username@host:~$ caos run arg1 #Run the main script of the project sending some 
 ```
 ```console
 username@host:~$ caos help     #Get a similar set of instructions to the ones shown here
+```
+```console
+username@host:~$ caos version  #Display the current installed version
 ```

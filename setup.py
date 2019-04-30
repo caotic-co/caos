@@ -41,12 +41,15 @@ username@host:~$ caos run arg1 #Run the main script of the project sending some 
 ```console
 username@host:~$ caos help     #Get a similar set of instructions to the ones shown here
 ```
+```console
+username@host:~$ caos version  #Display the current installed version
+```
 '''
 
 
 setup(
     name="caos",  
-    version="1.0.1",
+    version="1.0.2",
     author="Team Camilo",
     author_email="camilo.ospinaa@gmail.com",
     description="caos - Simple Dependencies Manager for Python3 Projects",

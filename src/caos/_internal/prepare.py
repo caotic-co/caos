@@ -3,7 +3,7 @@
 import os
 import venv
 import json
-import common.constants
+import caos.common.constants
 from caos._internal.exceptions import VenvExistsError
 
 _console_messages={
@@ -15,10 +15,10 @@ _console_messages={
 
 def create_venv(is_unittest:bool = False):
     try:
-        exists = os.path.isdir(common.constants._CAOS_VENV_DIR)
+        exists = os.path.isdir(caos.common.constants._CAOS_VENV_DIR)
         if exists:
             raise VenvExistsError()        
-        venv.create(env_dir=common.constants._CAOS_VENV_DIR, with_pip=True, system_site_packages=True)
+        venv.create(env_dir=caos.common.constants._CAOS_VENV_DIR, with_pip=True, system_site_packages=True)
 
         print(_console_messages["success"])
     except VenvExistsError:
