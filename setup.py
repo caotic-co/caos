@@ -52,7 +52,7 @@ setup(
     version="1.0.5",
     author="Team Camilo",
     author_email="camilo.ospinaa@gmail.com",
-    description="caos - Simple Dependencies Manager for Python3 Projects",
+    description="Simple Dependency Management for Python3 Projects",
     long_description=full_description,
     long_description_content_type='text/markdown',
     url="https://github.com/ospinakamilo/caos/",
