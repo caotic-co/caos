@@ -70,7 +70,7 @@ In the location where you cloned the repository run the next command:
 ~~~
 python3 setup.py sdist bdist_wheel
 ~~~
-This will create a folder called 'dist' which contatins the module to install.
+This will create a folder called 'dist' which contains the module to install.
 To install the module in your local system use the following commmand (be sure to validate the version number in the file):
 ~~~
 python3 -m pip install dist/caos-x.x-py3-none-any.whl
