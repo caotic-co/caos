@@ -16,20 +16,46 @@ The minimum requirements for this project is to have installed Python >= 3.5 wit
  - pip
  - virtualenv
  
-Youtube Tutorial
-------------
-<https://youtu.be/rn25t6uT150>
 
-Installation from the Python Package Index using PIP
+Installation of Dependencies 
 ------------
-Run the following command if you have access to pip
+If you are using Python 3 in **Windows** there are no dependencies for you to install.
+If you are using **Linux** make sure to install Pip and Venv first.
+#### Fedora
 ~~~
-pip install caos
+sudo dnf install python3-pip
 ~~~
-or run this command to use pip as a python module
+~~~
+sudo dnf install python3-virtualenv
+~~~
+#### Ubuntu
+~~~
+sudo apt-get install python3-pip
+~~~
+~~~
+sudo apt-get install python3-venv
+~~~
+### Open Suse
+~~~
+zypper install python3-pip
+~~~
+~~~
+zypper install python3-virtualenv
+~~~
 
+
+Installation of the library
+------------
+If you already installed the previous dependencies use the next command to install **caos** using pip.
+
+### Windows
 ~~~
-python -m pip install caos
+pip3 install caos
+~~~
+
+### Linux
+~~~
+sudo pip3 install caos
 ~~~
 
 
@@ -42,19 +68,19 @@ git clone https://github.com/ospinakamilo/caos
 
 In the location where you cloned the repository run the next command:
 ~~~
-python setup.py sdist bdist_wheel
+python3 setup.py sdist bdist_wheel
 ~~~
 This will create a folder called 'dist' which contatins the module to install.
 To install the module in your local system use the following commmand (be sure to validate the version number in the file):
 ~~~
-python -m pip install dist/caos-x.x-py3-none-any.whl
+python3 -m pip install dist/caos-x.x-py3-none-any.whl
 ~~~
 
 Unit Testing
 ------------
 To run the unit tests for the source code go the 'src' folder of the cloned project "caos/src/" and run
 ~~~
-python -m unittest discover ./tests
+python3 -m unittest discover ./tests
 ~~~
 
 Usage
@@ -95,3 +121,7 @@ username@host:~$ caos help     #Get a similar set of instructions to the ones sh
 ```console
 username@host:~$ caos version  #Display the current installed version
 ```
+
+Youtube Tutorial
+------------
+<https://youtu.be/rn25t6uT150>
