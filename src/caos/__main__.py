@@ -11,9 +11,9 @@ _HELP = '''
         Simple Dependencies Manager for Python3 Projects
 
     ARGUMENTS
-        help
+        --help or -h
             Get documentation about the arguments and usage
-        version
+        --version or -v
             Show the installed version
         init
             Create the .json template file for the project
@@ -27,10 +27,10 @@ _HELP = '''
             Execute the main entry point script for the project
 
     EXAMPLES
-        caos help
+        caos --help
             Get a similar set of instructions to the ones shown here
             
-        caos version
+        caos --version
             Display the current installed version
 
         caos init
@@ -51,18 +51,29 @@ _HELP = '''
         caos run arg1 arg2
             Run the main script of the project sending some arguments         
 '''
-_HELP_COMMAND = "help"
-_VERSION_COMMAND = "version"
+_HELP_COMMAND = "--help"
+_HELP_COMMAND_SHORTCUT = "-h"
+_VERSION_COMMAND = "--version"
+_VERSION_COMMAND_SHORTCUT = "-v"
 _INIT_COMMAND = "init"
 _PREPARE_COMMAND = "prepare"
 _UPDATE_COMMAND = "update"
 _TEST_COMMAND = "test"
 _RUN_COMMAND = "run"
 
-_valid_commands=[_HELP_COMMAND, _VERSION_COMMAND, _INIT_COMMAND, _PREPARE_COMMAND, _UPDATE_COMMAND,_TEST_COMMAND, _RUN_COMMAND]
+_valid_commands=[_HELP_COMMAND,
+                 _HELP_COMMAND_SHORTCUT,
+                 _VERSION_COMMAND,
+                 _VERSION_COMMAND_SHORTCUT,
+                 _INIT_COMMAND,
+                 _PREPARE_COMMAND,
+                 _UPDATE_COMMAND,
+                 _TEST_COMMAND,
+                 _RUN_COMMAND
+]
 
 _console_messages={
-    "need_help":"Unknown Argument, if you need help try typing 'caos help'",
+    "need_help":"Unknown Argument, if you need help try typing 'caos --help'",
     "in_progress":"In Progress...",
     "help": _HELP,
     "version": "You are using caos version {0}".format(caos.common.constants._CAOS_VERSION)
@@ -83,11 +94,12 @@ def console() -> None:
     if _is_unittest:
         if command not in _valid_commands:
             print(_console_messages["need_help"])
-        elif command == _HELP_COMMAND:
+        elif command == _HELP_COMMAND or command == _HELP_COMMAND_SHORTCUT:
             print(_console_messages["help"])
-        elif command == _VERSION_COMMAND:
+        elif command == _VERSION_COMMAND or command == _VERSION_COMMAND_SHORTCUT:
             print(_console_messages["version"])
         elif command == _INIT_COMMAND:
+            print(_console_messages["in_progress"])
             init.create_json(is_unittest=True)
         elif command == _PREPARE_COMMAND:
             print(_console_messages["in_progress"])
@@ -102,11 +114,12 @@ def console() -> None:
 
     if command not in _valid_commands:
         print(_console_messages["need_help"])
-    elif command == _HELP_COMMAND:
+    elif command == _HELP_COMMAND or command == _HELP_COMMAND_SHORTCUT:
         print(_console_messages["help"])
-    elif command == _VERSION_COMMAND:
+    elif command == _VERSION_COMMAND or command == _VERSION_COMMAND_SHORTCUT:
         print(_console_messages["version"])
     elif command == _INIT_COMMAND:
+        print(_console_messages["in_progress"])
         init.create_json()
     elif command == _PREPARE_COMMAND:
         print(_console_messages["in_progress"])

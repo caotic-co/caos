@@ -14,6 +14,7 @@ from caos._internal.test import _console_messages as test_messages
 
 os.chdir(tests.constants._OUT_TEST_FOLDER)
 
+
 class TestTest(unittest.TestCase):    
 
     def test_test(self) -> None:           
@@ -56,6 +57,7 @@ class TestTest(unittest.TestCase):
 
         self.assertTrue("OK" in out)
         self.assertFalse("FAILED (failures=" in out)
+
 
 if __name__ == '__main__':
     unittest.main()

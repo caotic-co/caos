@@ -8,10 +8,10 @@ import caos.common
 import tests.constants
 from caos import console
 from caos.__main__ import _PREPARE_COMMAND
-from caos.__main__ import _console_messages as console_messages
 from caos._internal.prepare import _console_messages as prepare_messages
 
 os.chdir(tests.constants._OUT_TEST_FOLDER)
+
 
 class TestPrepare(unittest.TestCase):
 
@@ -34,6 +34,7 @@ class TestPrepare(unittest.TestCase):
         out = caos.common.utils.get_func_without_params_stdout(func=console) 
 
         self.assertTrue(prepare_messages["venv_exists"] in out)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -12,6 +12,7 @@ from caos._internal.templates.caos_json import example_template
 
 os.chdir(tests.constants._OUT_TEST_FOLDER)
 
+
 class TestInit(unittest.TestCase):
 
     def test_create_json(self) -> None:
@@ -42,6 +43,7 @@ class TestInit(unittest.TestCase):
         out = caos.common.utils.get_func_without_params_stdout(func=console) 
 
         self.assertTrue(_console_messages["file_exists"] in out)
+
 
 if __name__ == '__main__':
     unittest.main()

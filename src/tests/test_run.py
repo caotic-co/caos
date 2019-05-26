@@ -8,10 +8,9 @@ import caos.common
 import tests.constants
 from caos import console
 from caos.__main__ import _INIT_COMMAND, _PREPARE_COMMAND, _UPDATE_COMMAND, _RUN_COMMAND
-from caos.__main__ import _console_messages as console_messages
-from caos._internal.run import _console_messages as run_messages
 
 os.chdir(tests.constants._OUT_TEST_FOLDER)
+
 
 class TestRun(unittest.TestCase):    
 
@@ -54,8 +53,6 @@ class TestRun(unittest.TestCase):
         out = caos.common.utils.get_func_without_params_stdout(func=console)
 
         self.assertTrue("Hello World" in out)
-
-        
 
 
 if __name__ == '__main__':

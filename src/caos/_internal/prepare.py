@@ -2,16 +2,16 @@
 
 import os
 import venv
-import json
 import caos.common.constants
 from caos._internal.exceptions import VenvExistsError
 
 _console_messages={
-    "success":"Success: Virtual environment created",
-    "fail": "Fail: Virtual environment could not be created",
-    "venv_exists": "Fail: Virtual environment folder already exists",
-    "permission_error": "Fail: Virtual environment could not be created due to permission errors",
+    "success":"Success: Virtual environment created.",
+    "fail": "Fail: Virtual environment could not be created.",
+    "venv_exists": "Fail: Virtual environment folder already exists.",
+    "permission_error": "Fail: Virtual environment could not be created due to permission errors.",
 }
+
 
 def create_venv(is_unittest:bool = False):
     try:

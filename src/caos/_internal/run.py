@@ -1,7 +1,6 @@
 """run - run the main script using the virtual environment"""
 
 import os
-import sys
 import subprocess
 import caos.common
 from caos._internal import update as update_module
@@ -11,11 +10,12 @@ from caos._internal.exceptions import (
 )
 
 _console_messages={
-    "success":"Success: The main script executed successfully",
-    "fail":"Fail: The main script could not run",
-    "missing_main": "Fail: The path inside caos.json for the main script does not exist",
-    "permission_error": "Fail: The main script could not run due to permission errors",
+    "success":"Success: The main script executed successfully.",
+    "fail":"Fail: The main script could not run.",
+    "missing_main": "Fail: The path inside caos.json for the main script does not exist.",
+    "permission_error": "Fail: The main script could not run due to permission errors.",
 }
+
 
 def _main_file_exists(json_data:dict) -> bool:
     exists = os.path.isfile(path=json_data[caos.common.constants._CAOS_JSON_MAIN_KEY])
@@ -23,6 +23,7 @@ def _main_file_exists(json_data:dict) -> bool:
         return True
     else:
         return False
+
 
 def _execute_main_script(main_file_path:str , args:list, is_unittest:bool = False) -> None:
     if is_unittest:

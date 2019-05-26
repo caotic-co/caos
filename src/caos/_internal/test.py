@@ -10,11 +10,12 @@ from caos._internal.exceptions import (
 )
 
 _console_messages={
-    "success":"Success: All tests were executed",
-    "fail": "Fail: Tests could not be executed",
-    "missing_tests": "Fail: The path inside caos.json for running tests does not exist",
-    "permission_error": "Fail: Tests could not be executed due to permission errors",
+    "success":"Success: All tests were executed.",
+    "fail": "Fail: Tests could not be executed.",
+    "missing_tests": "Fail: The path inside caos.json for running tests does not exist.",
+    "permission_error": "Fail: Tests could not be executed due to permission errors.",
 }
+
 
 def _tests_folder_exists(json_data:dict) -> bool:
     exists = os.path.isdir(json_data[caos.common.constants._CAOS_JSON_TESTS_KEY])
@@ -22,6 +23,7 @@ def _tests_folder_exists(json_data:dict) -> bool:
         return True
     else:
         return False
+
 
 def _execute_unittests(tests_path:str ,is_unittest:bool = False) -> None:
     if is_unittest:
@@ -39,7 +41,8 @@ def _execute_unittests(tests_path:str ,is_unittest:bool = False) -> None:
     process=subprocess.run(
         [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path)]
     )
-    
+
+
 def run_tests(is_unittest:bool = False) -> None:
     try:
         if not update_module._json_exists():            
