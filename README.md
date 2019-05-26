@@ -11,31 +11,31 @@
 Requirements
 ------------
 
-For this project to work you need to have installed **Python >= 3.5** and **pip**.
+For this project to work you need to have installed **Python >= 3.5**, **pip** and **virtualenv**.
  
 
 Dependencies 
 ------------
 If you are using Python 3 in **Windows** there are no dependencies for you to install.
-If you are using **Linux** make sure to install **pip** first.
+If you are using **Linux** make sure to install **pip** and **virtualenv** first.
 #### Fedora
 ~~~
-sudo dnf install python3-pip
+sudo dnf install python3-pip python3-virtualenv
 ~~~
 
 #### Ubuntu
 ~~~
-sudo apt-get install python3-pip
+sudo apt-get install python3-pip python3-venv
 ~~~
 
 #### Open Suse
 ~~~
-sudo zypper install python3-pip
+sudo zypper install python3-pip python3-virtualenv
 ~~~
 
 Installation
 ------------
-If you already installed **pip** use the next command to install **caos**.
+If you already installed **pip** and **virtualenv** use the next command to install **caos**.
 
 ### Windows
 In a command prompt with administrative rights type:
