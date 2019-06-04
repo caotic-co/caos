@@ -1,7 +1,8 @@
 """prepare - Create and prepare the virtual environment for the project"""
 
 import os
-import venv
+import sys
+import subprocess
 import caos.common.constants
 from caos._internal.exceptions import VenvExistsError
 
@@ -17,8 +18,11 @@ def create_venv(is_unittest:bool = False):
     try:
         exists = os.path.isdir(caos.common.constants._CAOS_VENV_DIR)
         if exists:
-            raise VenvExistsError()        
-        venv.create(env_dir=caos.common.constants._CAOS_VENV_DIR, with_pip=True, system_site_packages=True)
+            raise VenvExistsError()
+
+        subprocess.run(
+            [os.path.abspath(path=sys.executable), "-m", "venv", "venv"]
+        )
 
         print(_console_messages["success"])
     except VenvExistsError:
