@@ -2,7 +2,7 @@
 
 import sys
 import caos.common
-from caos._internal import init, prepare, update, run, test
+from caos._internal import init, prepare, check, update, run, test
 
 __all__=["console"]
 
@@ -21,6 +21,8 @@ _HELP = '''
             Create a virtual environment and download the project dependencies
         update
             Download the project dependencies
+        check
+            Validate if the dependencies have been downloaded
         test
             Run all the unit tests
         run
@@ -38,9 +40,12 @@ _HELP = '''
 
         caos prepare
             Set up a virtual environment with the project dependencies
-
+            
         caos update
             Download the project dependencies into the virtual environment
+            
+        caos check
+            Validate the installed dependencies in the virtual environment
         
         caos test
             Execute all the unit tests available
@@ -57,6 +62,7 @@ _VERSION_COMMAND = "--version"
 _VERSION_COMMAND_SHORTCUT = "-v"
 _INIT_COMMAND = "init"
 _PREPARE_COMMAND = "prepare"
+_CHECK_COMMAND = "check"
 _UPDATE_COMMAND = "update"
 _TEST_COMMAND = "test"
 _RUN_COMMAND = "run"
@@ -68,6 +74,7 @@ _valid_commands=[_HELP_COMMAND,
                  _INIT_COMMAND,
                  _PREPARE_COMMAND,
                  _UPDATE_COMMAND,
+                 _CHECK_COMMAND,
                  _TEST_COMMAND,
                  _RUN_COMMAND
 ]
@@ -106,6 +113,9 @@ def console() -> None:
             prepare.create_venv(is_unittest=True)
         elif command == _UPDATE_COMMAND:
             update.update_dependencies(is_unittest=True)
+        elif command == _CHECK_COMMAND:
+            print(_console_messages["in_progress"])
+            check.execute_check(is_unittest=True)
         elif command == _TEST_COMMAND:
             test.run_tests(is_unittest=True)
         elif command == _RUN_COMMAND:
@@ -126,6 +136,9 @@ def console() -> None:
         prepare.create_venv()
     elif command == _UPDATE_COMMAND:
         update.update_dependencies()
+    elif command == _CHECK_COMMAND:
+        print(_console_messages["in_progress"])
+        check.execute_check()
     elif command == _TEST_COMMAND:
         test.run_tests()
     elif command == _RUN_COMMAND:

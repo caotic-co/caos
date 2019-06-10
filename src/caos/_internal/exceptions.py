@@ -32,3 +32,7 @@ class InvalidTestsPath(Exception):
 
 class DownloadDependenciesError(Exception):
     pass
+
+
+class MissingDependencies(Exception):
+    pass
