@@ -58,7 +58,7 @@ Once installed you can use "caos" trough the command line
  - **prepare** - Create a new virtual environment
  - **update** - Download the project dependencies
  - **check** - Validate the downloaded dependencies
- - **test** - Run all the unit tests using th unittest framework
+ - **test** - Run all the unit tests using the unittest framework
  - **run** - Execute the main entry point script for the project
  - **--help, -h** - Get documentation about the arguments and usage
  - **--version, -v** - Show the installed version
