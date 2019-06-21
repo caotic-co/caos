@@ -14,7 +14,7 @@ _console_messages={
 }
 
 
-def create_venv(is_unittest:bool = False):
+def create_venv(is_unittest:bool = False) -> int:
     try:
         exists = os.path.isdir(caos.common.constants._CAOS_VENV_DIR)
         if exists:
@@ -25,9 +25,13 @@ def create_venv(is_unittest:bool = False):
         )
 
         print(_console_messages["success"])
+        return 0
     except VenvExistsError:
         print (_console_messages["venv_exists"])
+        return 1
     except PermissionError:
         print(_console_messages["permission_error"])
+        return 1
     except Exception:
         print(_console_messages["fail"])
+        return 1

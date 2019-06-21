@@ -25,7 +25,7 @@ def _main_file_exists(json_data:dict) -> bool:
         return False
 
 
-def _execute_main_script(main_file_path:str , args:list, is_unittest:bool = False) -> None:
+def _execute_main_script(main_file_path:str , args:list, is_unittest:bool = False) -> int:
     if is_unittest:
         process=subprocess.run(
             [os.path.abspath(path=caos.common.constants._PYTHON_PATH), os.path.abspath(path=main_file_path)] + args,
@@ -35,14 +35,15 @@ def _execute_main_script(main_file_path:str , args:list, is_unittest:bool = Fals
         )
         print(process.stdout)
         print(process.stderr)
-        return
+        return process.returncode
 
     process=subprocess.run(
         [os.path.abspath(path=caos.common.constants._PYTHON_PATH), os.path.abspath(path=main_file_path)] + args
     )
-    
+    return process.returncode
 
-def run_main_script(args:list, is_unittest:bool = False) -> None:
+
+def run_main_script(args:list, is_unittest:bool = False) -> int:
     try:
         if not update_module._json_exists():          
             raise FileNotFoundError()
@@ -64,23 +65,33 @@ def run_main_script(args:list, is_unittest:bool = False) -> None:
         if not _main_file_exists(json_data=json_data):
             raise InvalidMainScriptPath()
 
-        _execute_main_script(main_file_path=json_data[caos.common.constants._CAOS_JSON_MAIN_KEY], args=args, is_unittest=is_unittest)       
-        
+        return_code = _execute_main_script(main_file_path=json_data[caos.common.constants._CAOS_JSON_MAIN_KEY], args=args, is_unittest=is_unittest)
+        return return_code
+
     except FileNotFoundError:
         print(update_module._console_messages["no_json_found"])
+        return 1
     except VenvNotFound:
         print(update_module._console_messages["no_venv_found"])
+        return 1
     except VenvBinariesMissing:
         print(update_module._console_messages["missing_venv_binaries"])
+        return 1
     except InvalidJSON:
         print(update_module._console_messages["invalid_json"])
+        return 1
     except MissingJSONKeys:
         print(update_module._console_messages["json_mising_keys"])
+        return 1
     except InvalidVersionFormat:
         print(update_module._console_messages["version_format_error"])
+        return 1
     except InvalidMainScriptPath:
         print(_console_messages["missing_main"])
+        return 1
     except PermissionError:
         print(_console_messages["permission_error"])
+        return 1
     except Exception:
         print(_console_messages["fail"])
+        return 1

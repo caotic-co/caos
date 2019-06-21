@@ -25,7 +25,7 @@ def _tests_folder_exists(json_data:dict) -> bool:
         return False
 
 
-def _execute_unittests(tests_path:str ,is_unittest:bool = False) -> None:
+def _execute_unittests(tests_path:str ,is_unittest:bool = False) -> int:
     if is_unittest:
         process=subprocess.run(
             [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path)],
@@ -35,15 +35,17 @@ def _execute_unittests(tests_path:str ,is_unittest:bool = False) -> None:
         )
         print(process.stdout)
         print(process.stderr)
-        return
+        return process.returncode
     
 
     process=subprocess.run(
         [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path)]
     )
 
+    return process.returncode
 
-def run_tests(is_unittest:bool = False) -> None:
+
+def run_tests(is_unittest:bool = False) -> int:
     try:
         if not update_module._json_exists():            
             raise FileNotFoundError()
@@ -65,23 +67,33 @@ def run_tests(is_unittest:bool = False) -> None:
         if not _tests_folder_exists(json_data=json_data):
                 raise InvalidTestsPath()
         
-        _execute_unittests(tests_path=json_data[caos.common.constants._CAOS_JSON_TESTS_KEY], is_unittest=is_unittest)   
+        return_code = _execute_unittests(tests_path=json_data[caos.common.constants._CAOS_JSON_TESTS_KEY], is_unittest=is_unittest)
+        return return_code
 
     except FileNotFoundError:
         print(update_module._console_messages["no_json_found"])
+        return 1
     except VenvNotFound:
         print(update_module._console_messages["no_venv_found"])
+        return 1
     except VenvBinariesMissing:
         print(update_module._console_messages["missing_venv_binaries"])
+        return 1
     except InvalidJSON:
         print(update_module._console_messages["invalid_json"])
+        return 1
     except MissingJSONKeys:
         print(update_module._console_messages["json_mising_keys"])
+        return 1
     except InvalidVersionFormat:
         print(update_module._console_messages["version_format_error"])
+        return 1
     except InvalidTestsPath:
         print(_console_messages["missing_tests"])
+        return 1
     except PermissionError:
         print(_console_messages["permission_error"])
+        return 1
     except Exception:
         print(_console_messages["fail"])
+        return 1

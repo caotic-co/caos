@@ -68,7 +68,7 @@ def _are_packages_versions_format_valid(json_data:dict) -> bool:
     return False
 
 
-def _download_and_updated_packages(json_data:dict, is_unittest:bool = False) -> None:
+def _download_and_updated_packages(json_data:dict, is_unittest:bool = False) -> int:
     packages = []
     for p, v in json_data[caos.common.constants._CAOS_JSON_REQUIRE_KEY].items():
         if v == caos.common.constants._CAOS_LATEST_VERSION:
@@ -87,14 +87,15 @@ def _download_and_updated_packages(json_data:dict, is_unittest:bool = False) -> 
         )
         print(download_dependencies_process.stdout)
         print(download_dependencies_process.stderr)
-        return
+        return download_dependencies_process.returncode
     
     download_dependencies_process = subprocess.run(
         [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "pip", "install", "--force-reinstall", "pip"] + packages
     )
+    return download_dependencies_process.returncode
 
 
-def update_dependencies(is_unittest:bool = False) -> None:
+def update_dependencies(is_unittest:bool = False) -> int:
     try:
         if not _json_exists():            
             raise FileNotFoundError()
@@ -114,23 +115,33 @@ def update_dependencies(is_unittest:bool = False) -> None:
             raise InvalidVersionFormat()              
         
         print(_console_messages["downloading"])
-        _download_and_updated_packages(json_data=json_data, is_unittest=is_unittest)
+        return_code = _download_and_updated_packages(json_data=json_data, is_unittest=is_unittest)
+        return return_code
         
     except FileNotFoundError:
         print(_console_messages["no_json_found"])
+        return 1
     except VenvNotFound:
         print(_console_messages["no_venv_found"])
+        return 1
     except VenvBinariesMissing:
         print(_console_messages["missing_venv_binaries"])
+        return 1
     except InvalidJSON:
         print(_console_messages["invalid_json"])
+        return 1
     except MissingJSONKeys:
         print(_console_messages["json_mising_keys"])
+        return 1
     except InvalidVersionFormat:
         print(_console_messages["version_format_error"])
+        return 1
     except DownloadDependenciesError:
         print(_console_messages["download_error"])
+        return 1
     except PermissionError:
         print(_console_messages["permission_error"])
+        return 1
     except Exception:
         print(_console_messages["fail"])
+        return 1

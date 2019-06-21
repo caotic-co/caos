@@ -12,7 +12,7 @@ _console_messages={
 }
 
 
-def create_json(is_unittest:bool = False):
+def create_json(is_unittest:bool = False) -> int:
     try:
         exists = os.path.isfile(path=caos.common.constants._CAOS_JSON_FILE)
         if exists:
@@ -21,9 +21,13 @@ def create_json(is_unittest:bool = False):
         with open(file=caos.common.constants._CAOS_JSON_FILE, mode="w") as caos_json_file:
             caos_json_file.write(example_template)
         print(_console_messages["success"])
+        return 0
     except FileExistsError:
         print(_console_messages["file_exists"])
+        return 1
     except PermissionError:
         print(_console_messages["permission_error"])
+        return 1
     except Exception:
         print(_console_messages["fail"])
+        return 1

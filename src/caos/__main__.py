@@ -130,19 +130,19 @@ def console() -> None:
         print(_console_messages["version"])
     elif command == _INIT_COMMAND:
         print(_console_messages["in_progress"])
-        init.create_json()
+        exit(init.create_json())
     elif command == _PREPARE_COMMAND:
         print(_console_messages["in_progress"])
-        prepare.create_venv()
+        exit(prepare.create_venv())
     elif command == _UPDATE_COMMAND:
-        update.update_dependencies()
+        exit(update.update_dependencies())
     elif command == _CHECK_COMMAND:
         print(_console_messages["in_progress"])
-        check.execute_check()
+        exit(check.execute_check())
     elif command == _TEST_COMMAND:
-        test.run_tests()
+        exit(test.run_tests())
     elif command == _RUN_COMMAND:
-        run.run_main_script(args=sys.argv[2:])
+        exit(run.run_main_script(args=sys.argv[2:]))
 
 if __name__ == "__main__":
     console()

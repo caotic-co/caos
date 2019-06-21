@@ -29,7 +29,7 @@ def _check_installed_dependencies(json_data:dict) ->list:
     return not_installed_packages
 
 
-def execute_check(is_unittest: bool = False) -> None:
+def execute_check(is_unittest: bool = False) -> int:
     try:
         if not update_module._json_exists():
             raise FileNotFoundError()
@@ -55,22 +55,32 @@ def execute_check(is_unittest: bool = False) -> None:
             raise MissingDependencies()
 
         print(_console_messages["success"])
+        return 0
 
     except FileNotFoundError:
         print(update_module._console_messages["no_json_found"])
+        return 1
     except VenvNotFound:
         print(update_module._console_messages["no_venv_found"])
+        return 1
     except VenvBinariesMissing:
         print(update_module._console_messages["missing_venv_binaries"])
+        return 1
     except InvalidJSON:
         print(update_module._console_messages["invalid_json"])
+        return 1
     except MissingJSONKeys:
         print(update_module._console_messages["json_mising_keys"])
+        return 1
     except InvalidVersionFormat:
         print(update_module._console_messages["version_format_error"])
+        return 1
     except MissingDependencies:
         print(_console_messages["missing_dependencies"])
+        return 1
     except PermissionError:
         print(_console_messages["permission_error"])
+        return 1
     except Exception:
         print(_console_messages["fail"])
+        return 1
