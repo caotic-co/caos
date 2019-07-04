@@ -69,10 +69,6 @@ Once installed you can use "caos" trough the command line
 ~$ caos pip install numpy #Use pip from the virtual environment to install a package
 ```
 
-Youtube Tutorial
-------------
-<https://youtu.be/rn25t6uT150>
-
 Requirements
 ------------
 
