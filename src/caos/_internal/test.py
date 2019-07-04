@@ -28,7 +28,7 @@ def _tests_folder_exists(json_data:dict) -> bool:
 def _execute_unittests(tests_path:str ,is_unittest:bool = False) -> int:
     if is_unittest:
         process=subprocess.run(
-            [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path)],
+            [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path), "-v"],
             universal_newlines=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
@@ -39,7 +39,7 @@ def _execute_unittests(tests_path:str ,is_unittest:bool = False) -> int:
     
 
     process=subprocess.run(
-        [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path)]
+        [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "unittest", "discover", os.path.abspath(path=tests_path), "-v"]
     )
 
     return process.returncode

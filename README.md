@@ -8,6 +8,71 @@
     <p align="center">Simple Dependency Management for <b>Python 3</b> Projects using <b>pip</b> and <b>virtualenv</b>.</p>
 </p>
 
+Usage
+------------
+Once installed you can use "caos" trough the command line
+
+#### Arguments
+ - **--help, -h** - Get documentation about the arguments and usage
+ - **--version, -v** - Show the installed version
+ - **init** - Create the .json template file for the project
+ - **prepare** - Create a new virtual environment
+ - **update** - Download the project dependencies
+ - **check** - Validate the downloaded dependencies
+ - **test** - Run all the unit tests using the unittest framework
+ - **run** - Execute the main entry point script for the project 
+ - **python** -  Provide an entry point for the virtual environment's python
+ - **pip** -  Provide quick access for the virtual environment's pip module
+ 
+#### Examples
+**caos.json** content example
+```json
+{
+  "require":{
+    "numpy": "latest",
+    "flask": "1.0.3"
+  },
+  
+  "tests" : "./tests",
+  "main": "./src/main.py" 
+}
+```
+
+```console
+~$ caos --help     #Get a similar set of instructions to the ones shown here
+```
+```console
+~$ caos --version  #Display the current installed version
+```
+```console
+~$ caos init     #Create the caos.json file in the current directory
+```  
+```console
+~$ caos prepare  #Set up a new virtual environment
+```
+```console
+~$ caos update   #Download the project dependencies into the virtual environment
+```
+```console
+~$ caos check    #Validate the dependencies have been downloaded
+``` 
+```console
+~$ caos test     #Execute all the unit tests available using the unnittest framework
+```
+```console
+~$ caos run      #Run the main script of the project
+```
+```console
+~$ caos python ./my_script.py  #Execute an script with the virtual environment python binary
+```
+```console
+~$ caos pip install numpy #Use pip from the virtual environment to install a package
+```
+
+Youtube Tutorial
+------------
+<https://youtu.be/rn25t6uT150>
+
 Requirements
 ------------
 
@@ -48,50 +113,3 @@ In a terminal window type:
 ~~~
 sudo pip3 install caos
 ~~~
-
-Usage
-------------
-Once installed you can use "caos" trough the command line
-
-**Arguments**
- - **init** - Create the .json template file for the project
- - **prepare** - Create a new virtual environment
- - **update** - Download the project dependencies
- - **check** - Validate the downloaded dependencies
- - **test** - Run all the unit tests using the unittest framework
- - **run** - Execute the main entry point script for the project
- - **--help, -h** - Get documentation about the arguments and usage
- - **--version, -v** - Show the installed version
-
-**Examples**
-```console
-username@host:~$ caos init     #Create the caos.json file in the current directory
-```  
-```console
-username@host:~$ caos prepare  #Set up a new virtual environment
-```
-```console
-username@host:~$ caos update   #Download the project dependencies into the virtual environment
-```
-```console
-username@host:~$ caos check    #Validate the dependencies have been downloaded
-``` 
-```console
-username@host:~$ caos test     #Execute all the unit tests available using the unnittest framework
-```
- ```console
-username@host:~$ caos run      #Run the main script of the project
-```
-```console
-username@host:~$ caos run arg1 #Run the main script of the project sending some argument 
-```
-```console
-username@host:~$ caos --help     #Get a similar set of instructions to the ones shown here
-```
-```console
-username@host:~$ caos --version  #Display the current installed version
-```
-
-Youtube Tutorial
-------------
-<https://youtu.be/rn25t6uT150>

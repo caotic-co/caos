@@ -2,7 +2,7 @@
 
 import sys
 import caos.common
-from caos._internal import init, prepare, check, update, run, test
+from caos._internal import init, prepare, check, update, run, test, python, pip
 
 __all__=["console"]
 
@@ -26,7 +26,11 @@ _HELP = '''
         test
             Run all the unit tests
         run
-            Execute the main entry point script for the project
+            Execute the main entry point script for the project            
+        python
+            Provide an entry point for the virtual environment python binary            
+        pip
+            Provide an entry point for the virtual environment pip module
 
     EXAMPLES
         caos --help
@@ -52,9 +56,12 @@ _HELP = '''
         
         caos run
             Run the main script of the project
-        
-        caos run arg1 arg2
-            Run the main script of the project sending some arguments         
+            
+        caos python ./my_script.py
+            Execute an script with the virtual environment's python binary    
+            
+        caos pip install numpy
+            Execute pip commands from the virtual environment's pip module    
 '''
 _HELP_COMMAND = "--help"
 _HELP_COMMAND_SHORTCUT = "-h"
@@ -66,17 +73,22 @@ _CHECK_COMMAND = "check"
 _UPDATE_COMMAND = "update"
 _TEST_COMMAND = "test"
 _RUN_COMMAND = "run"
+_PYTHON_COMMAND = "python"
+_PIP_COMMAND = "pip"
 
-_valid_commands=[_HELP_COMMAND,
-                 _HELP_COMMAND_SHORTCUT,
-                 _VERSION_COMMAND,
-                 _VERSION_COMMAND_SHORTCUT,
-                 _INIT_COMMAND,
-                 _PREPARE_COMMAND,
-                 _UPDATE_COMMAND,
-                 _CHECK_COMMAND,
-                 _TEST_COMMAND,
-                 _RUN_COMMAND
+_valid_commands=[
+    _HELP_COMMAND,
+    _HELP_COMMAND_SHORTCUT,
+    _VERSION_COMMAND,
+    _VERSION_COMMAND_SHORTCUT,
+    _INIT_COMMAND,
+    _PREPARE_COMMAND,
+    _UPDATE_COMMAND,
+    _CHECK_COMMAND,
+    _TEST_COMMAND,
+    _RUN_COMMAND,
+    _PYTHON_COMMAND,
+    _PIP_COMMAND
 ]
 
 _console_messages={
@@ -86,10 +98,9 @@ _console_messages={
     "version": "You are using caos version {0}".format(caos.common.constants._CAOS_VERSION)
 }
 
+
 def console() -> None:
-    '''
-    caos command line arguments
-    '''
+    """caos command line arguments"""
     if len(sys.argv) <= 1:
         print(_console_messages["need_help"])
         return
@@ -120,6 +131,10 @@ def console() -> None:
             test.run_tests(is_unittest=True)
         elif command == _RUN_COMMAND:
             run.run_main_script(args=sys.argv[2:], is_unittest=True)
+        elif command == _PYTHON_COMMAND:
+            python.run_python(args=sys.argv[2:], is_unittest=True)
+        elif command == _PIP_COMMAND:
+            pip.run_pip(args=sys.argv[2:], is_unittest=True)
         return
 
     if command not in _valid_commands:
@@ -143,6 +158,11 @@ def console() -> None:
         exit(test.run_tests())
     elif command == _RUN_COMMAND:
         exit(run.run_main_script(args=sys.argv[2:]))
+    elif command == _PYTHON_COMMAND:
+        python.run_python(args=sys.argv[2:])
+    elif command == _PIP_COMMAND:
+        pip.run_pip(args=sys.argv[2:])
+
 
 if __name__ == "__main__":
     console()

@@ -10,48 +10,52 @@ Please take a look at our full documentation for how to install and use caos:
 caos.json
 ```json
 {
-    "require":{
-        "flask": "latest"
-    },
-
-    "tests" : "./tests",
-    "main": "./src/main.py" 
+  "require":{
+    "numpy": "latest",
+    "flask": "1.0.3"
+  },
+  
+  "tests" : "./tests",
+  "main": "./src/main.py" 
 }
 ```
 Caos console commands:
 ```console
-username@host:~$ caos init     #Create the caos.json file in the current directory
+~$ caos --help     #Get a similar set of instructions to the ones shown here
+```
+```console
+~$ caos --version  #Display the current installed version
+```
+```console
+~$ caos init     #Create the caos.json file in the current directory
 ```  
 ```console
-username@host:~$ caos prepare  #Set up a new virtual environment
+~$ caos prepare  #Set up a new virtual environment
 ```
 ```console
-username@host:~$ caos update   #Download the project dependencies into the virtual environment
+~$ caos update   #Download the project dependencies into the virtual environment
+```
+```console
+~$ caos check    #Validate the dependencies have been downloaded
 ``` 
 ```console
-username@host:~$ caos check    #Validate the dependencies have been downloaded
+~$ caos test     #Execute all the unit tests available using the unnittest framework
 ```
 ```console
-username@host:~$ caos test     #Execute all the unit tests available using the unnittest framework
-```
- ```console
-username@host:~$ caos run      #Run the main script of the project
+~$ caos run      #Run the main script of the project
 ```
 ```console
-username@host:~$ caos run arg1 #Run the main script of the project sending some argument 
+~$ caos python ./my_script.py  #Execute an script with the virtual environment python binary
 ```
 ```console
-username@host:~$ caos --help     #Get a similar set of instructions to the ones shown here
-```
-```console
-username@host:~$ caos --version  #Display the current installed version
+~$ caos pip install numpy #Use pip from the virtual environment to install a package
 ```
 '''
 
 
 setup(
     name="caos",  
-    version="1.2.2",
+    version="1.3.0",
     author="Team Camilo",
     author_email="camilo.ospinaa@gmail.com",
     description="Simple Dependency Management for Python 3 Projects using pip and virtualenv",
