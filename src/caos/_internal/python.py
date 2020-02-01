@@ -12,7 +12,7 @@ from caos._internal.exceptions import (
 def _execute_python(args:list, is_unittest:bool = False) -> int:
     if is_unittest:
         process=subprocess.run(
-            [os.path.abspath(path=caos.common.constants._PYTHON_PATH)] + args,
+            [os.path.abspath(path=caos.common.constants._PYTHON_PATH_UNITTEST)] + args,
             universal_newlines=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
@@ -29,14 +29,15 @@ def _execute_python(args:list, is_unittest:bool = False) -> int:
 
 def run_python(args:list, is_unittest:bool = False) -> int:
     try:
-        
-        if not update_module._venv_exists():
-            raise VenvNotFound()
 
-        if not update_module._are_venv_binaries_available():
-            raise VenvBinariesMissing()
+        if not is_unittest:
+            if not update_module._venv_exists():
+                raise VenvNotFound()
 
-        return_code = _execute_python(args)
+            if not update_module._are_venv_binaries_available():
+                raise VenvBinariesMissing()
+
+        return_code = _execute_python(args, is_unittest)
         return return_code
 
     except VenvNotFound:

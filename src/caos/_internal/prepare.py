@@ -20,9 +20,13 @@ def create_venv(is_unittest:bool = False) -> int:
         if exists:
             raise VenvExistsError()
 
-        subprocess.run(
+        process = subprocess.run(
             [os.path.abspath(path=sys.executable), "-m", "venv", "venv"]
         )
+
+        if process.returncode != 0:
+            print(_console_messages["fail"])
+            return process.returncode
 
         print(_console_messages["success"])
         return 0

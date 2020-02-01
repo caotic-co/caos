@@ -56,11 +56,9 @@ def run_main_script(args:list, is_unittest:bool = False) -> int:
 
         json_data = update_module._read_json_file() # Raise InvalidJSON
 
-        if not update_module._is_json_syntax_correct(json_data=json_data):
+        json_has_main_key = set([caos.common.constants._CAOS_JSON_MAIN_KEY]).issubset(json_data)
+        if not json_has_main_key:
             raise MissingJSONKeys()
-        
-        if not update_module._are_packages_versions_format_valid(json_data=json_data):
-            raise InvalidVersionFormat()
         
         if not _main_file_exists(json_data=json_data):
             raise InvalidMainScriptPath()

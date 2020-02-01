@@ -20,6 +20,7 @@ Once installed you can use "caos" trough the command line
  - **update** - Download the project dependencies
  - **check** - Validate the downloaded dependencies
  - **test** - Run all the unit tests using the unittest framework
+ - **unittest** - Run all the unit tests on a given path using the unittest framework
  - **run** - Execute the main entry point script for the project 
  - **python** -  Provide an entry point for the virtual environment's python
  - **pip** -  Provide quick access for the virtual environment's pip module
@@ -30,7 +31,7 @@ Once installed you can use "caos" trough the command line
 {
   "require":{
     "numpy": "latest",
-    "flask": "1.0.3"
+    "flask": "1.1.1"
   },
   
   "tests" : "./tests",
@@ -57,7 +58,10 @@ Once installed you can use "caos" trough the command line
 ~$ caos check    #Validate the dependencies have been downloaded
 ``` 
 ```console
-~$ caos test     #Execute all the unit tests available using the unnittest framework
+~$ caos test     #Execute all the unit tests available using the unnittest framework if the path is specified in the caos.json file
+```
+```console
+~$ caos unittest ./path/with/unittests  #Execute all the unit tests available in the given path
 ```
 ```console
 ~$ caos run      #Run the main script of the project

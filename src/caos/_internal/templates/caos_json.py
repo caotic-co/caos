@@ -2,7 +2,7 @@ example_template='''\
 {
   "require":{
     "numpy": "latest",
-    "flask": "1.0.3"
+    "flask": "1.1.1"
   },
   
   "tests" : "./tests",

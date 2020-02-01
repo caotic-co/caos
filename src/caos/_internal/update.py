@@ -80,7 +80,7 @@ def _download_and_updated_packages(json_data:dict, is_unittest:bool = False) -> 
     
     if is_unittest:
         download_dependencies_process = subprocess.run(
-            [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "pip", "install", "--force-reinstall", "pip"] + packages,
+            [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "pip", "install", "--force-reinstall", "--only-binary", ":all:", "pip"] + packages,
             universal_newlines=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE     
@@ -90,7 +90,7 @@ def _download_and_updated_packages(json_data:dict, is_unittest:bool = False) -> 
         return download_dependencies_process.returncode
     
     download_dependencies_process = subprocess.run(
-        [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "pip", "install", "--force-reinstall", "pip"] + packages
+        [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "pip", "install", "--force-reinstall",  "--only-binary", ":all:", "pip"] + packages
     )
     return download_dependencies_process.returncode
 
@@ -107,6 +107,10 @@ def update_dependencies(is_unittest:bool = False) -> int:
             raise VenvBinariesMissing()
         
         json_data = _read_json_file() # Raise InvalidJSON
+
+        json_has_require_key = set([caos.common.constants._CAOS_JSON_REQUIRE_KEY]).issubset(json_data)
+        if not json_has_require_key:
+            raise MissingJSONKeys()
 
         if not _is_json_syntax_correct(json_data=json_data):
             raise MissingJSONKeys()

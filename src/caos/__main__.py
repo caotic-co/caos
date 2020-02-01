@@ -2,7 +2,7 @@
 
 import sys
 import caos.common
-from caos._internal import init, prepare, check, update, run, test, python, pip
+from caos._internal import init, prepare, check, update, run, test, unittest, python, pip
 
 __all__=["console"]
 
@@ -24,7 +24,9 @@ _HELP = '''
         check
             Validate if the dependencies have been downloaded
         test
-            Run all the unit tests
+            Run all the unit tests specified in the caos.json file          
+        unittest
+            Run all the unit tests in a given path           
         run
             Execute the main entry point script for the project            
         python
@@ -52,7 +54,10 @@ _HELP = '''
             Validate the installed dependencies in the virtual environment
         
         caos test
-            Execute all the unit tests available
+            Execute all the unit tests available if the path is specified in the caos.json file
+            
+        caos unittest ./path/with/unittests
+            Execute all the unit tests available in the given path
         
         caos run
             Run the main script of the project
@@ -72,6 +77,7 @@ _PREPARE_COMMAND = "prepare"
 _CHECK_COMMAND = "check"
 _UPDATE_COMMAND = "update"
 _TEST_COMMAND = "test"
+_UNITTEST_COMMAND = "unittest"
 _RUN_COMMAND = "run"
 _PYTHON_COMMAND = "python"
 _PIP_COMMAND = "pip"
@@ -86,6 +92,7 @@ _valid_commands=[
     _UPDATE_COMMAND,
     _CHECK_COMMAND,
     _TEST_COMMAND,
+    _UNITTEST_COMMAND,
     _RUN_COMMAND,
     _PYTHON_COMMAND,
     _PIP_COMMAND
@@ -106,7 +113,13 @@ def console() -> None:
         return
 
     args = sys.argv[1:]
-    _is_unittest = True if sys.argv[0] == caos.common.constants._UNIT_TEST_SUITE_NAME else False   
+
+    # While running some unit tests the first argument passed is -c
+    if sys.argv[0] == caos.common.constants._UNIT_TEST_SUITE_NAME or sys.argv[0] == "-c":
+        _is_unittest = True
+    else:
+        _is_unittest = False
+
     command = args[0].lower()
 
     if _is_unittest:
@@ -129,6 +142,8 @@ def console() -> None:
             check.execute_check(is_unittest=True)
         elif command == _TEST_COMMAND:
             test.run_tests(is_unittest=True)
+        elif command == _UNITTEST_COMMAND:
+            unittest.run_tests(args=sys.argv[2:], is_unittest=True)
         elif command == _RUN_COMMAND:
             run.run_main_script(args=sys.argv[2:], is_unittest=True)
         elif command == _PYTHON_COMMAND:
@@ -156,6 +171,8 @@ def console() -> None:
         exit(check.execute_check())
     elif command == _TEST_COMMAND:
         exit(test.run_tests())
+    elif command == _UNITTEST_COMMAND:
+        exit(unittest.run_tests(args=sys.argv[2:]))
     elif command == _RUN_COMMAND:
         exit(run.run_main_script(args=sys.argv[2:]))
     elif command == _PYTHON_COMMAND:
