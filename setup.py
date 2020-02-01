@@ -39,7 +39,10 @@ Caos console commands:
 ~$ caos check    #Validate the dependencies have been downloaded
 ``` 
 ```console
-~$ caos test     #Execute all the unit tests available using the unnittest framework
+~$ caos test     #Execute all the unit tests available using the unnittest framework if the path is specified in the caos.json file
+```
+```console
+~$ caos unittest ./path/with/unittests  #Execute all the unit tests available in the given path
 ```
 ```console
 ~$ caos run      #Run the main script of the project
