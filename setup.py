@@ -58,7 +58,7 @@ Caos console commands:
 
 setup(
     name="caos",  
-    version="1.4.0",
+    version="1.4.1",
     author="Team Camilo",
     author_email="camilo.ospinaa@gmail.com",
     description="Simple Dependency Management for Python 3 Projects using pip and virtualenv",

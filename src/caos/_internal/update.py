@@ -80,7 +80,7 @@ def _download_and_updated_packages(json_data:dict, is_unittest:bool = False) -> 
     
     if is_unittest:
         download_dependencies_process = subprocess.run(
-            [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "pip", "install", "--force-reinstall", "--only-binary", ":all:", "pip"] + packages,
+            [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "pip", "install", "--force-reinstall", "pip"] + packages,
             universal_newlines=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE     
@@ -90,7 +90,7 @@ def _download_and_updated_packages(json_data:dict, is_unittest:bool = False) -> 
         return download_dependencies_process.returncode
     
     download_dependencies_process = subprocess.run(
-        [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "pip", "install", "--force-reinstall",  "--only-binary", ":all:", "pip"] + packages
+        [os.path.abspath(path=caos.common.constants._PYTHON_PATH), "-m", "pip", "install", "--force-reinstall", "pip"] + packages
     )
     return download_dependencies_process.returncode
 
