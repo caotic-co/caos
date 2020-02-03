@@ -42,7 +42,8 @@ def execute_check(is_unittest: bool = False) -> int:
 
         json_data = update_module._read_json_file()  # Raise InvalidJSON
 
-        if not update_module._is_json_syntax_correct(json_data=json_data):
+        json_has_require_key = set([caos.common.constants._CAOS_JSON_REQUIRE_KEY]).issubset(json_data)
+        if not json_has_require_key:
             raise MissingJSONKeys()
 
         if not update_module._are_packages_versions_format_valid(json_data=json_data):
