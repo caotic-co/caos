@@ -70,6 +70,7 @@ def get_python_path() -> str:
 
 
 if __name__ == "__main__":
+    print(os.environ.get("PATH"))
     python: str = get_python_path()
     tests: str = "from tests.run import main; main()"
     execute_tests: subprocess.CompletedProcess = subprocess.run(
