@@ -36,8 +36,13 @@ class TestCommandInit(unittest.TestCase):
         sys.stdout, sys.stderr = self.old_stdout, self.old_stderr
 
     def test_init_no_args(self):
-        command_init.entry_point(args=[])
+        exit_code: int = command_init.entry_point(args=[])
         messages: str = escape_ansi(self.new_stdout.getvalue())
+
+        if exit_code != 0:
+            print(messages)
+            self.fail("There was a problem creating the environment")
+
         self.assertTrue(os.path.isdir(os.path.abspath(_CURRENT_DIR+"/venv")))
         self.assertTrue(os.path.isfile(os.path.abspath(_CURRENT_DIR+"/caos.yml")))
 
@@ -53,8 +58,13 @@ class TestCommandInit(unittest.TestCase):
         self.assertIn(_YAML_CREATED_MESSAGE, messages)
 
     def test_init_my_env(self):
-        command_init.entry_point(args=["my_env"])
+        exit_code: int = command_init.entry_point(args=["my_env"])
         messages: str = escape_ansi(self.new_stdout.getvalue())
+
+        if exit_code != 0:
+            print(messages)
+            self.fail("There was a problem creating the environment")
+
         self.assertTrue(os.path.isdir(os.path.abspath(_CURRENT_DIR+"/my_env")))
         self.assertTrue(os.path.isfile(os.path.abspath(_CURRENT_DIR+"/caos.yml")))
 
@@ -71,8 +81,13 @@ class TestCommandInit(unittest.TestCase):
 
     def test_init_venv_twice(self):
         command_init.entry_point(args=[])
-        command_init.entry_point(args=[])
+        exit_code: int = command_init.entry_point(args=[])
         messages: str = escape_ansi(self.new_stdout.getvalue())
+
+        if exit_code != 0:
+            print(messages)
+            self.fail("There was a problem creating the environment")
+
         self.assertTrue(os.path.isdir(os.path.abspath(_CURRENT_DIR+"/venv")))
         self.assertTrue(os.path.isfile(os.path.abspath(_CURRENT_DIR+"/caos.yml")))
         
@@ -95,8 +110,13 @@ class TestCommandInit(unittest.TestCase):
 
     def test_init_existing_json(self):
         command_init.entry_point(args=[])
-        command_init.entry_point(args=["my_env"])
+        exit_code: int = command_init.entry_point(args=["my_env"])
         messages: str = escape_ansi(self.new_stdout.getvalue())
+
+        if exit_code != 0:
+            print(messages)
+            self.fail("There was a problem creating the environment")
+
         self.assertTrue(os.path.isdir(os.path.abspath(_CURRENT_DIR+"/venv")))
         self.assertTrue(os.path.isfile(os.path.abspath(_CURRENT_DIR+"/caos.yml")))
         
@@ -124,7 +144,13 @@ class TestCommandInit(unittest.TestCase):
         self.assertIn(_UPDATE_YAML_REMINDER_MESSAGE, messages)
 
     def test_venv_binaries(self):
-        command_init.entry_point(args=[])
+        exit_code: int = command_init.entry_point(args=[])
+        messages: str = escape_ansi(self.new_stdout.getvalue())
+        
+        if exit_code != 0:
+            print(messages)
+            self.fail("There was a problem creating the environment")
+
         if is_win_os():
             self.assertTrue(os.path.isfile(_PYTHON_PATH_VENV_WIN))
             self.assertTrue(os.path.isfile(_PIP_PATH_VENV_WIN))
