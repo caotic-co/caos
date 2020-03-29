@@ -32,15 +32,17 @@ def is_posix_venv_present() -> bool:
 def create_venv_if_missing() -> None:
     if is_win_os():
         if not is_win_venv_present():
-            print("ARGS: {}".format(sys.argv))
+            python_path = None
             if sys.argv[1:] and sys.argv[1] == "circleci":
-                print("entre")
-                sys.executable =  "C:/tools/miniconda3/python.exe"
-            sys.executable = "C:/tools/miniconda3/python.exe"
+                python_path = "C:/tools/miniconda3/python.exe"
+
+            python_path = python_path if python_path else sys.executable
+
+            print(python_path)
 
             print("Creating virtual environment...")
             create_env_process: subprocess.CompletedProcess = subprocess.run(
-                [sys.executable, "-m", "venv", _VENV_NAME_WIN],
+                [python_path, "-m", "venv", _VENV_NAME_WIN],
                 stderr=subprocess.PIPE,
                 stdout=subprocess.PIPE,
                 universal_newlines=True
