@@ -1,0 +1,2 @@
+class CreateVirtualEnvironmentException(Exception):
+    pass
