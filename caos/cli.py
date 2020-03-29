@@ -67,12 +67,17 @@ def get_command(command: str) -> ModuleType:
 
 def cli_entry_point() -> ExitCode:
     """CLI entry point that calls the required commands specified by the user """
-    if not sys.argv[1:]:
+    if sys.argv[0] != "-c":
+        if not sys.argv[1:]:
+            print("No argument given, if you need help try typing 'caos --help'")
+            return ExitCode(1)
+
+    if not sys.argv[2:]:
         print("No argument given, if you need help try typing 'caos --help'")
         return ExitCode(1)
 
-    command = sys.argv[1]
-    args = sys.argv[2:]
+    command = sys.argv[1] if sys.argv[0] != "-c" else sys.argv[2]
+    args = sys.argv[2:] if sys.argv[0] != "-c" else sys.argv[3:]
 
     if command in ("--help", "-h"):
         show_help()
