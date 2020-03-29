@@ -10,8 +10,11 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install Virtualenv
+          command: sudo pip3 install virtualenv
+      - run:
           name: Linux Unit Tests
-          command: sudo python3 run_tests.py circleci
+          command: sudo python3 run_tests.py
 
 
   unit-tests-windows:
@@ -21,8 +24,11 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install Virtualenv
+          command: pip install virtualenv
+      - run:
           name: Windows Unit Tests
-          command: python run_tests.py circleci
+          command: python run_tests.py
 
 workflows:
   caos-tests:
