@@ -6,19 +6,10 @@
     <p align="center">A simple dependency management tool and tasks executor for python</p>
 </p>
 
+
 Installation
 ------------
-If you already installed **pip** and **virtualenv** use the next command to install **caos**.
-
-#### Windows
-In a command prompt with administrative rights type:
-    
+Make sure that you have a working **Python >= 3.5** with **pip** and **virtualenv** installed and then execute   
 ~~~
-pip3 install caos
-~~~
-
-#### Unix-like Systems
-In a terminal window type:
-~~~
-sudo pip3 install caos
+pip install caos
 ~~~

@@ -34,7 +34,6 @@ class TestCommandInit(unittest.TestCase):
         sys.stdout, sys.stderr = self.old_stdout, self.old_stderr
 
     def test_init_no_args(self):
-        sys.stdout, sys.stderr = self.old_stdout, self.old_stderr
         command_init.entry_point(args=[])
         messages: str = escape_ansi(self.new_stdout.getvalue())
         self.assertEqual(os.path.isdir("tmp/venv"), True)
