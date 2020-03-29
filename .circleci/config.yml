@@ -22,7 +22,7 @@ jobs:
       - checkout
       - run:
           name: Windows Unit Tests
-          command: python run_tests.py
+          command: C:\tools\miniconda3\python.exe run_tests.py
 
 workflows:
   caos-tests:
