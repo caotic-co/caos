@@ -2,17 +2,30 @@ version: 2.1
 
 orbs:
   python: circleci/python@0.2.1
+  win: circleci/windows@2.2.0
 
 jobs:
-  unit-tests:
+  unit-tests-linux:
     executor: python/default
     steps:
       - checkout
       - run:
-          command: sudo python3 ./run_tests.py
-          name: Unit tests
+          name: Linux Unit Tests
+          command: sudo python3 run_tests.py
+
+
+  unit-tests-windows:
+    executor:
+      name: win/default
+      shell: powershell.exe
+    steps:
+      - checkout
+      - run:
+          name: Windows Unit Tests
+          command: python run_tests.py
 
 workflows:
   main:
     jobs:
-      - unit-tests
+      - unit-tests-linux
+      - unit-tests-windows
