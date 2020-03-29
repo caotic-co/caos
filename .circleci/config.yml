@@ -4,7 +4,7 @@ orbs:
   python: circleci/python@0.2.1
 
 jobs:
-  automatic-tests:
+  unit-tests:
     executor: python/default
     steps:
       - checkout
@@ -15,4 +15,4 @@ jobs:
 workflows:
   main:
     jobs:
-      - automatic-tests
+      - unit-tests
