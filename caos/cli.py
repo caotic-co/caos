@@ -28,7 +28,7 @@ def show_help() -> None:
     """"Print the available documentation for the existing commands"""
     _HEADER: str = dedent('''    
         DESCRIPTION
-            Simple Dependencies Manager and Tasks Executor for Python
+            A simple dependency management tool and tasks executor for python
             
         PROGRAM INFORMATION
             --help or -h

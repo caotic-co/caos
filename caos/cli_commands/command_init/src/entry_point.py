@@ -19,7 +19,7 @@ def create_virtual_env(current_dir:str, env_name: str) -> str:
 
     caos_command_print(command=NAME, message="Creating virtual environment...")
     create_env_process: subprocess.CompletedProcess = subprocess.run(
-        [sys.executable, "-m", "venv", env_name],
+        [sys.executable, "-m", "venv", os.path.abspath(get_current_dir()+"/"+env_name)],
         stderr=subprocess.PIPE,
         stdout=subprocess.PIPE,
         universal_newlines=True
@@ -60,7 +60,6 @@ def main(args: List[str]) -> ExitCode:
     try:
         virtual_env_name: str = args[0] if len(args) >= 1 else _DEFAULT_VIRTUAL_ENVIRONMENT_NAME
         current_dir:str  = get_current_dir()
-
         creation_code_venv: str = create_virtual_env(current_dir=current_dir, env_name=virtual_env_name)
         creation_code_yaml: str = create_caos_yaml(current_dir=current_dir, env_name=virtual_env_name)
 

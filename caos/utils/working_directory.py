@@ -16,5 +16,5 @@ def get_current_dir() -> str:
     if is_dev_environment():
         if not os.path.isdir("tmp"):
             os.mkdir("tmp")
-        os.chdir("tmp")
-    return os.getcwd()
+        return os.path.abspath(os.getcwd()+"/tmp")
+    return os.path.abspath(os.getcwd())
