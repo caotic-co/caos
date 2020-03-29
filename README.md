@@ -1,8 +1,7 @@
 <p align="center">
     <a href="https://github.com/ospinakamilo/caos" target="_blank">
-        <img src="https://github.com/ospinakamilo/caos/blob/v2.0.0/caos/style/img/caos.svg" height="100px">
+        <img src="https://github.com/ospinakamilo/caos/blob/v2.0.0/caos/style/img/caos.png" height="100px">
     </a>
-    <h1 align="center">CAOS</h1>
     <br>
     <p align="center">A simple dependency management tool and tasks executor for python</p>
 </p>
