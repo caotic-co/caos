@@ -40,6 +40,7 @@ class TestCommandInit(unittest.TestCase):
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
         if exit_code != 0:
+            self.tearDown()
             print(messages)
             self.fail("There was a problem creating the environment")
 
@@ -62,6 +63,7 @@ class TestCommandInit(unittest.TestCase):
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
         if exit_code != 0:
+            self.tearDown()
             print(messages)
             self.fail("There was a problem creating the environment")
 
@@ -85,6 +87,7 @@ class TestCommandInit(unittest.TestCase):
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
         if exit_code != 0:
+            self.tearDown()
             print(messages)
             self.fail("There was a problem creating the environment")
 
@@ -114,6 +117,7 @@ class TestCommandInit(unittest.TestCase):
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
         if exit_code != 0:
+            self.tearDown()
             print(messages)
             self.fail("There was a problem creating the environment")
 
@@ -146,8 +150,9 @@ class TestCommandInit(unittest.TestCase):
     def test_venv_binaries(self):
         exit_code: int = command_init.entry_point(args=[])
         messages: str = escape_ansi(self.new_stdout.getvalue())
-        
+
         if exit_code != 0:
+            self.tearDown()
             print(messages)
             self.fail("There was a problem creating the environment")
 
