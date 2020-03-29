@@ -74,6 +74,6 @@ def main(args: List[str]) -> ExitCode:
 
 
     except Exception as e:
-        caos_command_print(command=NAME, message=red_text("ERROR «{}»:\n{}".format(type(e).__name__, str(e))))
+        caos_command_print(command=NAME, message=red_text("ERROR <<{}>>:\n{}".format(type(e).__name__, str(e))))
         return ExitCode(1)
     return ExitCode(0)

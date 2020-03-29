@@ -21,6 +21,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Update Python
+          command: conda update python
+      - run:
           name: Windows Unit Tests
           command: python run_tests.py
 
