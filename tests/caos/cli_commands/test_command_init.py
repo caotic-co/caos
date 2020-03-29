@@ -40,8 +40,6 @@ class TestCommandInit(unittest.TestCase):
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
         if exit_code != 0:
-            self.tearDown()
-            print(messages)
             self.fail("There was a problem creating the environment")
 
         self.assertTrue(os.path.isdir(os.path.abspath(_CURRENT_DIR+"/venv")))
@@ -63,8 +61,6 @@ class TestCommandInit(unittest.TestCase):
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
         if exit_code != 0:
-            self.tearDown()
-            print(messages)
             self.fail("There was a problem creating the environment")
 
         self.assertTrue(os.path.isdir(os.path.abspath(_CURRENT_DIR+"/my_env")))
@@ -87,8 +83,6 @@ class TestCommandInit(unittest.TestCase):
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
         if exit_code != 0:
-            self.tearDown()
-            print(messages)
             self.fail("There was a problem creating the environment")
 
         self.assertTrue(os.path.isdir(os.path.abspath(_CURRENT_DIR+"/venv")))
@@ -117,8 +111,6 @@ class TestCommandInit(unittest.TestCase):
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
         if exit_code != 0:
-            self.tearDown()
-            print(messages)
             self.fail("There was a problem creating the environment")
 
         self.assertTrue(os.path.isdir(os.path.abspath(_CURRENT_DIR+"/venv")))
@@ -152,8 +144,6 @@ class TestCommandInit(unittest.TestCase):
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
         if exit_code != 0:
-            self.tearDown()
-            print(messages)
             self.fail("There was a problem creating the environment")
 
         if is_win_os():
