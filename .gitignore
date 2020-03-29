@@ -91,6 +91,7 @@ env.bak/
 venv.bak/
 venv-posix/
 venv-win/
+tmp/
 
 # Spyder project settings
 .spyderproject
@@ -108,7 +109,7 @@ venv-win/
 ### Eclipse ###
 .metadata
 bin/
-tmp/
+tests/tmp/
 *.tmp
 *.bak
 *.swp
