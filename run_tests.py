@@ -32,6 +32,9 @@ def is_posix_venv_present() -> bool:
 def create_venv_if_missing() -> None:
     if is_win_os():
         if not is_win_venv_present():
+            if sys.argv[1:] and sys.argv[1] == "circleci":
+                sys.executable =  "C:/tools/miniconda3/python.exe"
+
             print("Creating virtual environment...")
             create_env_process: subprocess.CompletedProcess = subprocess.run(
                 [sys.executable, "-m", "venv", _VENV_NAME_WIN],
@@ -70,7 +73,6 @@ def get_python_path() -> str:
 
 
 if __name__ == "__main__":
-    print(os.environ.get("PATH"))
     python: str = get_python_path()
     tests: str = "from tests.run import main; main()"
     execute_tests: subprocess.CompletedProcess = subprocess.run(

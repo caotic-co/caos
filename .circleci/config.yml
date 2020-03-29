@@ -11,7 +11,7 @@ jobs:
       - checkout
       - run:
           name: Linux Unit Tests
-          command: sudo python3 run_tests.py
+          command: sudo python3 run_tests.py circleci
 
 
   unit-tests-windows:
@@ -22,7 +22,7 @@ jobs:
       - checkout
       - run:
           name: Windows Unit Tests
-          command: C:\tools\miniconda3\python.exe run_tests.py
+          command: python run_tests.py circleci
 
 workflows:
   caos-tests:
