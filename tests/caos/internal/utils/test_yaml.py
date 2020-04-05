@@ -4,7 +4,7 @@ import shutil
 from io import StringIO
 import unittest
 from caos._internal.utils.working_directory import get_current_dir
-from caos._internal.utils.yaml import get_virtual_environment_from_yaml, get_dependencies_from_yaml
+from caos._internal.utils.yaml import get_virtual_environment_from_yaml, get_dependencies_from_yaml, get_tasks_from_yaml
 
 
 class TestYamlUtil(unittest.TestCase):
@@ -51,6 +51,29 @@ class TestYamlUtil(unittest.TestCase):
             "dep4": "./file.whl"
         }
         self.assertEqual(expected_result, dependencies)
+
+    def test_get_tasks_from_yaml(self):
+        test_caos_yaml = """\
+        tasks:
+          test:
+            - "caos unittest ./"
+          run:
+            - "caos python ./main.py"
+          test_and_run:
+            - test
+            - run
+            - "echo 'Done'"
+        """
+        with open(file=os.path.abspath(get_current_dir()+"/"+"caos.yml"), mode="w") as file:
+            file.write(test_caos_yaml)
+
+        tasks = get_tasks_from_yaml()
+        expected_result = {
+            'test': ['caos unittest ./'],
+            'run': ['caos python ./main.py'],
+            'test_and_run': ['test', 'run', "echo 'Done'"]
+        }
+        self.assertEqual(expected_result, tasks)
 
 
 if __name__ == '__main__':

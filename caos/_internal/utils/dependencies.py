@@ -6,7 +6,7 @@ from typing import NewType
 PipReadyDependency = NewType(name="PipReadyDependency", tp=str)
 
 
-def validate_dependency_version_format(dependency_name: str, version: str) -> ValidDependencyVersionRegex:
+def get_dependency_version_format(dependency_name: str, version: str) -> ValidDependencyVersionRegex:
     """
     Raises:
         InvalidDependencyVersionFormat
@@ -40,7 +40,7 @@ def generate_pip_ready_dependency(dependency_name: str, version: str) -> PipRead
         InvalidDependencyVersionFormat
         UnexpectedError
     """
-    dependency_regex: ValidDependencyVersionRegex = validate_dependency_version_format(
+    dependency_regex: ValidDependencyVersionRegex = get_dependency_version_format(
         dependency_name=dependency_name,
         version=version
     )

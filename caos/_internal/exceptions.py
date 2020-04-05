@@ -22,5 +22,9 @@ class InvalidDependencyVersionFormat(Exception):
     pass
 
 
+class MissingBinaryException(Exception):
+    pass
+
+
 class UnexpectedError(Exception):
     pass

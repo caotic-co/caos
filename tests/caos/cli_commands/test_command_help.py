@@ -15,13 +15,20 @@ _VERSION_COMMAND_DESCRIPTION_MESSAGE = "Shows the currently installed version"
 _ARGUMENTS_MESSAGE = "ARGUMENTS"
 
 class TestCommandHelp(unittest.TestCase):
-    def setUp(self) -> None:
+
+    def _redirect_stdout(self):
         self.new_stdout, self.old_stdout = StringIO(), sys.stdout
         self.new_stderr, self.old_stderr = StringIO(), sys.stderr
         sys.stdout, sys.stderr = self.new_stdout, self.new_stderr
 
-    def tearDown(self) -> None:
+    def _restore_stdout(self):
         sys.stdout, sys.stderr = self.old_stdout, self.old_stderr
+
+    def setUp(self) -> None:
+        self._redirect_stdout()
+
+    def tearDown(self) -> None:
+        self._restore_stdout()
 
     def test_help_command(self):
         sys.argv = ["file_name", "--help"]

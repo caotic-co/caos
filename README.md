@@ -13,7 +13,7 @@
 
 Installation
 ------------
-Make sure that you have a working **Python >= 3.5** with **pip** and **virtualenv** installed and then execute   
+Make sure that you have a working **Python >= 3.6** with **pip** and **virtualenv** installed and then execute   
 ~~~
 pip install caos
 ~~~

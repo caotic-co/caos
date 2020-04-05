@@ -10,7 +10,7 @@ from caos._internal.exceptions import (
 from typing import List, Dict
 
 Dependencies = Dict[str, str]
-Tasks = List[str]
+Tasks = Dict[str, List[str]]
 
 
 class CaosYaml:
@@ -85,3 +85,29 @@ def get_dependencies_from_yaml() -> Dependencies:
         dependencies[dependency_name] = generate_pip_ready_dependency(dependency_name, version)
 
     return dependencies
+
+
+def get_tasks_from_yaml() -> Tasks:
+    """
+    Raises:
+        OpenCaosFileException
+        InvalidCaosFileFormat
+        WrongKeyTypeInYamlFile
+        UnexpectedError
+    """
+    caos_yaml: CaosYaml = read_caos_yaml()
+    if "tasks" not in caos_yaml:
+        raise MissingKeyInYamlFile(
+            "The 'tasks' key is not present in the '{}' file".format(CAOS_YAML_FILE_NAME)
+        )
+
+    tasks: Tasks = caos_yaml.get("tasks")
+
+    if not isinstance(tasks, dict):
+        raise WrongKeyTypeInYamlFile("The 'tasks' key must be a dictionary")
+
+    for task_name, list_of_steps in tasks.items():
+        if not isinstance(list_of_steps, list):
+            raise WrongKeyTypeInYamlFile("The task '{}' must contain a list of steps to execute".format(task_name))
+
+    return tasks

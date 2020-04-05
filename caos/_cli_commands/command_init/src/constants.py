@@ -13,13 +13,12 @@ CLI_USAGE_EXAMPLE: str = """\
 
 _DEFAULT_VIRTUAL_ENVIRONMENT_NAME: str = "venv"
 
-
 _CAOS_YAML_TEMPLATE="""\
 virtual_environment: "{VENV_NAME}"
 
 dependencies:
   pip: "latest"
-#  requests: "~2.0" # Allow only Minor version changes
+#  requests: "^2.0" # Allow only Minor version changes
 #  flask: "~1.1.0"  # Allow only Patch version changes
 #  numpy: "1.18.2"  # Allow only Exact version
 #  tensorflow: "./local_libs/tensorflow-1.13.1-py3-none-any.whl" # Local WHl

@@ -1,4 +1,13 @@
+import os
 from enum import Enum
+from caos._internal.utils.working_directory import get_current_dir
+
+_CURRENT_DIR = get_current_dir()
+
+PYTHON_PATH_VENV_POSIX = os.path.abspath(_CURRENT_DIR+"/venv/bin/python")
+PYTHON_PATH_VENV_WIN = os.path.abspath(_CURRENT_DIR+"/venv/Scripts/python.exe")
+PIP_PATH_VENV_POSIX = os.path.abspath(_CURRENT_DIR+"/venv/bin/pip")
+PIP_PATH_VENV_WIN = os.path.abspath(_CURRENT_DIR+"/venv/Scripts/pip.exe")
 
 CAOS_YAML_FILE_NAME = "caos.yml"
 
