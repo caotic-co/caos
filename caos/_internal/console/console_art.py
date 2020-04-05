@@ -1,4 +1,4 @@
-from caos.style.console.ansi_colors import ColorCode
+from caos._internal.console.ansi_colors import ColorCode
 
 _LOGO_CAOS_ASCII_SIMPLE = r'''
    ___     _     ___    ___ 

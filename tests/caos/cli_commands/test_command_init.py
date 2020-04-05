@@ -3,10 +3,10 @@ import sys
 import shutil
 import unittest
 from io import StringIO
-from caos.cli_commands import command_init
-from caos.style.console.tools import escape_ansi
-from caos.utils.os import is_posix_os, is_win_os
-from caos.utils.working_directory import get_current_dir
+from caos._cli_commands import command_init
+from caos._internal.console.tools import escape_ansi
+from caos._internal.utils.os import is_posix_os, is_win_os
+from caos._internal.utils.working_directory import get_current_dir
 
 
 _CREATING_VIRTUAL_ENVIRONMENT_MESSAGE = "[caos] init --> Creating virtual environment..."
@@ -35,7 +35,7 @@ class TestCommandInit(unittest.TestCase):
     def tearDown(self) -> None:
         sys.stdout, sys.stderr = self.old_stdout, self.old_stderr
 
-    def test_init_no_args(self):
+    def test_init_command_no_args(self):
         exit_code: int = command_init.entry_point(args=[])
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
@@ -56,7 +56,7 @@ class TestCommandInit(unittest.TestCase):
 
         self.assertIn(_YAML_CREATED_MESSAGE, messages)
 
-    def test_init_my_env(self):
+    def test_init_command_my_env(self):
         exit_code: int = command_init.entry_point(args=["my_env"])
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
@@ -77,7 +77,7 @@ class TestCommandInit(unittest.TestCase):
 
         self.assertIn(_YAML_CREATED_MESSAGE, messages)
 
-    def test_init_venv_twice(self):
+    def test_init_command_venv_twice(self):
         command_init.entry_point(args=[])
         exit_code: int = command_init.entry_point(args=[])
         messages: str = escape_ansi(self.new_stdout.getvalue())
@@ -105,7 +105,7 @@ class TestCommandInit(unittest.TestCase):
         
         self.assertIn(_YAML_EXISTS_MESSAGE, messages)
 
-    def test_init_existing_json(self):
+    def test_init_command_existing_json(self):
         command_init.entry_point(args=[])
         exit_code: int = command_init.entry_point(args=["my_env"])
         messages: str = escape_ansi(self.new_stdout.getvalue())
@@ -139,7 +139,7 @@ class TestCommandInit(unittest.TestCase):
         
         self.assertIn(_UPDATE_YAML_REMINDER_MESSAGE, messages)
 
-    def test_venv_binaries(self):
+    def test_init_command_venv_binaries(self):
         exit_code: int = command_init.entry_point(args=[])
         messages: str = escape_ansi(self.new_stdout.getvalue())
 

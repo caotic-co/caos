@@ -5,13 +5,18 @@ DO NOT TOUCH
 import unittest
 import pkgutil as _pkgutil
 from typing import List
-from caos.cli_commands import available_commands
+from caos._cli_commands import available_commands
 from tests.exceptions import MissingCommandsTests
 
 suite: unittest.TestSuite = unittest.TestSuite()
 _loader = unittest.TestLoader()
 _test_module_names: List[str] = []
-_search_path: List[str] = ['tests/caos/cli_commands/', 'tests/caos/other_tests/']
+_search_path: List[str] = [  # Every path must end with forward slash /
+    'tests/caos/cli_commands/',
+    'tests/caos/internal/',
+    'tests/caos/internal/console/',
+    'tests/caos/internal/utils/'
+]
 
 _module_info: _pkgutil.ModuleInfo
 for _module_info in _pkgutil.iter_modules(path=_search_path):

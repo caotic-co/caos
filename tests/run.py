@@ -1,6 +1,6 @@
 import unittest
 from io import StringIO
-from caos.style.console import red_text, green_text
+from caos._internal.console import red_text, green_text
 
 
 def main() -> None:

@@ -2,19 +2,24 @@ import os
 import sys
 import subprocess
 from typing import List, NewType
-from caos.utils.working_directory import get_current_dir
-from caos.style.console import caos_command_print, red_text, yellow_text, green_text
+from caos._internal.utils.working_directory import get_current_dir
+from caos._internal.console import caos_command_print, INFO_MESSAGE, SUCCESS_MESSAGE, ERROR_MESSAGE
+from caos._internal.constants import CAOS_YAML_FILE_NAME
 from .exceptions import CreateVirtualEnvironmentException
 from .constants import (
-    NAME, _DEFAULT_VIRTUAL_ENVIRONMENT_NAME, _CAOS_YAML_FILE_NAME, _CAOS_YAML_TEMPLATE
+    NAME, _DEFAULT_VIRTUAL_ENVIRONMENT_NAME, _CAOS_YAML_TEMPLATE
 )
 
 ExitCode = NewType("ExitCode", int)
 
 
 def create_virtual_env(current_dir:str, env_name: str) -> str:
+    """
+    Raises:
+        CreateVirtualEnvironmentException
+    """
     if os.path.isdir("{CURRENT_DIR}/{ENV_NAME}".format(CURRENT_DIR=current_dir, ENV_NAME=env_name)):
-        caos_command_print(command=NAME, message=yellow_text("INFO: Virtual environment already exists"))
+        caos_command_print(command=NAME, message=INFO_MESSAGE("Virtual environment already exists"))
         return "venv_exists"
 
     caos_command_print(command=NAME, message="Creating virtual environment...")
@@ -28,20 +33,20 @@ def create_virtual_env(current_dir:str, env_name: str) -> str:
     if create_env_process.returncode != 0:
         raise CreateVirtualEnvironmentException(create_env_process.stderr)
 
-    caos_command_print(command=NAME, message=green_text("SUCCESS: Virtual environment created"))
+    caos_command_print(command=NAME, message=SUCCESS_MESSAGE("Virtual environment created"))
     return "ok"
 
 
 def create_caos_yaml(current_dir:str, env_name: str) -> str:
-    caos_yml_path: str = "{CURRENT_DIR}/{CAOS_YAML}".format(CURRENT_DIR=current_dir, CAOS_YAML=_CAOS_YAML_FILE_NAME);
+    caos_yml_path: str = "{CURRENT_DIR}/{CAOS_YAML}".format(CURRENT_DIR=current_dir, CAOS_YAML=CAOS_YAML_FILE_NAME);
     if os.path.isfile(caos_yml_path):
         caos_command_print(
             command=NAME,
-            message=yellow_text("INFO: '{CAOS_YAML}' already exists".format(CAOS_YAML=_CAOS_YAML_FILE_NAME))
+            message=INFO_MESSAGE("'{CAOS_YAML}' already exists".format(CAOS_YAML=CAOS_YAML_FILE_NAME))
         )
         return "yaml_exists"
 
-    caos_command_print(command=NAME, message="Creating '{CAOS_YAML}'...".format(CAOS_YAML=_CAOS_YAML_FILE_NAME))
+    caos_command_print(command=NAME, message="Creating '{CAOS_YAML}'...".format(CAOS_YAML=CAOS_YAML_FILE_NAME))
 
     with open(file=caos_yml_path, mode="w") as caos_yml_file:
         caos_yml_file.write(
@@ -50,9 +55,8 @@ def create_caos_yaml(current_dir:str, env_name: str) -> str:
 
     caos_command_print(
         command=NAME,
-        message=green_text("SUCCESS: '{CAOS_YAML}' created".format(CAOS_YAML=_CAOS_YAML_FILE_NAME))
+        message=SUCCESS_MESSAGE("'{CAOS_YAML}' created".format(CAOS_YAML=CAOS_YAML_FILE_NAME))
     )
-
     return "ok"
 
 
@@ -66,14 +70,12 @@ def main(args: List[str]) -> ExitCode:
         if creation_code_venv == "ok" and creation_code_yaml == "yaml_exists":
             caos_command_print(
                 command=NAME,
-                message=yellow_text(
-                    "INFO: Don't forget to update the '{CAOS_YAML}' file to point to the right virtual environment"
-                    .format(CAOS_YAML=_CAOS_YAML_FILE_NAME)
+                message=INFO_MESSAGE(
+                    "Don't forget to update the '{CAOS_YAML}' file to point to the right virtual environment"
+                    .format(CAOS_YAML=CAOS_YAML_FILE_NAME)
                 )
             )
-
-
     except Exception as e:
-        caos_command_print(command=NAME, message=red_text("ERROR <<{}>>:\n{}".format(type(e).__name__, str(e))))
+        caos_command_print(command=NAME, message=ERROR_MESSAGE("<<{}>>\n{}".format(type(e).__name__, str(e))))
         return ExitCode(1)
     return ExitCode(0)

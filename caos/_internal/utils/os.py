@@ -1,5 +1,6 @@
 import os
 
+
 def is_win_os() -> bool:
     return os.name == "nt"
 

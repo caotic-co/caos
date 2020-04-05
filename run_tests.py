@@ -1,5 +1,6 @@
-from caos.utils.os import is_supported_os
-from tests import run, exceptions
+from caos._internal.utils.os import is_supported_os
+from caos._internal.exceptions import UnsupportedOS
+from tests import run
 
 
 if __name__ == "__main__":
@@ -7,4 +8,4 @@ if __name__ == "__main__":
         print("Running tests...")
         run.main()
     else:
-        raise exceptions.UnsupportedOS("Only Windows and UNIX Like OSs are supported")
+        raise UnsupportedOS("Only Windows and UNIX Like OSs are supported")

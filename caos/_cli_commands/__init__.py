@@ -7,7 +7,7 @@ import pkgutil as _pkgutil
 from typing import List
 
 available_commands: List[str] = []
-_search_path: List[str] = ['caos/cli_commands/']
+_search_path: List[str] = ['caos/_cli_commands/']
 
 
 _module_info: _pkgutil.ModuleInfo
