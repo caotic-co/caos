@@ -4,7 +4,7 @@ from caos._internal.utils.dependencies import generate_pip_ready_dependency
 
 class TestDependenciesUtil(unittest.TestCase):
 
-    def test_generate_pip_ready_dependency(self):
+    def test_dependency_util_generate_pip_ready_dependency(self):
         self.assertEqual(generate_pip_ready_dependency(dependency_name="test", version="1.1.1"), "==1.1.1")
         self.assertEqual(generate_pip_ready_dependency(dependency_name="test", version="2.2"), "==2.2")
         self.assertEqual(generate_pip_ready_dependency(dependency_name="test", version="3"), "==3")

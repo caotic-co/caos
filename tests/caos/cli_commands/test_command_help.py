@@ -8,7 +8,7 @@ _DESCRIPTION_MESSAGE = "DESCRIPTION"
 _DESCRIPTION_CONTENT_MESSAGE = "A simple dependency management tool and tasks executor for Python projects"
 _PROGRAM_INFO_MESSAGE = "PROGRAM INFORMATION"
 _HELP_COMMAND_ARGUMENTS_MESSAGE = "--help or -h"
-_HELP_COMMAND_DESCRIPTION_MESSAGE = "Shows documentation about the available arguments and its usage"
+_HELP_COMMAND_DESCRIPTION_MESSAGE = "Shows documentation about the available arguments and their usage"
 _VERSION_COMMAND_ARGUMENTS_MESSAGE = "--version, -v or -V"
 _VERSION_COMMAND_DESCRIPTION_MESSAGE = "Shows the currently installed version"
 

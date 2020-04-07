@@ -9,9 +9,10 @@ from caos._internal.exceptions import (
     WrongKeyTypeInYamlFile, InvalidVirtualEnvironmentFormat
 )
 
-from typing import List, Dict
+from typing import List, Dict, Any
 
 Dependencies = Dict[str, str]
+_TasksYaml = Dict[Any, List[str]]
 Tasks = Dict[str, List[str]]
 
 
@@ -110,13 +111,16 @@ def get_tasks_from_yaml() -> Tasks:
             "The 'tasks' key is not present in the '{}' file".format(CAOS_YAML_FILE_NAME)
         )
 
-    tasks: Tasks = caos_yaml.get("tasks")
+    tasks: _TasksYaml = caos_yaml.get("tasks")
 
     if not isinstance(tasks, dict):
         raise WrongKeyTypeInYamlFile("The 'tasks' key must be a dictionary")
 
+    result_tasks: Tasks = {}
     for task_name, list_of_steps in tasks.items():
         if not isinstance(list_of_steps, list):
             raise WrongKeyTypeInYamlFile("The task '{}' must contain a list of steps to execute".format(task_name))
 
-    return tasks
+        result_tasks[str(task_name)] = [str(step) for step in list_of_steps]
+
+    return result_tasks

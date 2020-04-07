@@ -13,7 +13,7 @@ def show_help() -> None:
 
         PROGRAM INFORMATION
             --help or -h
-                Shows documentation about the available arguments and its usage
+                Shows documentation about the available arguments and their usage
             --version, -v or -V
                 Shows the currently installed version
                 

@@ -4,7 +4,7 @@ from caos._internal.utils.working_directory import is_dev_environment, get_curre
 
 class TestWorkingDirectoryUtil(unittest.TestCase):
 
-    def test_current_directory(self):
+    def test_working_directory_util_current_directory(self):
         self.assertTrue(is_dev_environment())
         self.assertIn("tmp", get_current_dir())
 

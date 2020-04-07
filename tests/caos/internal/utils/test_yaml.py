@@ -18,21 +18,21 @@ class TestYamlUtil(unittest.TestCase):
     def tearDown(self) -> None:
         sys.stdout, sys.stderr = self.old_stdout, self.old_stderr
 
-    def test_get_virtual_environment_from_yaml_default(self):
+    def test_yaml_util_get_virtual_environment_from_yaml_default(self):
         test_caos_yaml = "virtual_environment: 'venv'"
         with open(file=os.path.abspath(get_current_dir() + "/" + "caos.yml"), mode="w") as file:
             file.write(test_caos_yaml)
 
         self.assertEqual("venv", get_virtual_environment_from_yaml())
 
-    def test_get_virtual_environment_from_yaml_custom(self):
+    def test_yaml_util_get_virtual_environment_from_yaml_custom(self):
         test_caos_yaml = "virtual_environment: 'custom_venv'"
         with open(file=os.path.abspath(get_current_dir() + "/" + "caos.yml"), mode="w") as file:
             file.write(test_caos_yaml)
 
         self.assertEqual("custom_venv", get_virtual_environment_from_yaml())
 
-    def test_get_dependencies_from_yaml(self):
+    def test_yaml_util_get_dependencies_from_yaml(self):
         test_caos_yaml = """\
         dependencies:
             dep1: "latest"
@@ -52,7 +52,7 @@ class TestYamlUtil(unittest.TestCase):
         }
         self.assertEqual(expected_result, dependencies)
 
-    def test_get_tasks_from_yaml(self):
+    def test_yaml_util_get_tasks_from_yaml(self):
         test_caos_yaml = """\
         tasks:
           test:

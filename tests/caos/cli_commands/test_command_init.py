@@ -123,10 +123,11 @@ class TestCommandInit(unittest.TestCase):
         command_init.entry_point(args=[])
         with self.assertRaises(Exception) as context:
             command_init.entry_point(args=["my_env"])
+        self.assertIn(_OVERRIDE_YAML_ERROR_MESSAGE, str(context.exception))
 
         self.assertTrue(os.path.isdir(os.path.abspath(_CURRENT_DIR+"/venv")))
         self.assertTrue(os.path.isfile(os.path.abspath(_CURRENT_DIR+"/caos.yml")))
-        self.assertIn(_OVERRIDE_YAML_ERROR_MESSAGE, str(context.exception))
+
 
     def test_init_command_venv_binaries(self):
         exit_code: int = command_init.entry_point(args=[])
@@ -147,7 +148,6 @@ class TestCommandInit(unittest.TestCase):
         self._redirect_stdout()
         with self.assertRaises(Exception) as context:
             command_init.entry_point(args=[])
-
         self.assertIn(_MISSING_PYTHON_ERRROR_MESSAGE, str(context.exception))
 
 

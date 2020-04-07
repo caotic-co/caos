@@ -9,7 +9,7 @@ from caos._internal.utils.working_directory import get_current_dir
 from caos._internal.utils.os import is_posix_os, is_win_os
 from caos._internal.constants import (
     CAOS_YAML_FILE_NAME, DEFAULT_VIRTUAL_ENVIRONMENT_NAME,
-    PYTHON_PATH_VENV_WIN, PYTHON_PATH_VENV_POSIX
+    PIP_PATH_VENV_WIN, PIP_PATH_VENV_POSIX
 )
 from caos._internal.exceptions import MissingYamlException, MissingVirtualEnvironmentException, MissingBinaryException
 
@@ -25,26 +25,26 @@ def main(args: List[str]) -> ExitCode:
         raise MissingVirtualEnvironmentException("No virtual environment found. Try running first 'caos init'")
 
     if is_win_os():
-        python_path: str = PYTHON_PATH_VENV_WIN.replace(DEFAULT_VIRTUAL_ENVIRONMENT_NAME, venv_name)
+        pip_path: str = PIP_PATH_VENV_WIN.replace(DEFAULT_VIRTUAL_ENVIRONMENT_NAME, venv_name)
     elif is_posix_os():
-        python_path: str = PYTHON_PATH_VENV_POSIX.replace(DEFAULT_VIRTUAL_ENVIRONMENT_NAME, venv_name)
+        pip_path: str = PIP_PATH_VENV_POSIX.replace(DEFAULT_VIRTUAL_ENVIRONMENT_NAME, venv_name)
 
-    if not os.path.isfile(python_path):
-        raise MissingBinaryException("The virtual environment does not have a 'python' binary")
+    if not os.path.isfile(pip_path):
+        raise MissingBinaryException("The virtual environment does not have a 'pip' binary")
 
     # The current Unittest for this redirects the stdout to a StringIO() buffer, which is not compatible with
     # subprocess, so for this scenario a subprocess.PIPE is used instead of the sys.stdout to be able to capture
     # the output in the unittests
     is_unittest: bool = True if isinstance(sys.stdout, StringIO) else False
-    python_process: subprocess.CompletedProcess = subprocess.run(
-        [python_path] + args,
+    pip_process: subprocess.CompletedProcess = subprocess.run(
+        [pip_path] + args,
         stdout=subprocess.PIPE if is_unittest else sys.stdout,
         stderr=subprocess.STDOUT,
         stdin=sys.stdin,
         universal_newlines=True
     )
 
-    if is_unittest and python_process.stdout:
-        print(python_process.stdout)
+    if is_unittest and pip_process.stdout:
+        print(pip_process.stdout)
 
-    return ExitCode(python_process.returncode)
+    return ExitCode(pip_process.returncode)

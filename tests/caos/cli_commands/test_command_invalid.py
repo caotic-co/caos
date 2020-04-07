@@ -23,14 +23,14 @@ class TestInvalidArguments(unittest.TestCase):
     def tearDown(self) -> None:
         self._restore_stdout()
 
-    def test_command_invalid_argument_unknown(self):
+    def test_invalid_command_argument_unknown(self):
         sys.argv = ["file_name", "some_weird_invalid_argument"]
         cli_entry_point()
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
         self.assertIn(_UNKNOWN_ARG, messages)
 
-    def test_command_invalid_argument_missing(self):
+    def test_invalid_command_argument_missing(self):
         sys.argv = ["file_name"]
         cli_entry_point()
         messages: str = escape_ansi(self.new_stdout.getvalue())
