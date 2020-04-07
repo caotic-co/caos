@@ -32,4 +32,5 @@ _test_module_names_set: set = set(_test_module_names)
 _expected_command_test_module_names_set: set = set(_expected_command_test_module_names)
 _missing_tests = _expected_command_test_module_names_set.difference(_test_module_names_set)
 if _missing_tests:
-    raise MissingCommandsTests("There are missing unit tests for the the following commands: {}".format(_missing_tests))
+    _commands = [t.replace("test_", "") for t in _missing_tests]
+    raise MissingCommandsTests("There are missing unit tests for the the following commands: {}".format(_commands))

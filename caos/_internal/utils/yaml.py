@@ -1,10 +1,12 @@
 import os
+import re
 from caos._third_party.pyyaml_5_3_1 import yaml
-from caos._internal.constants import CAOS_YAML_FILE_NAME
+from caos._internal.constants import CAOS_YAML_FILE_NAME, VIRTUAL_ENVIRONMENT_NAME_REGEX
 from caos._internal.utils.working_directory import get_current_dir
 from caos._internal.utils.dependencies import generate_pip_ready_dependency
 from caos._internal.exceptions import (
-    OpenCaosFileException, InvalidCaosFileFormat, MissingKeyInYamlFile, WrongKeyTypeInYamlFile
+    OpenCaosFileException, InvalidCaosFileFormat, MissingKeyInYamlFile,
+    WrongKeyTypeInYamlFile, InvalidVirtualEnvironmentFormat
 )
 
 from typing import List, Dict
@@ -46,6 +48,7 @@ def get_virtual_environment_from_yaml() -> str:
         OpenCaosFileException
         InvalidCaosFileFormat
         WrongKeyTypeInYamlFile
+        InvalidVirtualEnvironmentFormat
     """
     caos_yaml: CaosYaml = read_caos_yaml()
     if "virtual_environment" not in caos_yaml:
@@ -57,6 +60,12 @@ def get_virtual_environment_from_yaml() -> str:
 
     if not isinstance(virtual_environment, str):
         raise WrongKeyTypeInYamlFile("The 'virtual_environment' key must be a string")
+
+    if not re.match(pattern=VIRTUAL_ENVIRONMENT_NAME_REGEX, string=virtual_environment):
+        raise InvalidVirtualEnvironmentFormat(
+            "\nThe virtual environment name must be a string of alphanumeric characters."
+            "\nInvalid characters include: '`\".,;:+-~!@#$%^&*()<>=?"
+        )
 
     return virtual_environment
 

@@ -16,13 +16,13 @@ def show_help() -> None:
                 Shows documentation about the available arguments and its usage
             --version, -v or -V
                 Shows the currently installed version
-    ''')
+                
+        ARGUMENTS''')
 
     print(dedent(CAOS_CONSOLE_LOGO)[1:] + (" " * 28) + "v{}".format(__VERSION__))
     print(_HEADER)
 
     _COMMAMD_HELP_FORMAT: str = dedent('''\
-    ARGUMENTS
         {COMMAND_NAME}
             Description:
     {COMMAND_DESCRIPTION}                

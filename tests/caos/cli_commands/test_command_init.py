@@ -23,12 +23,13 @@ _VIRTUAL_ENVIRONMENT_EXISTS_MESSAGE = _CAOS_PROMPT + "INFO: The virtual environm
 _CREATING_YAML_MESSAGE = _CAOS_PROMPT + "INFO: Creating 'caos.yml'..."
 _YAML_CREATED_MESSAGE = _CAOS_PROMPT + "SUCCESS: 'caos.yml' created"
 _YAML_EXISTS_MESSAGE = _CAOS_PROMPT + "INFO: The 'caos.yml' file already exists"
-_OVERRIDE_YAML_ERROR_MESSAGE = _CAOS_PROMPT + "ERROR: <<OverrideYamlConfigurationException>> "\
-                               "To use a different virtual environment edit the respective key within the 'caos.yml' "\
+_OVERRIDE_YAML_ERROR_MESSAGE = "To use a different virtual environment edit the respective key within the 'caos.yml' "\
                                "file and then execute 'caos init'"
 _MISSING_PIP_WARNING_MESSAGE = _CAOS_PROMPT + "WARNING: The virtual environment does not have a 'pip' binary"
-_MISSING_PYTHON_ERRROR_MESSAGE = _CAOS_PROMPT + "ERROR: <<MissingBinaryException>> The virtual environment "\
-                                "does not have a 'python' binary"
+_MISSING_PYTHON_ERRROR_MESSAGE = "The virtual environment does not have a 'python' binary"
+
+_INVALID_VENV_FORMAT_MESSAGE = "The virtual environment name must be a string of alphanumeric characters."\
+                        "\nInvalid characters include: '`\".,;:+-~!@#$%^&*()<>=?"
 
 
 class TestCommandInit(unittest.TestCase):
@@ -87,6 +88,11 @@ class TestCommandInit(unittest.TestCase):
 
         self.assertIn(_YAML_CREATED_MESSAGE, messages)
 
+    def test_init_command_invalid_env_name(self):
+        with self.assertRaises(Exception) as context:
+            command_init.entry_point(args=["test!@#/+-%*<>{}[];:'\"`~"])
+        self.assertIn(_INVALID_VENV_FORMAT_MESSAGE, str(context.exception))
+
     def test_init_command_venv_twice(self):
         command_init.entry_point(args=[])
         exit_code: int = command_init.entry_point(args=[])
@@ -115,12 +121,12 @@ class TestCommandInit(unittest.TestCase):
 
     def test_init_command_existing_yaml(self):
         command_init.entry_point(args=[])
-        exit_code: int = command_init.entry_point(args=["my_env"])
-        self.assertEqual(1, exit_code)
-        messages: str = escape_ansi(self.new_stdout.getvalue())
+        with self.assertRaises(Exception) as context:
+            command_init.entry_point(args=["my_env"])
+
         self.assertTrue(os.path.isdir(os.path.abspath(_CURRENT_DIR+"/venv")))
         self.assertTrue(os.path.isfile(os.path.abspath(_CURRENT_DIR+"/caos.yml")))
-        self.assertIn(_OVERRIDE_YAML_ERROR_MESSAGE, messages)
+        self.assertIn(_OVERRIDE_YAML_ERROR_MESSAGE, str(context.exception))
 
     def test_init_command_venv_binaries(self):
         exit_code: int = command_init.entry_point(args=[])
@@ -139,13 +145,10 @@ class TestCommandInit(unittest.TestCase):
 
         self._restore_stdout()
         self._redirect_stdout()
-        exit_code: int = command_init.entry_point(args=[])
-        self.assertEqual(1, exit_code)
-        messages: str = escape_ansi(self.new_stdout.getvalue())
-        self.assertIn(_YAML_EXISTS_MESSAGE, messages)
-        self.assertIn(_VIRTUAL_ENVIRONMENT_EXISTS_MESSAGE, messages)
-        self.assertIn(_MISSING_PIP_WARNING_MESSAGE, messages)
-        self.assertIn(_MISSING_PYTHON_ERRROR_MESSAGE, messages)
+        with self.assertRaises(Exception) as context:
+            command_init.entry_point(args=[])
+
+        self.assertIn(_MISSING_PYTHON_ERRROR_MESSAGE, str(context.exception))
 
 
 if __name__ == '__main__':

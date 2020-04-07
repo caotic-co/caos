@@ -11,8 +11,6 @@ CLI_USAGE_EXAMPLE: str = """\
             caos init [VIRTUAL_ENV_NAME]
 """
 
-_DEFAULT_VIRTUAL_ENVIRONMENT_NAME: str = "venv"
-
 _CAOS_YAML_TEMPLATE="""\
 virtual_environment: "{VENV_NAME}"
 
