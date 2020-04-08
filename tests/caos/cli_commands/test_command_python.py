@@ -10,8 +10,9 @@ from caos._internal.utils.working_directory import get_current_dir
 from caos._internal.constants import DEFAULT_VIRTUAL_ENVIRONMENT_NAME, PYTHON_PATH_VENV_POSIX, PYTHON_PATH_VENV_WIN
 
 _CURRENT_DIR = get_current_dir()
-_MISSING_PYTHON_BINARY_MESSAGE = "The virtual environment does not have a 'python' binary"
-_MISSING_VIRTUAL_ENVIRONMENT_MESSAGE = "No virtual environment found. Try running first 'caos init'"
+_MISSING_PYTHON_BINARY_MESSAGE = "The virtual environment does not have a 'python' binary. "\
+                                 "Try deleting the folder 'venv' and run 'caos init'"
+_MISSING_VIRTUAL_ENVIRONMENT_MESSAGE = "No virtual environment 'venv' could be found. Try running first 'caos init'"
 
 
 class TestCommandPython(unittest.TestCase):

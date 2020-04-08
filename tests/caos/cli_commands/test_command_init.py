@@ -26,7 +26,8 @@ _YAML_EXISTS_MESSAGE = _CAOS_PROMPT + "INFO: The 'caos.yml' file already exists"
 _OVERRIDE_YAML_ERROR_MESSAGE = "To use a different virtual environment edit the respective key within the 'caos.yml' "\
                                "file and then execute 'caos init'"
 _MISSING_PIP_WARNING_MESSAGE = _CAOS_PROMPT + "WARNING: The virtual environment does not have a 'pip' binary"
-_MISSING_PYTHON_ERRROR_MESSAGE = "The virtual environment does not have a 'python' binary"
+_MISSING_PYTHON_ERROR_MESSAGE = "The virtual environment does not have a 'python' binary. "\
+                                "Try deleting the folder 'venv' and run 'caos init'"
 
 _INVALID_VENV_FORMAT_MESSAGE = "The virtual environment name must be a string of alphanumeric characters."\
                         "\nInvalid characters include: '`\".,;:+-~!@#$%^&*()<>=?"
@@ -130,7 +131,7 @@ class TestCommandInit(unittest.TestCase):
 
 
     def test_init_command_venv_binaries(self):
-        exit_code: int = command_init.entry_point(args=[])
+        exit_code: int = command_init.entry_point(args=[""])
         self.assertEqual(0, exit_code)
         if is_win_os():
             self.assertTrue(os.path.isfile(PYTHON_PATH_VENV_WIN))
@@ -148,7 +149,7 @@ class TestCommandInit(unittest.TestCase):
         self._redirect_stdout()
         with self.assertRaises(Exception) as context:
             command_init.entry_point(args=[])
-        self.assertIn(_MISSING_PYTHON_ERRROR_MESSAGE, str(context.exception))
+        self.assertIn(_MISSING_PYTHON_ERROR_MESSAGE, str(context.exception))
 
 
 if __name__ == '__main__':

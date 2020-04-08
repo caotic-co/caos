@@ -13,6 +13,7 @@ from caos._internal.constants import (
     CAOS_YAML_FILE_NAME, DEFAULT_VIRTUAL_ENVIRONMENT_NAME, VIRTUAL_ENVIRONMENT_NAME_REGEX,
     PYTHON_PATH_VENV_WIN, PYTHON_PATH_VENV_POSIX, PIP_PATH_VENV_WIN, PIP_PATH_VENV_POSIX
 )
+from caos._cli_commands.raise_exceptions import raise_missing_python_binary_exception
 from .exceptions import CreateVirtualEnvironmentException, OverrideYamlConfigurationException
 from .constants import NAME, _CAOS_YAML_TEMPLATE
 
@@ -99,24 +100,21 @@ def create_virtual_env(current_dir:str):
         caos_command_print(command=NAME, message=SUCCESS_MESSAGE("A new virtual environment was created"))
 
     if is_win_os():
-        if not os.path.isfile(PIP_PATH_VENV_WIN.replace(DEFAULT_VIRTUAL_ENVIRONMENT_NAME, env_name)):
-            caos_command_print(
-                command=NAME,
-                message=WARNING_MESSAGE("The virtual environment does not have a 'pip' binary")
-            )
-
-        if not os.path.isfile(PYTHON_PATH_VENV_WIN.replace(DEFAULT_VIRTUAL_ENVIRONMENT_NAME, env_name)):
-            raise MissingBinaryException("The virtual environment does not have a 'python' binary")
+        pip_path: str = PIP_PATH_VENV_WIN.replace(DEFAULT_VIRTUAL_ENVIRONMENT_NAME, env_name)
+        python_path: str = PYTHON_PATH_VENV_WIN.replace(DEFAULT_VIRTUAL_ENVIRONMENT_NAME, env_name)
 
     if is_posix_os():
-        if not os.path.isfile(PIP_PATH_VENV_POSIX.replace(DEFAULT_VIRTUAL_ENVIRONMENT_NAME, env_name)):
-            caos_command_print(
-                command=NAME,
-                message=WARNING_MESSAGE("The virtual environment does not have a 'pip' binary")
-            )
+        pip_path: str = PIP_PATH_VENV_POSIX.replace(DEFAULT_VIRTUAL_ENVIRONMENT_NAME, env_name)
+        python_path: str = PYTHON_PATH_VENV_POSIX.replace(DEFAULT_VIRTUAL_ENVIRONMENT_NAME, env_name)
 
-        if not os.path.isfile(PYTHON_PATH_VENV_POSIX.replace(DEFAULT_VIRTUAL_ENVIRONMENT_NAME, env_name)):
-            raise MissingBinaryException("The virtual environment does not have a 'python' binary")
+    if not os.path.isfile(pip_path):
+        caos_command_print(
+            command=NAME,
+            message=WARNING_MESSAGE("The virtual environment does not have a 'pip' binary")
+        )
+
+    if not os.path.isfile(python_path):
+        raise_missing_python_binary_exception(env_name=env_name)
 
 
 def main(args: List[str]) -> ExitCode:
