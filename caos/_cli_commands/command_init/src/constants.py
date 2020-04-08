@@ -16,21 +16,21 @@ virtual_environment: "{VENV_NAME}"
 
 dependencies:
   pip: "latest"
-#  requests: "^2.0" # Allow only Minor version changes
+#  requests: "2.0.0"  # Allow only Exact version
+#  numpy: "^1.18.2" # Allow only Minor version changes
 #  flask: "~1.1.0"  # Allow only Patch version changes
-#  numpy: "1.18.2"  # Allow only Exact version
 #  tensorflow: "./local_libs/tensorflow-1.13.1-py3-none-any.whl" # Local WHl
 #  tensorflow_1_14_0: "https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.14.0-py3-none-any.whl" # Remote WHl
 
 tasks:
-#  test:
-#    - "caos unittest ./"
+  unittest:
+    - "caos python -m unittest discover -v ./"
 #
 #  run:
 #    - "caos python ./main.py"
 #
 #  test_and_run:
-#    - test
+#    - unittest
 #    - run
 #    - "echo 'Done'"
 """
