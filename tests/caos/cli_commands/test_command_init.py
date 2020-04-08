@@ -4,7 +4,9 @@ import shutil
 import unittest
 from io import StringIO
 from caos._cli_commands import command_init
+from caos._cli_commands.command_init.src.exceptions import OverrideYamlConfigurationException
 from caos._internal.console.tools import escape_ansi
+from caos._internal.exceptions import InvalidVirtualEnvironmentFormat, MissingBinaryException
 from caos._internal.utils.os import is_posix_os, is_win_os
 from caos._internal.utils.working_directory import get_current_dir
 from caos._internal.constants import (
@@ -90,7 +92,7 @@ class TestCommandInit(unittest.TestCase):
         self.assertIn(_YAML_CREATED_MESSAGE, messages)
 
     def test_init_command_invalid_env_name(self):
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(InvalidVirtualEnvironmentFormat) as context:
             command_init.entry_point(args=["test!@#/+-%*<>{}[];:'\"`~"])
         self.assertIn(_INVALID_VENV_FORMAT_MESSAGE, str(context.exception))
 
@@ -122,7 +124,7 @@ class TestCommandInit(unittest.TestCase):
 
     def test_init_command_existing_yaml(self):
         command_init.entry_point(args=[])
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(OverrideYamlConfigurationException) as context:
             command_init.entry_point(args=["my_env"])
         self.assertIn(_OVERRIDE_YAML_ERROR_MESSAGE, str(context.exception))
 
@@ -147,7 +149,7 @@ class TestCommandInit(unittest.TestCase):
 
         self._restore_stdout()
         self._redirect_stdout()
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(MissingBinaryException) as context:
             command_init.entry_point(args=[])
         self.assertIn(_MISSING_PYTHON_ERROR_MESSAGE, str(context.exception))
 

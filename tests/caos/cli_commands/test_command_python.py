@@ -5,6 +5,7 @@ import unittest
 from io import StringIO
 from caos._cli_commands import command_init, command_python
 from caos._internal.console.tools import escape_ansi
+from caos._internal.exceptions import MissingVirtualEnvironmentException, MissingBinaryException
 from caos._internal.utils.os import is_posix_os, is_win_os
 from caos._internal.utils.working_directory import get_current_dir
 from caos._internal.constants import DEFAULT_VIRTUAL_ENVIRONMENT_NAME, PYTHON_PATH_VENV_POSIX, PYTHON_PATH_VENV_WIN
@@ -62,7 +63,7 @@ class TestCommandPython(unittest.TestCase):
             self.assertTrue(os.path.isfile(PYTHON_PATH_VENV_POSIX))
             os.remove(PYTHON_PATH_VENV_POSIX)
 
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(MissingBinaryException) as context:
             command_python.entry_point(args=["-c", "print('Hello World')"])
         self.assertIn(_MISSING_PYTHON_BINARY_MESSAGE, str(context.exception))
 
@@ -74,7 +75,7 @@ class TestCommandPython(unittest.TestCase):
         self.assertTrue(os.path.isdir(venv_path))
         shutil.rmtree(venv_path)
 
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(MissingVirtualEnvironmentException) as context:
             command_python.entry_point(args=["-c", "print('Hello World')"])
         self.assertIn(_MISSING_VIRTUAL_ENVIRONMENT_MESSAGE, str(context.exception))
 

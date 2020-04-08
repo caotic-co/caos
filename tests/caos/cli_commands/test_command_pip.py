@@ -5,6 +5,7 @@ import unittest
 from io import StringIO
 from caos._cli_commands import command_init, command_pip
 from caos._internal.console.tools import escape_ansi
+from caos._internal.exceptions import MissingBinaryException, MissingVirtualEnvironmentException
 from caos._internal.utils.os import is_posix_os, is_win_os
 from caos._internal.utils.working_directory import get_current_dir
 from caos._internal.constants import DEFAULT_VIRTUAL_ENVIRONMENT_NAME, PIP_PATH_VENV_POSIX, PIP_PATH_VENV_WIN
@@ -63,7 +64,7 @@ class TestCommandPip(unittest.TestCase):
             self.assertTrue(os.path.isfile(PIP_PATH_VENV_POSIX))
             os.remove(PIP_PATH_VENV_POSIX)
 
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(MissingBinaryException) as context:
             command_pip.entry_point(args=["search", "caos"])
         self.assertIn(_MISSING_PIP_BINARY_MESSAGE, str(context.exception))
 
@@ -75,7 +76,7 @@ class TestCommandPip(unittest.TestCase):
         self.assertTrue(os.path.isdir(venv_path))
         shutil.rmtree(venv_path)
 
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(MissingVirtualEnvironmentException) as context:
             command_pip.entry_point(args=["help", "install)"])
         self.assertIn(_MISSING_VIRTUAL_ENVIRONMENT_MESSAGE, str(context.exception))
 
