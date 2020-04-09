@@ -83,7 +83,7 @@ def generate_pip_ready_dependency(dependency_name: str, version: str) -> PipRead
             return "=={}".format(version)  # ==X
 
     elif dependency_regex == ValidDependencyVersionRegex.LATEST:
-        return dependency_name
+        return dependency_name.lower()
 
     elif dependency_regex == ValidDependencyVersionRegex.WHL:
         return version

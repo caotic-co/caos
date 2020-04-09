@@ -87,6 +87,13 @@ def main(args: List[str]) -> ExitCode:
                 message=SUCCESS_MESSAGE("PIP was successfully updated")
             )
 
+    if not dependencies:
+        caos_command_print(
+            command=NAME,
+            message=INFO_MESSAGE("No dependencies to install")
+        )
+        return ExitCode(0)
+
     deps: List[str] = []
     for dep_name, dep_version in dependencies.items():
         if dep_name == dep_version:
