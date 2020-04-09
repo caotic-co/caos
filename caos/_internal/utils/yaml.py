@@ -91,10 +91,11 @@ def get_dependencies_from_yaml() -> Dependencies:
     if not isinstance(dependencies, dict):
         raise WrongKeyTypeInYamlFile("The 'dependencies' key must be a dictionary")
 
+    result_dependencies: Dependencies = {}
     for dependency_name, version in dependencies.items():
-        dependencies[dependency_name] = generate_pip_ready_dependency(dependency_name, version)
+        result_dependencies[str(dependency_name).lower()] = generate_pip_ready_dependency(dependency_name, version)
 
-    return dependencies
+    return result_dependencies
 
 
 def get_tasks_from_yaml() -> Tasks:

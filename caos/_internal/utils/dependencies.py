@@ -47,12 +47,12 @@ def generate_pip_ready_dependency(dependency_name: str, version: str) -> PipRead
 
     if dependency_regex == ValidDependencyVersionRegex.MAJOR_MINOR_PATCH:  # (^|~) X.X.X
         if version.startswith("~"):  # Allow patch updates
-            return version  # ~X.X.X
+            return version.replace("~", "~=")  # ~=X.X.X
 
         elif version.startswith("^"):  # Allow minor updates
             version = version.replace("^", "")
             major, minor, patch = version.split(".")
-            return "~{}.{}".format(major, minor)  # ~X.X
+            return "~={}.{}".format(major, minor)  # ~=X.X
 
         else:  # Allow exact version
             return "=={}".format(version)  # ==X.X.X
@@ -61,11 +61,11 @@ def generate_pip_ready_dependency(dependency_name: str, version: str) -> PipRead
         if version.startswith("~"):  # Allow patch updates
             version = version.replace("~", "")
             major, minor = version.split(".")
-            return "~{}.{}.0".format(major, minor)  # ~X.X.0
+            return "~={}.{}.0".format(major, minor)  # ~=X.X.0
 
         elif version.startswith("^"):  # Allow minor updates
-            version = version.replace("^", "~")
-            return version  # ~X.X
+            version = version.replace("^", "~=")
+            return version  # ~=X.X
 
         else:  # Allow exact version
             return "=={}".format(version)  # ==X.X
@@ -73,11 +73,11 @@ def generate_pip_ready_dependency(dependency_name: str, version: str) -> PipRead
     elif dependency_regex == ValidDependencyVersionRegex.MAJOR:
         if version.startswith("~"):  # Allow patch updates
             version = version.replace("~", "")
-            return "~{}.0.0".format(version)  # ~X.0.0
+            return "~={}.0.0".format(version)  # ~=X.0.0
 
         elif version.startswith("^"):  # Allow minor updates
             version = version.replace("^", "")
-            return "~{}.0".format(version)  # ~X.0
+            return "~={}.0".format(version)  # ~=X.0
 
         else:  # Allow exact version
             return "=={}".format(version)  # ==X

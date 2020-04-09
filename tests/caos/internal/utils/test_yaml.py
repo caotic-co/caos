@@ -46,8 +46,8 @@ class TestYamlUtil(unittest.TestCase):
         dependencies = get_dependencies_from_yaml()
         expected_result = {
             "dep1": "dep1",
-            "dep2": "~1.5",
-            "dep3": "~2.0.0",
+            "dep2": "~=1.5",
+            "dep3": "~=2.0.0",
             "dep4": "./file.whl"
         }
         self.assertEqual(expected_result, dependencies)
