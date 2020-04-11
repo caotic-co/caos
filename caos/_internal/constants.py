@@ -20,4 +20,4 @@ class ValidDependencyVersionRegex(Enum):
     MAJOR_MINOR = re.compile(r"^(?P<update_type>(\^|\~))?(?P<major>\d+)\.(?P<minor>\d+)$")  # (^| ~) X.X
     MAJOR = re.compile(r"^(?P<update_type>(\^|\~))?(?P<major>\d+)$")  # (^| ~) X
     LATEST = re.compile(r"^(latest|LATEST)$")  # latest or LATEST
-    WHEEL = re.compile(r"^(?P<wheel>((.+?)-(?P<version>.*?)))((-(\d[^-]*?))?-(.+?)-(.+?)-(.+?))\.whl|\.dist-info$")
+    WHEEL = re.compile(r"^(?P<wheel>((.+?)-(?P<version>.*?)))((-(\d[^-]*?))?-(.+?)-(.+?)-(.+?))(\.whl|\.dist-info)$")

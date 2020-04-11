@@ -24,6 +24,12 @@ class TestDependenciesUtil(unittest.TestCase):
                 version="./test-1.0.0-py3-none-any.whl"),
             "./test-1.0.0-py3-none-any.whl"
         )
+        self.assertEqual(
+            generate_pip_ready_dependency(
+                dependency_name="test",
+                version="./test-1.0.0-py3-none-any.dist-info"),
+            "./test-1.0.0-py3-none-any.dist-info"
+        )
 
         with self.assertRaises(InvalidDependencyVersionFormat) as context:
             generate_pip_ready_dependency(dependency_name="test", version="a.b.c")
@@ -55,6 +61,10 @@ class TestDependenciesUtil(unittest.TestCase):
 
         with self.assertRaises(InvalidDependencyVersionFormat) as context:
             generate_pip_ready_dependency(dependency_name="test", version="./test.whl")
+            self.assertIn("The version format for the wheel dependency 'test' is invalid", context.exception)
+
+        with self.assertRaises(InvalidDependencyVersionFormat) as context:
+            generate_pip_ready_dependency(dependency_name="test", version="./test.dist-info")
             self.assertIn("The version format for the wheel dependency 'test' is invalid", context.exception)
 
 

@@ -98,7 +98,7 @@ def main(args: List[str]) -> ExitCode:
     for dep_name, dep_version in dependencies.items():
         if dep_name == dep_version:
             dep = dep_name
-        elif "whl" in dep_version or "WHL" in dep_version:
+        elif dep_version.endswith(".whl") or dep_version.endswith(".dist-info"):
             dep = dep_version
         else:
             dep = "{}{}".format(dep_name, dep_version)
