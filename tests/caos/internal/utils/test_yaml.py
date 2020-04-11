@@ -38,7 +38,7 @@ class TestYamlUtil(unittest.TestCase):
             dep1: "latest"
             dep2: ^1.5.0
             dep3: ~2
-            dep4: ./file.whl
+            dep4: ./dep4-1.0.0-py3-none-any.whl
         """
         with open(file=os.path.abspath(get_current_dir()+"/"+"caos.yml"), mode="w") as file:
             file.write(test_caos_yaml)
@@ -48,7 +48,7 @@ class TestYamlUtil(unittest.TestCase):
             "dep1": "dep1",
             "dep2": "~=1.5",
             "dep3": "~=2.0.0",
-            "dep4": "./file.whl"
+            "dep4": "./dep4-1.0.0-py3-none-any.whl"
         }
         self.assertEqual(expected_result, dependencies)
 

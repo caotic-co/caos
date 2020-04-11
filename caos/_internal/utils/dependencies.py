@@ -1,4 +1,3 @@
-import re
 from caos._internal.constants import ValidDependencyVersionRegex
 from caos._internal.exceptions import InvalidDependencyVersionFormat, UnexpectedError
 from typing import NewType
@@ -6,30 +5,57 @@ from typing import NewType
 PipReadyDependency = NewType(name="PipReadyDependency", tp=str)
 
 
-def get_dependency_version_format(dependency_name: str, version: str) -> ValidDependencyVersionRegex:
+def _is_dependency_name_in_wheel(dependency_name: str, wheel: str, version: str) -> bool:
+    wheel = wheel[:-1*len("-{}".format(version))]\
+            .replace("_", "-")\
+            .lower()
+    return wheel.endswith(dependency_name.replace("_", "-").lower())
+
+
+def _get_dependency_version_format(dependency_name: str, version: str) -> ValidDependencyVersionRegex:
     """
     Raises:
         InvalidDependencyVersionFormat
     """
-    if re.match(pattern=ValidDependencyVersionRegex.MAJOR_MINOR_PATCH.value, string=version):
+    if ValidDependencyVersionRegex.MAJOR_MINOR_PATCH.value.match(version):
         return ValidDependencyVersionRegex.MAJOR_MINOR_PATCH
 
-    if re.match(pattern=ValidDependencyVersionRegex.MAJOR_MINOR.value, string=version):
+    if ValidDependencyVersionRegex.MAJOR_MINOR.value.match(version):
         return ValidDependencyVersionRegex.MAJOR_MINOR
 
-    if re.match(pattern=ValidDependencyVersionRegex.MAJOR.value, string=version):
+    if ValidDependencyVersionRegex.MAJOR.value.match(version):
         return ValidDependencyVersionRegex.MAJOR
 
-    if re.match(pattern=ValidDependencyVersionRegex.LATEST.value, string=version):
+    if ValidDependencyVersionRegex.LATEST.value.match(version):
         return ValidDependencyVersionRegex.LATEST
 
-    if re.match(pattern=ValidDependencyVersionRegex.WHL.value, string=version):
-        return ValidDependencyVersionRegex.WHL
+    wheel_info = ValidDependencyVersionRegex.WHEEL.value.match(version)
+    if wheel_info:
+        wheel = wheel_info.group("wheel")
+        wheel_version = wheel_info.group("version")
+        if not _is_dependency_name_in_wheel(dependency_name=dependency_name, wheel=wheel, version=wheel_version):
+            raise InvalidDependencyVersionFormat(
+                "The dependency '{dep}' is not present in the wheel filename '{wheel}'"
+                .format(dep=dependency_name, wheel=version)
+            )
+
+        if not ValidDependencyVersionRegex.MAJOR_MINOR_PATCH.value.match(wheel_version) and \
+           not ValidDependencyVersionRegex.MAJOR_MINOR.value.match(wheel_version) and \
+           not ValidDependencyVersionRegex.MAJOR.value.match(wheel_version):
+
+            raise InvalidDependencyVersionFormat(
+                "\nThe version format for the wheel dependency '{dep}' is invalid. Use a 'Final release' format "
+                "(see https://www.python.org/dev/peps/pep-0440/#final-releases)"
+                .format(dep=dependency_name)
+            )
+
+        return ValidDependencyVersionRegex.WHEEL
 
     raise InvalidDependencyVersionFormat(
-        "Invalid version format for the dependency '{dep}'. Only the following formats are allowed: 'latest', "
-        "'/path/to/file.whl' and dependencies with a 'final release' format (see "
-        "https://www.python.org/dev/peps/pep-0440/#final-releases)"
+        "\nInvalid version format for the dependency '{dep}'. Only the following formats are allowed:"
+        "\n  - 'latest' or 'LATEST'"
+        "\n  - Final release format (see https://www.python.org/dev/peps/pep-0440/#final-releases)"
+        "\n  - Wheel Binary Packages (see https://www.python.org/dev/peps/pep-0491/#file-format)"
         .format(dep=dependency_name)
     )
 
@@ -40,7 +66,7 @@ def generate_pip_ready_dependency(dependency_name: str, version: str) -> PipRead
         InvalidDependencyVersionFormat
         UnexpectedError
     """
-    dependency_regex: ValidDependencyVersionRegex = get_dependency_version_format(
+    dependency_regex: ValidDependencyVersionRegex = _get_dependency_version_format(
         dependency_name=dependency_name,
         version=version
     )
@@ -85,7 +111,7 @@ def generate_pip_ready_dependency(dependency_name: str, version: str) -> PipRead
     elif dependency_regex == ValidDependencyVersionRegex.LATEST:
         return dependency_name.lower()
 
-    elif dependency_regex == ValidDependencyVersionRegex.WHL:
+    elif dependency_regex == ValidDependencyVersionRegex.WHEEL:
         return version
 
     raise UnexpectedError("The dependency given should have thrown 'InvalidDependencyVersionFormat' but it did not")

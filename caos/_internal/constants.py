@@ -1,4 +1,5 @@
 import os
+import re
 from enum import Enum
 from caos._internal.utils.working_directory import get_current_dir
 
@@ -15,8 +16,8 @@ CAOS_YAML_FILE_NAME = "caos.yml"
 
 
 class ValidDependencyVersionRegex(Enum):
-    MAJOR_MINOR_PATCH = r"^(\^|\~)?(\d+\.)(\d+\.)(\d+)$"  # (^| ~) X.X.X
-    MAJOR_MINOR = r"^(\^|\~)?(\d+\.)(\d+)$"  # (^| ~) X.X
-    MAJOR = r"^(\^|\~)?(\d+)$"  # (^| ~) X
-    LATEST = r"^(latest|LATEST)$"  # latest or LATEST
-    WHL = r"^(.+)(\.whl|\.WHL)$"  # Anything.whl or Anything.WHL
+    MAJOR_MINOR_PATCH = re.compile(r"^(?P<update_type>(\^|\~))?(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)$")  # (^| ~) X.X.X
+    MAJOR_MINOR = re.compile(r"^(?P<update_type>(\^|\~))?(?P<major>\d+)\.(?P<minor>\d+)$")  # (^| ~) X.X
+    MAJOR = re.compile(r"^(?P<update_type>(\^|\~))?(?P<major>\d+)$")  # (^| ~) X
+    LATEST = re.compile(r"^(latest|LATEST)$")  # latest or LATEST
+    WHEEL = re.compile(r"^(?P<wheel>((.+?)-(?P<version>.*?)))((-(\d[^-]*?))?-(.+?)-(.+?)-(.+?))\.whl|\.dist-info$")
