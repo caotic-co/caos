@@ -43,7 +43,7 @@ class TestCommandUpdate(unittest.TestCase):
         elif is_posix_os():
             self.assertTrue(os.path.isfile(PYTHON_PATH_VENV_POSIX))
             self.assertTrue(os.path.isfile(PIP_PATH_VENV_POSIX))
-            python_path = PIP_PATH_VENV_POSIX
+            python_path = PYTHON_PATH_VENV_POSIX
 
         self.assertTrue(os.path.isfile(os.path.abspath(_CURRENT_DIR + "/caos.yml")))
         with open(os.path.abspath(_CURRENT_DIR + "/caos.yml"), "w") as file:

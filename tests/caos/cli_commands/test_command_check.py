@@ -43,7 +43,6 @@ class TestCommandCheck(unittest.TestCase):
         exit_code: int = command_update.entry_point(args=[])
         self.assertEqual(0, exit_code)
 
-
         exit_code: int = command_check.entry_point(args=[])
         self.assertEqual(0, exit_code)
         messages: str = escape_ansi(self.new_stdout.getvalue())
