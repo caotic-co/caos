@@ -1,11 +1,13 @@
 ## Table of Contents
 1. [Usage](#usage)
-    1. [init](#init)   
-    2. [update](#update)
-    3. [check](#check)
-    3. [run](#run)
-    4. [python](#python)
-    5. [pip](#pip)
+    1. [Init](#init)   
+    2. [Update](#update)
+    3. [Check](#check)
+    3. [Run](#run)
+    4. [Python](#python)
+    5. [Pip](#pip)
+    6. [Version](#version)
+    7. [Help](#help)
 2. [Contribute](#contribute)     
     1. [Setup a Local Environment](#setup-a-local-environment)   
     2. [Unit Testing](#unit-testing)
@@ -13,33 +15,78 @@
 
 ## Usage
 ### Init
+Creates a Python virtual environment based on the configuration
+of an existing 'caos.yml' file in the current directory.
+
+If the 'caos.yml' file is not present in the current directory a
+new virtual environment and configuration file are created.
 ~~~~
 $ caos init
+$ caos init [VIRTUAL_ENV_NAME]
 ~~~~
 
 ### Update
+Downloads the missing dependencies of the project
+and upgrades the ones with newer minor or patch versions,
+according to the defined configuration.
+
+It requires an existing 'caos.yml' file and a virtual
+environment in the current directory.
 ~~~~
 $ caos update
 ~~~~
 
 ### Check
+Validates if the dependencies for the project are installed
+in the virtual environment.
+
+It requires an existing 'caos.yml' file and a virtual
+environment in the current directory.
 ~~~~
 $ caos check
 ~~~~
 
 ### Run
+Execute a task defined within the 'caos.yml' file.
 ~~~~
-$ caos run
+$ caos run [TASK_NAME]
 ~~~~
 
 ### Python
+A shortcut for calling the Python binary of the project.
+
+It requires an existing 'caos.yml' file and a virtual
+environment in the current directory.
 ~~~~
 $ caos python
+$ caos python [SCRIPT_FILE]
+$ caos python [SCRIPT_FILE] [ARG]
 ~~~~
 
 ### Pip
+A shortcut for calling the PIP binary of the project.
+
+It requires an existing 'caos.yml' file and a virtual
+environment in the current directory.
 ~~~~
-$ caos pip
+$ caos python
+$ caos python [SCRIPT_FILE]
+$ caos python [SCRIPT_FILE] [ARG]
+~~~~
+
+### Version
+Shows the currently installed version
+~~~~
+$ caos --version
+$ caos -v
+$ caos -V
+~~~~
+
+### Help
+Shows documentation about the available arguments and their usage
+~~~~
+$ caos --help
+$ caos -h
 ~~~~
 
 ## Contribute   
