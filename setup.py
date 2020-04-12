@@ -1,94 +1,57 @@
+from textwrap import dedent
 from setuptools import find_packages, setup
+from caos import __VERSION__
+from caos._internal.console import CAOS_CONSOLE_LOGO
 
-full_description = '''\
-This is a simple dependencies manager for Python 3 that creates an isolated virtual environment for your project.
-Just add your dependencies into the caos.json config file and use some console commands to run your projects.
-
-Please take a look at our full documentation for how to install and use caos:    
-* GitHub page: <https://github.com/ospinakamilo/caos/>
-
-caos.json
-```json
-{
-  "require":{
-    "numpy": "latest",
-    "flask": "1.1.1"
-  },
-  
-  "tests" : "./tests",
-  "main": "./src/main.py" 
-}
-```
-Caos console commands:
-```console
-~$ caos --help     #Get a similar set of instructions to the ones shown here
-```
-```console
-~$ caos --version  #Display the current installed version
-```
-```console
-~$ caos init     #Create the caos.json file in the current directory
-```  
-```console
-~$ caos prepare  #Set up a new virtual environment
-```
-```console
-~$ caos update   #Download the project dependencies into the virtual environment
-```
-```console
-~$ caos check    #Validate the dependencies have been downloaded
-``` 
-```console
-~$ caos test     #Execute all the unit tests available using the unnittest framework if the path is specified in the caos.json file
-```
-```console
-~$ caos unittest ./path/with/unittests  #Execute all the unit tests available in the given path
-```
-```console
-~$ caos run      #Run the main script of the project
-```
-```console
-~$ caos python ./my_script.py  #Execute an script with the virtual environment python binary
-```
-```console
-~$ caos pip install numpy #Use pip from the virtual environment to install a package
-```
-'''
+with open(file="README.md", mode="r") as file:
+    full_description = file.read()
 
 
 setup(
-    name="caos",  
-    version="1.4.3",
-    author="Team Camilo",
+    name="caos",
+    version=__VERSION__,
+    author="Camilo Ospina",
     author_email="camilo.ospinaa@gmail.com",
-    description="Simple Dependency Management for Python 3 Projects using pip and virtualenv",
+    description="A simple dependency management tool and tasks executor for Python projects",
     long_description=full_description,
     long_description_content_type='text/markdown',
-    url="https://github.com/ospinakamilo/caos/",
-    keywords='caos virtualenv dependencies manager ppm pipenv venv distutils easy_install egg setuptools wheel',
+    url="https://github.com/caotic-co/caos/",
+    keywords='caos virtualenv dependencies manager poetry pip-tools npm maven composer ppm pipenv venv easy_install '
+             'setuptools wheel',
     classifiers=[
         "Intended Audience :: Developers",
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
+        "Programming Language :: Python :: Implementation :: CPython",
+        "Programming Language :: Python :: Implementation :: PyPy",
+        "Operating System :: Microsoft :: Windows",
+        "Operating System :: POSIX",
+        "Operating System :: Unix",
+        "Operating System :: MacOS",
     ],
+    platforms = ["Windows", "Linux", "Mac OS-X", "Unix"],
 
-    package_dir={"": "src"},
+    packages=find_packages(exclude=["tests", "tests.*"]),
 
-    packages=find_packages(
-        where="src",
-        exclude=["docs", "tests"],
-    ),    
+    package_data={
+        "": ["*.*", "README", "LICENSE"],
+    },
 
     entry_points={
-        "console_scripts": ["caos=caos:console"],
+        "console_scripts": ["caos=caos._cli:cli_entry_point"],
     },
 
     install_requires=[
-        'pip>=8.0.0',
-        'virtualenv>=14.0.0',
+        'pip>=9.0.0',
+        'virtualenv>=16.0.0',
     ],
 
-    python_requires=">3, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*,  <4",
-    
- )
+    python_requires=">=3.6",
+
+)
+
+print(dedent(CAOS_CONSOLE_LOGO)[1:] + (" " * 28) + "v{}".format(__VERSION__))
+

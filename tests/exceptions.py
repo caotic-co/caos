@@ -1,0 +1,2 @@
+class MissingCommandsTests(Exception):
+    pass

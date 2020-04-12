@@ -1,115 +1,90 @@
-
 <p align="center">
-    <a href="https://github.com/ospinakamilo/caos" target="_blank">
-        <img src="https://github.com/ospinakamilo/caos/blob/master/src/docs/img/caos_logo.svg" height="100px">
+    <a href="https://github.com/caotic-co/caos" target="_blank">
+        <img src="https://github.com/caotic-co/caos/blob/master/caos/img/caos.png" height="100px">
     </a>
-    <h1 align="center">CAOS</h1>
     <br>
-    <p align="center">Simple Dependency Management for <b>Python 3</b> Projects using <b>pip</b> and <b>virtualenv</b>.</p>
 </p>
+<p align="center">A simple dependency management tool and tasks executor for Python projects</p> 
 
-Usage
-------------
-Once installed you can use "caos" trough the command line
-
-#### Arguments
- - **--help, -h** - Get documentation about the arguments and usage
- - **--version, -v** - Show the installed version
- - **init** - Create the .json template file for the project
- - **prepare** - Create a new virtual environment
- - **update** - Download the project dependencies
- - **check** - Validate the downloaded dependencies
- - **test** - Run all the unit tests using the unittest framework
- - **unittest** - Run all the unit tests on a given path using the unittest framework
- - **run** - Execute the main entry point script for the project 
- - **python** -  Provide an entry point for the virtual environment's python
- - **pip** -  Provide quick access for the virtual environment's pip module
- 
-#### Examples
-**caos.json** content example
-```json
-{
-  "require":{
-    "numpy": "latest",
-    "flask": "1.1.1"
-  },
-  
-  "tests" : "./tests",
-  "main": "./src/main.py" 
-}
-```
-
-```console
-~$ caos --help     #Get a similar set of instructions to the ones shown here
-```
-```console
-~$ caos --version  #Display the current installed version
-```
-```console
-~$ caos init     #Create the caos.json file in the current directory
-```  
-```console
-~$ caos prepare  #Set up a new virtual environment
-```
-```console
-~$ caos update   #Download the project dependencies into the virtual environment
-```
-```console
-~$ caos check    #Validate the dependencies have been downloaded
-``` 
-```console
-~$ caos test     #Execute all the unit tests available using the unnittest framework if the path is specified in the caos.json file
-```
-```console
-~$ caos unittest ./path/with/unittests  #Execute all the unit tests available in the given path
-```
-```console
-~$ caos run      #Run the main script of the project
-```
-```console
-~$ caos python ./my_script.py  #Execute an script with the virtual environment python binary
-```
-```console
-~$ caos pip install numpy #Use pip from the virtual environment to install a package
-```
-
-Requirements
-------------
-
-For this project to work you need to have installed **Python >= 3.5**, **pip** and **virtualenv**.
- 
-
-Dependencies 
-------------
-If you are using Python 3 in **Windows** there are no dependencies for you to install.
-If you are using **Linux** make sure to install **pip** and **virtualenv** first.
-#### Fedora
-~~~
-sudo dnf install python3-pip python3-virtualenv
-~~~
-
-#### Ubuntu
-~~~
-sudo apt-get install python3-pip python3-venv
-~~~
-
-#### Open Suse
-~~~
-sudo zypper install python3-pip python3-virtualenv
-~~~
+[![](https://img.shields.io/pypi/v/caos)](https://pypi.org/project/caos/)
+[![](https://img.shields.io/pypi/dm/caos)](https://pypi.org/project/caos/)
+[![](https://img.shields.io/github/license/caotic-co/caos)](https://raw.githubusercontent.com/caotic-co/caos/master/LICENSE)
+[![](https://img.shields.io/circleci/build/github/caotic-co/caos/master?token=e824c21be60f20bf89d42a743fd56cff55bf20fc)](https://app.circleci.com/pipelines/github/caotic-co/caos)
 
 Installation
 ------------
-If you already installed **pip** and **virtualenv** use the next command to install **caos**.
-
-### Windows
-In a command prompt with administrative rights type:
+Make sure that you have a working **Python >= 3.6** with **pip** and **virtualenv** installed and then execute   
 ~~~
-pip3 install caos
+pip install caos
 ~~~
 
-### Linux
-In a terminal window type:
+
+Usage Example
+------------
+<p>
+    <img src="https://github.com/caotic-co/caos/blob/master/caos/img/usage_example.gif" height="400px">
+</p>
+
+The previous example has the following structure:
 ~~~
-sudo pip3 install caos
+my_project
+├── caos.yml
+├── main.py
+└── tests
+    └── test.py
 ~~~
+
+
+This is the content of the **caos.yml** file:
+```yaml
+virtual_environment: "venv"
+
+dependencies:
+  pip: "latest"
+  flask: "~1.1.0"
+
+tasks:
+  unittest:
+    - "caos python -m unittest discover -v ./tests"
+
+  start:
+    - "caos python ./main.py"
+
+  test_and_start:
+    - unittest
+    - start
+```
+
+This is the content of the **main.py** file:
+```python
+from flask import Flask
+app = Flask(__name__)
+
+
+@app.route('/')
+def hello():
+    return "Hello World!"
+
+if __name__ == '__main__':
+    app.run(host="127.0.0.1", port="8080")
+```
+
+This is the content of the **test.py** file:
+```python
+import unittest
+from main import app
+
+class TestApp(unittest.TestCase):
+
+    def test_hello_world(self):
+        self.app = app.test_client()
+        response = self.app.get('/')
+        self.assertEqual(200, response.status_code)
+        self.assertIn(b'Hello World!', response.data)
+
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+For more information about the usage and how to contribute check the [Documentation](https://github.com/caotic-co/caos/blob/master/docs/README.md).
