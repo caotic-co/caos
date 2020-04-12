@@ -26,11 +26,11 @@ tasks:
   unittest:
     - "caos python -m unittest discover -v ./"
 #
-#  run:
+#  start:
 #    - "caos python ./main.py"
 #
-#  test_and_run:
+#  test_and_start:
 #    - unittest
-#    - run
+#    - start
 #    - "echo 'Done'"
 """
