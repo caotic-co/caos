@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/caotic-co/caos" target="_blank">
-        <img src="https://github.com/caotic-co/caos/blob/master/caos/img/caos.png" height="100px">
+        <img src="https://github.com/caotic-co/caos/blob/master/img/caos.png" height="100px">
     </a>
     <br>
 </p>
@@ -22,7 +22,7 @@ pip install caos
 Usage Example
 ------------
 <p>
-    <img src="https://github.com/caotic-co/caos/blob/master/caos/img/usage_example.gif" height="400px">
+    <img src="https://github.com/caotic-co/caos/blob/master/img/usage_example.gif" height="400px">
 </p>
 
 The previous example has the following structure:
