@@ -1,10 +1,6 @@
-<p align="center">
-    <a href="https://github.com/caotic-co/caos" target="_blank">
-        <img src="https://github.com/caotic-co/caos/blob/master/img/caos.png" height="100px">
-    </a>
-    <br>
-</p>
-<p align="center">A simple dependency management tool and tasks executor for Python projects</p> 
+[![](https://github.com/caotic-co/caos/blob/master/img/caos.png)](https://github.com/caotic-co/caos)
+
+A simple dependency management tool and tasks executor for Python projects
 
 [![](https://img.shields.io/pypi/v/caos)](https://pypi.org/project/caos/)
 [![](https://img.shields.io/pypi/dm/caos)](https://pypi.org/project/caos/)
@@ -15,23 +11,23 @@ Installation
 ------------
 Make sure that you have a working **Python >= 3.6** with **pip** and **virtualenv** installed and then execute   
 ~~~
-pip install caos
+$ pip install caos
 ~~~
 
 
 Usage Example
 ------------
-<p>
-    <img src="https://github.com/caotic-co/caos/blob/master/img/usage_example.gif" height="400px">
-</p>
+Here is an example of a web application's dependencies, tests, and execution being handle by **caos**.
+
+![](https://github.com/caotic-co/caos/blob/master/img/usage_example.gif)
 
 The previous example has the following structure:
 ~~~
 my_project
-├── caos.yml
-├── main.py
-└── tests
-    └── test.py
+|___ caos.yml
+|___ main.py
+|___ tests
+    |___ test.py
 ~~~
 
 
