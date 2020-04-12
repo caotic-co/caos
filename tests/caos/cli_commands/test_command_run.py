@@ -135,6 +135,26 @@ class TestCommandRun(unittest.TestCase):
 
         self.assertIn("1\n2\n3", messages)
 
+    def test_run_command_recursion_exceeded(self):
+        yaml_template = """\
+        tasks:           
+          1:
+            - 1
+            - echo 1
+        """
+
+        yaml_path: str = os.path.abspath(_CURRENT_DIR + "/" + CAOS_YAML_FILE_NAME)
+        self.assertFalse(os.path.isfile(yaml_path))
+        with open(file=yaml_path, mode="w") as yaml_file:
+            yaml_file.write(yaml_template)
+
+        self.assertTrue(os.path.isfile(yaml_path))
+
+        with self.assertRaises(RecursionError) as context:
+            command_run.entry_point(args=["1"])
+
+        self.assertIn("Maximum recursion depth exceeded", str(context.exception))
+
 
 
 

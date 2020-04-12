@@ -37,6 +37,8 @@ def read_caos_yaml() -> CaosYaml:
 
     try:
         caos_yaml: CaosYaml = yaml.load(stream=caos_file_content, Loader=yaml.FullLoader)
+    except RecursionError as e:
+        raise RecursionError("Maximum recursion depth exceeded")
     except Exception as e:
         raise InvalidCaosFileFormat("The file does not contain valid YAML syntax: " + str(e))
 
