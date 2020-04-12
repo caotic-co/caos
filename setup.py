@@ -1,5 +1,7 @@
+from textwrap import dedent
 from setuptools import find_packages, setup
 from caos import __VERSION__
+from caos._internal.console import CAOS_CONSOLE_LOGO
 
 with open(file="README.md", mode="r") as file:
     full_description = file.read()
@@ -50,3 +52,6 @@ setup(
     python_requires=">=3.6",
 
 )
+
+print(dedent(CAOS_CONSOLE_LOGO)[1:] + (" " * 28) + "v{}".format(__VERSION__))
+
