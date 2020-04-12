@@ -13,13 +13,13 @@ _LOGO_CAOS_ASCII_ANSI_COLORS = r'''
  {cyan}| (__{x}   {green}/   \{x} {gray}|     |{x} {magenta}\__ \{x}
   {cyan}\___|{x} {green}/_____\{x} {gray}\___/{x}  {magenta}|___/{x}
 '''.format(
-    cyan=ColorCode.CYAN, green=ColorCode.GREEN, gray=ColorCode.DARK_GRAY, magenta=ColorCode.MAGENTA,x=ColorCode.END
+    cyan=ColorCode.CYAN, green=ColorCode.GREEN, gray=ColorCode.GRAY, magenta=ColorCode.MAGENTA,x=ColorCode.END
 )
 
 _PROMPT_CAOS_SIMPLE = "[caos] {command} --> {message}"
 _CAOS_COLORS_TEXT = "[{cyan}c{x}{green}a{x}{gray}o{x}{magenta}s{x}] ".format(
     cyan=ColorCode.CYAN, green=ColorCode.GREEN,
-    gray=ColorCode.DARK_GRAY, magenta=ColorCode.MAGENTA,
+    gray=ColorCode.GRAY, magenta=ColorCode.MAGENTA,
     x=ColorCode.END
 )
 

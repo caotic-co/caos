@@ -17,8 +17,8 @@ if _supports_color():
     _RED_TEXT = _ColorCode.RED + _RED_TEXT + _ColorCode.END
     _YELLOW_TEXT = _ColorCode.YELLOW + _YELLOW_TEXT + _ColorCode.END
     _GREEN_TEXT = _ColorCode.GREEN + _GREEN_TEXT + _ColorCode.END
-    _BLUE_TEXT = _ColorCode.LIGHT_BLUE + _BLUE_TEXT + _ColorCode.END
-    _GRAY_TEXT = _ColorCode.DARK_GRAY + _GRAY_TEXT + _ColorCode.END
+    _BLUE_TEXT = _ColorCode.BLUE + _BLUE_TEXT + _ColorCode.END
+    _GRAY_TEXT = _ColorCode.GRAY + _GRAY_TEXT + _ColorCode.END
 
 
 def red_text(text: str) -> str:
