@@ -34,7 +34,7 @@ my_project (Project's root Folder)
 These are the commands used:
 ```bash
 $ caos init                # Initialize a Python virtual environment for the project
-$ caos prepare             # Download the project dependencies
+$ caos update             # Download the project dependencies
 $ caos check               # Verify all the dependencies are installed
 $ caos run test_and_start  # Execute the user defined task for testing and running the project 
 ```
