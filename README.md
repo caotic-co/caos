@@ -1,11 +1,11 @@
-[![logo](https://github.com/caotic-co/caos/blob/master/img/caos.png)](https://github.com/caotic-co/caos)
+[![](https://raw.githubusercontent.com/caotic-co/caos/master/img/caos.png)](https://github.com/caotic-co/caos)
 
 A simple dependency management tool and tasks executor for Python projects
 
-[![version](https://img.shields.io/pypi/v/caos)](https://pypi.org/project/caos/)
-[![downloads](https://img.shields.io/pypi/dm/caos)](https://pypi.org/project/caos/)
-[![license](https://img.shields.io/github/license/caotic-co/caos)](https://raw.githubusercontent.com/caotic-co/caos/master/LICENSE)
-[![tests_status](https://img.shields.io/circleci/build/github/caotic-co/caos/master?token=e824c21be60f20bf89d42a743fd56cff55bf20fc)](https://app.circleci.com/pipelines/github/caotic-co/caos)
+[![](https://img.shields.io/pypi/v/caos)](https://pypi.org/project/caos/)
+[![](https://img.shields.io/pypi/dm/caos)](https://pypi.org/project/caos/)
+[![](https://img.shields.io/github/license/caotic-co/caos)](https://raw.githubusercontent.com/caotic-co/caos/master/LICENSE)
+[![](https://img.shields.io/circleci/build/github/caotic-co/caos/master?token=e824c21be60f20bf89d42a743fd56cff55bf20fc)](https://app.circleci.com/pipelines/github/caotic-co/caos)
 
 Installation
 ------------
@@ -20,7 +20,7 @@ Usage Example
 ------------
 Here is an example of a web application's dependencies, tests, and execution being handle by **caos**.
 
-Example Project Structure:
+Sample Project Structure:
 ~~~
 my_project (Project's root Folder)
 |___ caos.yml
@@ -29,7 +29,7 @@ my_project (Project's root Folder)
     |___ test.py
 ~~~
 
-![usage_example](https://github.com/caotic-co/caos/blob/master/img/usage_example.gif)
+![](https://raw.githubusercontent.com/caotic-co/caos/master/img/usage_example.gif)
 
 These are the commands used:
 ```bash
