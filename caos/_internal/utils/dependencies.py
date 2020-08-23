@@ -51,11 +51,15 @@ def _get_dependency_version_format(dependency_name: str, version: str) -> ValidD
 
         return ValidDependencyVersionRegex.WHEEL
 
+    if ValidDependencyVersionRegex.TARGZ.value.match(version):
+        return ValidDependencyVersionRegex.TARGZ
+
     raise InvalidDependencyVersionFormat(
         "\nInvalid version format for the dependency '{dep}'. Only the following formats are allowed:"
         "\n  - 'latest' or 'LATEST'"
         "\n  - Final release format (see https://www.python.org/dev/peps/pep-0440/#final-releases)"
         "\n  - Wheel Binary Packages (see https://www.python.org/dev/peps/pep-0491/#file-format)"
+        "\n  - .tar.gz Packages"
         .format(dep=dependency_name)
     )
 
@@ -112,6 +116,9 @@ def generate_pip_ready_dependency(dependency_name: str, version: str) -> PipRead
         return dependency_name.lower()
 
     elif dependency_regex == ValidDependencyVersionRegex.WHEEL:
+        return version
+
+    elif dependency_regex == ValidDependencyVersionRegex.TARGZ:
         return version
 
     raise UnexpectedError("The dependency given should have thrown 'InvalidDependencyVersionFormat' but it did not")

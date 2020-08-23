@@ -20,9 +20,13 @@ of an existing 'caos.yml' file in the current directory.
 
 If the 'caos.yml' file is not present in the current directory a
 new virtual environment and configuration file are created.
+
+If the '--simple' flag is used a simplified version of the 'caos.yml'
+is generated and no virtual environment is created automaticall
 ~~~~
 $ caos init
 $ caos init [VIRTUAL_ENV_NAME]
+$ caos init --simple | -s | -S  
 ~~~~
 
 ### Update
@@ -60,7 +64,7 @@ environment in the current directory.
 ~~~~
 $ caos python
 $ caos python [SCRIPT_FILE]
-$ caos python [SCRIPT_FILE] [ARG]
+$ caos python [SCRIPT_FILE] [ARGV]
 ~~~~
 
 ### Pip
@@ -77,16 +81,13 @@ $ caos pip list [OPTION]
 ### Version
 Shows the currently installed version
 ~~~~
-$ caos --version
-$ caos -v
-$ caos -V
+$ caos --version | -v | -V
 ~~~~
 
 ### Help
 Shows documentation about the available arguments and their usage
 ~~~~
-$ caos --help
-$ caos -h
+$ caos --help | -h
 ~~~~
 
 ## Contribute   

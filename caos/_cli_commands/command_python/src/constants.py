@@ -8,5 +8,5 @@ DESCRIPTION: str = """\
 CLI_USAGE_EXAMPLE: str = """\
             caos python    
             caos python [SCRIPT_FILE]
-            caos python [SCRIPT_FILE] [ARG]
+            caos python [SCRIPT_FILE] [ARGV]
 """

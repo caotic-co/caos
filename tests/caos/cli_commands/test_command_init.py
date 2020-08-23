@@ -153,6 +153,19 @@ class TestCommandInit(unittest.TestCase):
             command_init.entry_point(args=[])
         self.assertIn(_MISSING_PYTHON_ERROR_MESSAGE, str(context.exception))
 
+    def test_init_command_simple(self):
+        exit_code: int = command_init.entry_point(args=["--simple"])
+        self.assertEqual(0, exit_code)
+        messages: str = escape_ansi(self.new_stdout.getvalue())
+
+        self.assertFalse(os.path.isdir(os.path.abspath(_CURRENT_DIR+"/venv")))
+        self.assertTrue(os.path.isfile(os.path.abspath(_CURRENT_DIR+"/caos.yml")))
+
+        self.assertIn(_CREATING_YAML_MESSAGE, messages)
+        messages: str = messages.replace(_CREATING_YAML_MESSAGE, "", 1)
+
+        self.assertIn(_YAML_CREATED_MESSAGE, messages)
+
 
 if __name__ == '__main__':
     unittest.main()
