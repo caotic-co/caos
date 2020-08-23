@@ -15,10 +15,10 @@ from caos._internal.constants import (
 )
 from caos._cli_commands.raise_exceptions import raise_missing_python_binary_exception
 from .exceptions import CreateVirtualEnvironmentException, OverrideYamlConfigurationException
-from .constants import NAME, _CAOS_YAML_TEMPLATE
+from .constants import NAME, _CAOS_YAML_TEMPLATE, _CAOS_YAML_TEMPLATE_SIMPLE
 
 
-def create_caos_yaml(current_dir: str, env_name: str):
+def create_caos_yaml(current_dir: str, env_name: str, caos_yaml_template: str = None):
     """
     Raises:
         InvalidVirtualEnvironmentFormat
@@ -28,6 +28,8 @@ def create_caos_yaml(current_dir: str, env_name: str):
         InvalidVirtualEnvironmentFormat
         OverrideYamlConfigurationException
     """
+    if not caos_yaml_template:
+        caos_yaml_template = _CAOS_YAML_TEMPLATE
     caos_yml_path: str = os.path.abspath(current_dir + "/" + CAOS_YAML_FILE_NAME);
     if os.path.isfile(caos_yml_path):
         env_name_in_yaml = get_virtual_environment_from_yaml()
@@ -58,7 +60,7 @@ def create_caos_yaml(current_dir: str, env_name: str):
 
     with open(file=caos_yml_path, mode="w") as caos_yml_file:
         caos_yml_file.write(
-            _CAOS_YAML_TEMPLATE.format(VENV_NAME=env_name)
+            caos_yaml_template.format(VENV_NAME=env_name)
         )
 
     caos_command_print(
@@ -120,6 +122,13 @@ def create_virtual_env(current_dir:str):
 def main(args: List[str]) -> ExitCode:
     virtual_env_name: str = args[0] if len(args) >= 1 else None
     current_dir: str = get_current_dir()
-    create_caos_yaml(current_dir=current_dir, env_name=virtual_env_name)
-    create_virtual_env(current_dir=current_dir)
+
+    simple_yaml_template = None
+    simple_init_args= ('--simple', '-s', '-S')
+    if virtual_env_name in simple_init_args:
+        simple_yaml_template = _CAOS_YAML_TEMPLATE_SIMPLE
+        virtual_env_name = None
+    create_caos_yaml(current_dir=current_dir, env_name=virtual_env_name, caos_yaml_template=simple_yaml_template)
+    if not simple_yaml_template:
+        create_virtual_env(current_dir=current_dir)
     return ExitCode(0)
