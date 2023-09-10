@@ -2,6 +2,7 @@
 DO NOT TOUCH
     This script imports all the test modules available that start with the name test
 """
+import os
 import unittest
 import pkgutil as _pkgutil
 from typing import List
@@ -23,7 +24,8 @@ for _module_info in _pkgutil.iter_modules(path=_search_path):
 
     if _module_info.name.startswith("test"):
         _test_module_names.append(_module_info.name)
-        _full_module_path = _module_info.module_finder.path.replace("/", ".") + _module_info.name
+        _full_module_path = _module_info.module_finder.path.replace(os.getcwd() + "/", "")
+        _full_module_path = _full_module_path.replace("/", ".") + "." + _module_info.name
         suite.addTests(_loader.loadTestsFromName(_full_module_path))
 
 _expected_command_test_module_names = ["test_" + command for command in available_commands]
