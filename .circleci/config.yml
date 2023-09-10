@@ -1,8 +1,8 @@
 version: 2.1
 
 orbs:
-  python: cimg/python@2.1.1
-  win: cimg/windows@5.0.0
+  python: circleci/python@2.1.1
+  win: circleci/windows@5.0.0
 
 jobs:
   unit-tests-linux:
