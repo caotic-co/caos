@@ -10,7 +10,7 @@ def main() -> None:
         from tests import suite
         out_stream: StringIO = StringIO()
         test_runner: unittest.TextTestRunner = unittest.TextTestRunner(stream=out_stream, verbosity=3)
-        tests_result: unittest.runner.TextTestResult = test_runner.run(suite)
+        tests_result: unittest.result.TestResult = test_runner.run(suite)
 
         if tests_result.failures or tests_result.errors:
             print(red_text(out_stream.getvalue()))
