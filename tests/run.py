@@ -4,8 +4,7 @@ from caos._internal.console import red_text, green_text
 
 
 def main() -> None:
-    _ERROR_FORMAT = "[Exception Type: '{ex_type}'] -> {ex_message}"
-    _SUCCESS_FORMAT = "[No errors found] -> {message}"
+    _ERROR_FORMAT = "[ERROR] Exception Type: '{ex_type}' -> {ex_message}"
 
     try:
         from tests import suite
@@ -17,16 +16,16 @@ def main() -> None:
             print(red_text(out_stream.getvalue()))
 
         if tests_result.failures:
-            print(red_text("[The execution finished with failures]"))
+            print(red_text("[ERROR] The execution finished with failures"))
 
         if tests_result.errors:
-            print(red_text("[The execution finished with errors]"))
+            print(red_text("[ERROR] The execution finished with errors"))
 
         if tests_result.failures or tests_result.errors:
             exit(1)
 
         print(green_text(out_stream.getvalue()))
-        print(green_text(_SUCCESS_FORMAT.format(message="Tests execution completed successfully")))
+        print(green_text("[SUCCESS] Tests execution completed successfully"))
 
     except Exception as e:
         print(red_text(_ERROR_FORMAT.format(
