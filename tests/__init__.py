@@ -8,6 +8,7 @@ import unittest
 import pkgutil as _pkgutil
 from typing import List
 from caos._cli_commands import available_commands
+from caos._internal.utils.os import is_posix_os, is_win_os
 from tests.exceptions import MissingCommandsTests
 
 suite: unittest.TestSuite = unittest.TestSuite()
@@ -27,8 +28,16 @@ for _module_info in _pkgutil.iter_modules(path=_search_path):
         _test_module_names.append(_module_info.name)
 
         if sys.version_info >= (3, 8):
-            _full_module_path = _module_info.module_finder.path.replace(os.getcwd() + "/", "")
-            _full_module_path = _full_module_path.replace("/", ".") + "." + _module_info.name
+            if is_posix_os():
+                _full_module_path = _module_info.module_finder.path.replace(os.getcwd() + "/", "")
+                _full_module_path = _full_module_path.replace("/", ".") + "." + _module_info.name
+            elif is_win_os():
+                _full_module_path = _module_info.module_finder.path.replace(os.getcwd() + "\\", "")
+                _full_module_path = _full_module_path.replace("\\", ".") + "." + _module_info.name
+            else:
+                print("[ERROR] Unsupported OS")
+                exit(1)
+
         else:
             _full_module_path = _module_info.module_finder.path.replace("/", ".") + _module_info.name
 
