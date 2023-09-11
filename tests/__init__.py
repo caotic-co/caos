@@ -25,8 +25,13 @@ for _module_info in _pkgutil.iter_modules(path=_search_path):
 
     if _module_info.name.startswith("test"):
         _test_module_names.append(_module_info.name)
-        _full_module_path = _module_info.module_finder.path.replace(os.getcwd() + "/", "")
-        _full_module_path = _full_module_path.replace("/", ".") + "." + _module_info.name
+
+        if sys.version_info >= (3, 8):
+            _full_module_path = _module_info.module_finder.path.replace(os.getcwd() + "/", "")
+            _full_module_path = _full_module_path.replace("/", ".") + "." + _module_info.name
+        else:
+            _full_module_path = _module_info.module_finder.path.replace("/", ".") + _module_info.name
+
         print(f"[INFO] Added '{_full_module_path}' to the test suite")
         suite.addTests(_loader.loadTestsFromName(_full_module_path))
 
