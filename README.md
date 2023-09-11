@@ -5,7 +5,8 @@ A simple dependency management tool and tasks executor for Python projects
 [![](https://img.shields.io/pypi/v/caos)](https://pypi.org/project/caos/)
 [![](https://img.shields.io/pypi/dm/caos)](https://pypi.org/project/caos/)
 [![](https://img.shields.io/github/license/caotic-co/caos)](https://raw.githubusercontent.com/caotic-co/caos/master/LICENSE)
-[![](https://img.shields.io/circleci/build/github/caotic-co/caos/master?token=e824c21be60f20bf89d42a743fd56cff55bf20fc)](https://app.circleci.com/pipelines/github/caotic-co/caos)
+[![](https://img.shields.io/github/actions/workflow/status/caotic-co/caos/python-package.yml
+)](https://github.com/caotic-co/caos/actions/workflows/python-package.yml)
 
 Installation
 ------------
