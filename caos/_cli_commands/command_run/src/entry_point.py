@@ -12,6 +12,7 @@ from caos._internal.console import caos_command_print, WARNING_MESSAGE
 from .exceptions import MissingTaskArgument, TaskNotFound, StepExecutionError
 from .constants import NAME
 
+
 def main(args: List[str]) -> ExitCode:
     current_dir: str = get_current_dir()
     if not os.path.isfile(os.path.abspath(current_dir + "/" + CAOS_YAML_FILE_NAME)):
