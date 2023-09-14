@@ -234,14 +234,12 @@ class TestCommandRun(unittest.TestCase):
         yaml_template = """\
         tasks:           
           posix:
-            - rm -rf test_folder1
-            - mkdir test_folder1
+            - cd tmp
             - cd test_folder1
             - pwd
 
           windows:
-            - if exist test_folder1 rd /s /q test_folder1
-            - mkdir test_folder1
+            - cd tmp
             - cd test_folder1
             - dir
         """
@@ -253,25 +251,27 @@ class TestCommandRun(unittest.TestCase):
 
         self.assertTrue(os.path.isfile(yaml_path))
 
+        os.mkdir("tmp/test_folder1")
+        self.assertTrue(os.path.isdir("tmp/test_folder1"))
+
         exit_code: int = 1
         if is_posix_os():
             exit_code = command_run.entry_point(args=["posix"])
+            messages: str = escape_ansi(self.new_stdout.getvalue())
+            self.assertEqual(0, exit_code)
+            self.assertIn("tmp/test_folder1", messages)
         elif is_win_os():
             exit_code = command_run.entry_point(args=["windows"])
-
-        self.assertEqual(0, exit_code)
-
-        messages: str = escape_ansi(self.new_stdout.getvalue())
-
-        self.assertIn("test_folder1", messages)
+            messages: str = escape_ansi(self.new_stdout.getvalue())
+            self.assertEqual(0, exit_code)
+            self.assertIn("tmp\\test_folder1", messages)
 
     def test_run_command_keep_cwd_in_nested_tasks(self):
 
         yaml_template = """\
         tasks:
           posix_parent:
-            - rm -rf test_folder2
-            - mkdir test_folder2
+            - cd tmp
             - cd test_folder2
             - posix
 
@@ -279,8 +279,7 @@ class TestCommandRun(unittest.TestCase):
             - pwd
 
           windows_parent:
-            - if exist test_folder2 rd /s /q test_folder2
-            - mkdir test_folder2
+            - cd tmp
             - cd test_folder2
             - windows
 
@@ -295,17 +294,21 @@ class TestCommandRun(unittest.TestCase):
 
         self.assertTrue(os.path.isfile(yaml_path))
 
+        os.mkdir("tmp/test_folder2")
+        self.assertTrue(os.path.isdir("tmp/test_folder2"))
+
         exit_code: int = 1
         if is_posix_os():
             exit_code = command_run.entry_point(args=["posix_parent"])
+            self.assertEqual(0, exit_code)
+            messages: str = escape_ansi(self.new_stdout.getvalue())
+            self.assertIn("tmp/test_folder2", messages)
+
         elif is_win_os():
             exit_code = command_run.entry_point(args=["windows_parent"])
-
-        self.assertEqual(0, exit_code)
-
-        messages: str = escape_ansi(self.new_stdout.getvalue())
-
-        self.assertIn("test_folder2", messages)
+            self.assertEqual(0, exit_code)
+            messages: str = escape_ansi(self.new_stdout.getvalue())
+            self.assertIn("tmp\\test_folder2", messages)
 
 
 if __name__ == '__main__':

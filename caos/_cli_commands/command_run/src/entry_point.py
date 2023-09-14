@@ -64,7 +64,7 @@ def main(args: List[str], cwd_step: str = None, env_step: dict = None) -> ExitCo
 
         if step_process.stdout.startswith(caos_context_env_var):
             caos_preserved_context_str = step_process.stdout.replace(caos_context_env_var, "")
-        else:
+        elif caos_context_env_var in step_process.stdout:
             command_output, caos_preserved_context_str = step_process.stdout.split(caos_context_env_var)
             print(command_output)
 
