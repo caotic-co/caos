@@ -240,7 +240,7 @@ class TestCommandRun(unittest.TestCase):
             - pwd
 
           windows:
-            - rmdir test_folder1
+            - rmdir test_folder1 2>nul
             - mkdir test_folder1
             - cd test_folder1
             - dir
@@ -279,7 +279,7 @@ class TestCommandRun(unittest.TestCase):
             - pwd
 
           windows_parent:
-            - rmdir test_folder2
+            - rmdir test_folder2 2>nul
             - mkdir test_folder2
             - cd test_folder2
             - windows
