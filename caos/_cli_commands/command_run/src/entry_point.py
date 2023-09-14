@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 import subprocess
 from io import StringIO
 from typing import List
@@ -13,7 +14,7 @@ from .exceptions import MissingTaskArgument, TaskNotFound, StepExecutionError
 from .constants import NAME
 
 
-def main(args: List[str]) -> ExitCode:
+def main(args: List[str], cwd_step: str = None, env_step: dict = None) -> ExitCode:
     current_dir: str = get_current_dir()
     if not os.path.isfile(os.path.abspath(current_dir + "/" + CAOS_YAML_FILE_NAME)):
         raise MissingYamlException("No '{}' file found. Try running first 'caos init'".format(CAOS_YAML_FILE_NAME))
@@ -36,29 +37,46 @@ def main(args: List[str]) -> ExitCode:
 
     steps: List[str] = available_tasks[task_name]
 
+    caos_context_env_var = "_CAOS_CONTEXT="
+
+    added_caos_commands = f"{sys.executable} -c \"import os; os.environ['_CAOS_PWD']=os.getcwd();print('{caos_context_env_var}'+str(dict(os.environ)))\""
+
     is_unittest: bool = True if isinstance(sys.stdout, StringIO) else False
     for step in steps:
         if step in available_tasks:
-            main(args=[step])
+            main(args=[step], cwd_step=cwd_step, env_step=env_step)
             continue
 
-        # The current Unittest for this redirects the stdout to a StringIO() buffer, which is not compatible with
-        # subprocess, so for this scenario a subprocess.PIPE is used instead of the sys.stdout to be able to capture
-        # the output in the unittests
         step_process: subprocess.CompletedProcess = subprocess.run(
-            step,
-            stdout=subprocess.PIPE if is_unittest else sys.stdout,
+            f"{step} && {added_caos_commands}",
+            stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             stdin=sys.stdin,
+            cwd=cwd_step,
+            env=env_step,
             universal_newlines=True,
             shell=True
         )
 
-        if is_unittest and step_process.stdout:
-            print(step_process.stdout, end="")
-
         if step_process.returncode != 0:
             raise StepExecutionError("Within the task '{}' the step '{}' returned a non zero exit code"
                                      .format(task_name, step))
+
+        if step_process.stdout.startswith(caos_context_env_var):
+            caos_preserved_context_str = step_process.stdout.replace(caos_context_env_var, "")
+        else:
+            command_output, caos_preserved_context_str = step_process.stdout.split(caos_context_env_var)
+            if is_unittest:
+                print(command_output, end="")
+            else:
+                print(command_output)
+
+        caos_preserved_context_str.replace("\n", "")
+
+        if not caos_preserved_context_str:
+            caos_preserved_context_str = "{}"
+
+        env_step = json.loads(caos_preserved_context_str.replace("'", '"'))
+        cwd_step = env_step["_CAOS_PWD"]
 
     return ExitCode(0)

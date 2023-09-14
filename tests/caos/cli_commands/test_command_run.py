@@ -3,6 +3,7 @@ import sys
 import shutil
 import unittest
 from io import StringIO
+from caos._internal.utils.os import is_posix_os, is_win_os
 from caos._cli_commands import command_run
 from caos._internal.constants import CAOS_YAML_FILE_NAME
 from caos._internal.console.tools import escape_ansi
@@ -155,7 +156,37 @@ class TestCommandRun(unittest.TestCase):
 
         self.assertIn("Maximum recursion depth exceeded", str(context.exception))
 
+    def test_run_command_keep_declared_env_vars_in_the_same_task(self):
 
+        yaml_template = """\
+        tasks:           
+          posix:
+            - export MY_VAR='Hello World Var'
+            - echo $MY_VAR
+            
+          windows:
+            - set MY_VAR='Hello World Var'
+            - echo %MY_VAR%
+        """
+
+        yaml_path: str = os.path.abspath(_CURRENT_DIR + "/" + CAOS_YAML_FILE_NAME)
+        self.assertFalse(os.path.isfile(yaml_path))
+        with open(file=yaml_path, mode="w") as yaml_file:
+            yaml_file.write(yaml_template)
+
+        self.assertTrue(os.path.isfile(yaml_path))
+
+        exit_code: int = 1
+        if is_posix_os():
+            exit_code = command_run.entry_point(args=["posix"])
+        elif is_win_os():
+            exit_code = command_run.entry_point(args=["windows"])
+
+        self.assertEqual(0, exit_code)
+
+        messages: str = escape_ansi(self.new_stdout.getvalue())
+
+        self.assertIn("Hello World Var", messages)
 
 
 if __name__ == '__main__':
