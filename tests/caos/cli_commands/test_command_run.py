@@ -240,7 +240,7 @@ class TestCommandRun(unittest.TestCase):
             - pwd
 
           windows:
-            - rmdir test_folder1 2>nul
+            - if exist test_folder1 rd /s /q test_folder1
             - mkdir test_folder1
             - cd test_folder1
             - dir
@@ -279,7 +279,7 @@ class TestCommandRun(unittest.TestCase):
             - pwd
 
           windows_parent:
-            - rmdir test_folder2 2>nul
+            - if exist test_folder2 rd /s /q test_folder2
             - mkdir test_folder2
             - cd test_folder2
             - windows
