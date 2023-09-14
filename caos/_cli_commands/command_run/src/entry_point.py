@@ -41,7 +41,7 @@ def main(args: List[str], cwd_step: str = None, env_step: dict = None) -> ExitCo
 
     added_caos_commands = f"{sys.executable} -c \"import os; os.environ['_CAOS_PWD']=os.getcwd();print('{caos_context_env_var}'+str(dict(os.environ)))\""
 
-    is_unittest: bool = True if isinstance(sys.stdout, StringIO) else False
+    # is_unittest: bool = True if isinstance(sys.stdout, StringIO) else False
     for step in steps:
         if step in available_tasks:
             main(args=[step], cwd_step=cwd_step, env_step=env_step)

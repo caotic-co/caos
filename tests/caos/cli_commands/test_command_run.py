@@ -139,7 +139,6 @@ class TestCommandRun(unittest.TestCase):
         elif is_win_os():
             self.assertIn("1 \n\n2 \n\n3 \n\n", messages)
 
-
     def test_run_command_recursion_exceeded(self):
         yaml_template = """\
         tasks:           
@@ -191,6 +190,122 @@ class TestCommandRun(unittest.TestCase):
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
         self.assertIn("Hello World Var", messages)
+
+    def test_run_command_keep_declared_env_vars_in_nested_tasks(self):
+
+        yaml_template = """\
+        tasks:
+          posix_parent:
+            - export MY_VAR='Hello World Var'
+            - posix
+                       
+          posix:
+            - echo $MY_VAR
+
+          windows_parent:
+            - set MY_VAR='Hello World Var'
+            - windows
+                     
+          windows:
+            - echo %MY_VAR%
+        """
+
+        yaml_path: str = os.path.abspath(_CURRENT_DIR + "/" + CAOS_YAML_FILE_NAME)
+        self.assertFalse(os.path.isfile(yaml_path))
+        with open(file=yaml_path, mode="w") as yaml_file:
+            yaml_file.write(yaml_template)
+
+        self.assertTrue(os.path.isfile(yaml_path))
+
+        exit_code: int = 1
+        if is_posix_os():
+            exit_code = command_run.entry_point(args=["posix_parent"])
+        elif is_win_os():
+            exit_code = command_run.entry_point(args=["windows_parent"])
+
+        self.assertEqual(0, exit_code)
+
+        messages: str = escape_ansi(self.new_stdout.getvalue())
+
+        self.assertIn("Hello World Var", messages)
+
+    def test_run_command_keep_cwd_in_the_same_task(self):
+
+        yaml_template = """\
+        tasks:           
+          posix:
+            - rm -rf test_folder1
+            - mkdir test_folder1
+            - cd test_folder1
+            - pwd
+
+          windows:
+            - rmdir test_folder1
+            - mkdir test_folder1
+            - cd test_folder1
+            - dir
+        """
+
+        yaml_path: str = os.path.abspath(_CURRENT_DIR + "/" + CAOS_YAML_FILE_NAME)
+        self.assertFalse(os.path.isfile(yaml_path))
+        with open(file=yaml_path, mode="w") as yaml_file:
+            yaml_file.write(yaml_template)
+
+        self.assertTrue(os.path.isfile(yaml_path))
+
+        exit_code: int = 1
+        if is_posix_os():
+            exit_code = command_run.entry_point(args=["posix"])
+        elif is_win_os():
+            exit_code = command_run.entry_point(args=["windows"])
+
+        self.assertEqual(0, exit_code)
+
+        messages: str = escape_ansi(self.new_stdout.getvalue())
+
+        self.assertIn("test_folder1", messages)
+
+    def test_run_command_keep_cwd_in_nested_tasks(self):
+
+        yaml_template = """\
+        tasks:
+          posix_parent:
+            - rm -rf test_folder2
+            - mkdir test_folder2
+            - cd test_folder2
+            - posix
+
+          posix:
+            - pwd
+
+          windows_parent:
+            - rmdir test_folder2
+            - mkdir test_folder2
+            - cd test_folder2
+            - windows
+
+          windows:
+            - dir
+        """
+
+        yaml_path: str = os.path.abspath(_CURRENT_DIR + "/" + CAOS_YAML_FILE_NAME)
+        self.assertFalse(os.path.isfile(yaml_path))
+        with open(file=yaml_path, mode="w") as yaml_file:
+            yaml_file.write(yaml_template)
+
+        self.assertTrue(os.path.isfile(yaml_path))
+
+        exit_code: int = 1
+        if is_posix_os():
+            exit_code = command_run.entry_point(args=["posix_parent"])
+        elif is_win_os():
+            exit_code = command_run.entry_point(args=["windows_parent"])
+
+        self.assertEqual(0, exit_code)
+
+        messages: str = escape_ansi(self.new_stdout.getvalue())
+
+        self.assertIn("test_folder2", messages)
 
 
 if __name__ == '__main__':
