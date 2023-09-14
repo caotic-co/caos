@@ -66,10 +66,7 @@ def main(args: List[str], cwd_step: str = None, env_step: dict = None) -> ExitCo
             caos_preserved_context_str = step_process.stdout.replace(caos_context_env_var, "")
         else:
             command_output, caos_preserved_context_str = step_process.stdout.split(caos_context_env_var)
-            if is_unittest:
-                print(command_output, end="")
-            else:
-                print(command_output)
+            print(command_output)
 
         caos_preserved_context_str.replace("\n", "")
 
