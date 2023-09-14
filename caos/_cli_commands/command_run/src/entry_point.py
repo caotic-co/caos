@@ -1,6 +1,6 @@
 import os
 import sys
-import json
+import ast
 import subprocess
 from io import StringIO
 from typing import List
@@ -68,12 +68,10 @@ def main(args: List[str], cwd_step: str = None, env_step: dict = None) -> ExitCo
             command_output, caos_preserved_context_str = step_process.stdout.split(caos_context_env_var)
             print(command_output)
 
-        caos_preserved_context_str.replace("\n", "")
-
         if not caos_preserved_context_str:
             caos_preserved_context_str = "{}"
 
-        env_step = json.loads(caos_preserved_context_str.replace("'", '"'))
+        env_step = ast.literal_eval(caos_preserved_context_str)
         cwd_step = env_step["_CAOS_PWD"]
 
     return ExitCode(0)
