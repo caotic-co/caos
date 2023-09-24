@@ -46,11 +46,13 @@ class TestYamlUtil(unittest.TestCase):
 
         dependencies = get_dependencies_from_yaml()
         expected_result = {
-            "dep1": "dep1",
-            "dep2": "~=1.5",
-            "dep3": "~=2.0.0",
-            "dep4": "./dep4-1.0.0-py3-none-any.whl",
-            "dep5": "./dep5-1.0.0-py3-none-any.dist-info"
+            "dep1": {"pip_ready_version": "dep1", "user_requested_version": "latest"},
+            "dep2": {"pip_ready_version": "~=1.5", "user_requested_version": "^1.5.0"},
+            "dep3": {"pip_ready_version": "~=2.0.0", "user_requested_version": "~2"},
+            "dep4": dict(pip_ready_version="./dep4-1.0.0-py3-none-any.whl",
+                         user_requested_version="./dep4-1.0.0-py3-none-any.whl"),
+            "dep5": dict(pip_ready_version="./dep5-1.0.0-py3-none-any.dist-info",
+                         user_requested_version="./dep5-1.0.0-py3-none-any.dist-info"),
         }
         self.assertEqual(expected_result, dependencies)
 

@@ -37,7 +37,9 @@ class TestCommandCheck(unittest.TestCase):
             virtual_environment: "venv"
             dependencies:
                 pip: "latest"
-                requests: "2.0.0"     
+                flask: "^2"
+                requests: "~2.0.0"
+                tensorflow: https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.14.0-py3-none-any.whl     
             """)
 
         exit_code: int = command_update.entry_point(args=[])
@@ -62,7 +64,8 @@ class TestCommandCheck(unittest.TestCase):
             virtual_environment: "venv"
             dependencies:
                 pip: "latest"
-                requests: "2.0.0"     
+                requests: "2.0.0"
+                tensorflow: https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.14.0-py3-none-any.whl     
             """)
 
 
@@ -71,7 +74,7 @@ class TestCommandCheck(unittest.TestCase):
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
         self.assertIn(
-            "ERROR: The following dependencies are not installed in the virtual environment: 'requests'", messages
+            "ERROR: The following dependencies are not installed in the virtual environment:\nrequests\ntensorflow\n", messages
         )
 
 

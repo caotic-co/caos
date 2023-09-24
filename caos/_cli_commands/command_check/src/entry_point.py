@@ -14,7 +14,7 @@ from caos._internal.console import caos_command_print, INFO_MESSAGE, WARNING_MES
 from caos._internal.constants import (
     CAOS_YAML_FILE_NAME, DEFAULT_VIRTUAL_ENVIRONMENT_NAME,
     PIP_PATH_VENV_WIN, PIP_PATH_VENV_POSIX,
-    PYTHON_PATH_VENV_WIN, PYTHON_PATH_VENV_POSIX
+    PYTHON_PATH_VENV_WIN, PYTHON_PATH_VENV_POSIX, ValidDependencyVersionRegex
 )
 from caos._cli_commands.raise_exceptions import (
     raise_missing_yaml_exception,
@@ -80,26 +80,76 @@ def main(args: List[str]) -> ExitCode:
     pip_list_dependency_regex = re.compile("^(?P<name>.+)(( )+)(\()?(?P<version>((\d+)(\.\d+)?(\.\d+)?))(\))?$")
     pip_list_output_by_lines = [line.strip() for line in pip_list_process.stdout.split("\n")]
 
-    installed_deps: Dependencies = {}
+    installed_deps: Dict[str: str] = {}
     for line in pip_list_output_by_lines:
         dep = pip_list_dependency_regex.match(line)
         if dep:
             installed_deps[dep.group("name").strip().lower()] = dep.group("version").strip()
 
-    not_installed_deps: List[str] =[]
-    for dep in yaml_deps:
+    not_installed_deps: List[str] = []
+    wrong_version_deps: Dict[str, str] = {}
+    for dep, version in yaml_deps.items():
         pip_dep = dep.replace("_", "-")
         if pip_dep not in installed_deps:
             not_installed_deps.append(dep)
+            continue
 
-    if not_installed_deps:
-        not_installed_deps = ["'{}'".format(dep) for dep in not_installed_deps]
-        caos_command_print(
-            command=NAME,
-            message=ERROR_MESSAGE("The following dependencies are not installed in the virtual environment: {}"
-                                  .format(", ".join(not_installed_deps))
+        user_requested_version = version["user_requested_version"]
+        pip_ready_version = version["pip_ready_version"]
+        installed_version_split = installed_deps[pip_dep].split(".")
+
+        if user_requested_version == "latest" or user_requested_version == "LATEST":
+            continue
+        if user_requested_version.startswith("^"):  # Allow minor updates
+            pip_ready_version = pip_ready_version.replace("~=", "")
+            requested_version_split = pip_ready_version.split(".")
+            if len(requested_version_split) < 3:
+                missing_zeroes = 3-len(requested_version_split)
+                requested_version_split.extend(['0']*missing_zeroes)
+            if not (installed_version_split[0] == requested_version_split[0]
+                    and installed_version_split[1] >= requested_version_split[1]):
+                wrong_version_deps[pip_dep] = installed_deps[pip_dep]
+        if user_requested_version.startswith("~"):  # Allow patch updates
+            pip_ready_version = pip_ready_version.replace("~=", "")
+            requested_version_split = pip_ready_version.split(".")
+            if len(requested_version_split) < 3:
+                missing_zeroes = 3-len(requested_version_split)
+                requested_version_split.extend(['0']*missing_zeroes)
+            if not (installed_version_split[0] == requested_version_split[0]
+                    and installed_version_split[1] == requested_version_split[1])\
+                    and installed_version_split[2] >= requested_version_split[2]:
+                wrong_version_deps[pip_dep] = installed_deps[pip_dep]
+        if pip_ready_version.startswith("=="):  # Allow patch updates
+            pip_ready_version = pip_ready_version.replace("==", "")
+            requested_version_split = pip_ready_version.split(".")
+            if not (installed_version_split == requested_version_split):
+                wrong_version_deps[pip_dep] = installed_deps[pip_dep]
+
+        wheel_info = ValidDependencyVersionRegex.WHEEL.value.match(user_requested_version)
+        if wheel_info:
+            wheel_version = wheel_info.group("version")
+            requested_wheel_version_split = wheel_version.split(".")
+            if not (installed_version_split == requested_wheel_version_split):
+                wrong_version_deps[pip_dep] = installed_deps[pip_dep]
+
+    if not_installed_deps or wrong_version_deps:
+        if not_installed_deps:
+            not_installed_deps = ["{}".format(dep) for dep in not_installed_deps]
+            caos_command_print(
+                command=NAME,
+                message=ERROR_MESSAGE("The following dependencies are not installed in the virtual environment:\n{}"
+                                      .format("\n".join(not_installed_deps))
+                                      )
             )
-        )
+        if wrong_version_deps:
+            wrong_version_deps_list = ["{}=={}".format(dep, version) for dep, version in wrong_version_deps.items()]
+            caos_command_print(
+                command=NAME,
+                message=ERROR_MESSAGE(
+                    "The following installed dependencies don't match the version in the 'caos.yml' file:\n{}"
+                    .format("\n".join(wrong_version_deps_list))
+                )
+            )
         return ExitCode(1)
 
     caos_command_print(
