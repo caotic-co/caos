@@ -86,7 +86,7 @@ class TestCommandCheck(unittest.TestCase):
             file.write("""
             virtual_environment: "venv"
             dependencies:
-                pip: "20.0.0"
+                pip: "20.0.2"
                 requests: "2.0.0"
                 tensorflow: https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.14.0-py3-none-any.whl     
             """)
@@ -112,7 +112,7 @@ class TestCommandCheck(unittest.TestCase):
             messages
         )
 
-        self.assertIn("\npip==20.0.0", messages)
+        self.assertIn("\npip==20.0.2", messages)
         self.assertIn("\nrequests==2.0.0", messages)
         self.assertIn("\ntensorflow==1.14.0", messages)
 
