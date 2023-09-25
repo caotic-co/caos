@@ -9,7 +9,8 @@ from caos._internal.constants import CAOS_YAML_FILE_NAME
 from caos._internal.console.tools import escape_ansi
 from caos._internal.utils.working_directory import get_current_dir
 
-_CURRENT_DIR = get_current_dir()
+_CURRENT_TESTS_DIR = get_current_dir()
+_PROJECT_DIR = os.path.abspath(os.getcwd())
 
 
 class TestCommandRun(unittest.TestCase):
@@ -23,12 +24,15 @@ class TestCommandRun(unittest.TestCase):
 
     def setUp(self) -> None:
         self._redirect_stdout()
+        os.chdir(_PROJECT_DIR)
         if os.path.isdir("tmp"):
             shutil.rmtree("tmp")
             os.mkdir("tmp")
+        os.chdir(_CURRENT_TESTS_DIR)
 
     def tearDown(self) -> None:
         self._restore_stdout()
+        os.chdir(_PROJECT_DIR)
 
     def test_run_command_hello_world(self):
         yaml_template = """\
@@ -37,7 +41,7 @@ class TestCommandRun(unittest.TestCase):
             - echo Hello World
         """
 
-        yaml_path: str = os.path.abspath(_CURRENT_DIR + "/" + CAOS_YAML_FILE_NAME)
+        yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
         self.assertFalse(os.path.isfile(yaml_path))
         with open(file=yaml_path, mode="w") as yaml_file:
             yaml_file.write(yaml_template)
@@ -58,7 +62,7 @@ class TestCommandRun(unittest.TestCase):
             - echo Hello World
         """
 
-        yaml_path: str = os.path.abspath(_CURRENT_DIR + "/" + CAOS_YAML_FILE_NAME)
+        yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
         self.assertFalse(os.path.isfile(yaml_path))
         with open(file=yaml_path, mode="w") as yaml_file:
             yaml_file.write(yaml_template)
@@ -79,7 +83,7 @@ class TestCommandRun(unittest.TestCase):
             - echo Hello World
         """
 
-        yaml_path: str = os.path.abspath(_CURRENT_DIR + "/" + CAOS_YAML_FILE_NAME)
+        yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
         self.assertFalse(os.path.isfile(yaml_path))
         with open(file=yaml_path, mode="w") as yaml_file:
             yaml_file.write(yaml_template)
@@ -97,7 +101,7 @@ class TestCommandRun(unittest.TestCase):
             - exit 1
         """
 
-        yaml_path: str = os.path.abspath(_CURRENT_DIR + "/" + CAOS_YAML_FILE_NAME)
+        yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
         self.assertFalse(os.path.isfile(yaml_path))
         with open(file=yaml_path, mode="w") as yaml_file:
             yaml_file.write(yaml_template)
@@ -122,7 +126,7 @@ class TestCommandRun(unittest.TestCase):
             - echo 3
         """
 
-        yaml_path: str = os.path.abspath(_CURRENT_DIR + "/" + CAOS_YAML_FILE_NAME)
+        yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
         self.assertFalse(os.path.isfile(yaml_path))
         with open(file=yaml_path, mode="w") as yaml_file:
             yaml_file.write(yaml_template)
@@ -147,7 +151,7 @@ class TestCommandRun(unittest.TestCase):
             - echo 1
         """
 
-        yaml_path: str = os.path.abspath(_CURRENT_DIR + "/" + CAOS_YAML_FILE_NAME)
+        yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
         self.assertFalse(os.path.isfile(yaml_path))
         with open(file=yaml_path, mode="w") as yaml_file:
             yaml_file.write(yaml_template)
@@ -172,7 +176,7 @@ class TestCommandRun(unittest.TestCase):
             - echo %MY_VAR%
         """
 
-        yaml_path: str = os.path.abspath(_CURRENT_DIR + "/" + CAOS_YAML_FILE_NAME)
+        yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
         self.assertFalse(os.path.isfile(yaml_path))
         with open(file=yaml_path, mode="w") as yaml_file:
             yaml_file.write(yaml_template)
@@ -210,7 +214,7 @@ class TestCommandRun(unittest.TestCase):
             - echo %MY_VAR%
         """
 
-        yaml_path: str = os.path.abspath(_CURRENT_DIR + "/" + CAOS_YAML_FILE_NAME)
+        yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
         self.assertFalse(os.path.isfile(yaml_path))
         with open(file=yaml_path, mode="w") as yaml_file:
             yaml_file.write(yaml_template)
@@ -234,81 +238,85 @@ class TestCommandRun(unittest.TestCase):
         yaml_template = """\
         tasks:           
           posix:
-            - cd tmp
-            - cd test_folder1
+            - cd folder1
+            - cd sub_folder1
             - pwd
 
           windows:
-            - cd tmp
-            - cd test_folder1
+            - cd folder1
+            - cd sub_folder1
             - dir
         """
 
-        yaml_path: str = os.path.abspath(_CURRENT_DIR + "/" + CAOS_YAML_FILE_NAME)
+        yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
         self.assertFalse(os.path.isfile(yaml_path))
         with open(file=yaml_path, mode="w") as yaml_file:
             yaml_file.write(yaml_template)
 
         self.assertTrue(os.path.isfile(yaml_path))
 
-        os.mkdir("tmp/test_folder1")
-        self.assertTrue(os.path.isdir("tmp/test_folder1"))
+        os.mkdir("folder1")
+        os.mkdir("folder1/sub_folder1")
+        self.assertTrue(os.path.isdir("folder1"))
+        self.assertTrue(os.path.isdir("folder1/sub_folder1"))
 
         exit_code: int = 1
         if is_posix_os():
             exit_code = command_run.entry_point(args=["posix"])
             messages: str = escape_ansi(self.new_stdout.getvalue())
             self.assertEqual(0, exit_code)
-            self.assertIn("tmp/test_folder1", messages)
+            self.assertIn("folder1/sub_folder1", messages)
         elif is_win_os():
             exit_code = command_run.entry_point(args=["windows"])
             messages: str = escape_ansi(self.new_stdout.getvalue())
             self.assertEqual(0, exit_code)
-            self.assertIn("tmp\\test_folder1", messages)
+            self.assertIn("folder1\\sub_folder1", messages)
 
     def test_run_command_keep_cwd_in_nested_tasks(self):
 
         yaml_template = """\
         tasks:
           posix_parent:
-            - cd tmp
-            - cd test_folder2
+            - cd folder2
+            - cd sub_folder2
             - posix
 
           posix:
             - pwd
 
           windows_parent:
-            - cd tmp
-            - cd test_folder2
+            - cd folder2
+            - cd sub_folder2
             - windows
 
           windows:
             - dir
         """
 
-        yaml_path: str = os.path.abspath(_CURRENT_DIR + "/" + CAOS_YAML_FILE_NAME)
+        yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
         self.assertFalse(os.path.isfile(yaml_path))
         with open(file=yaml_path, mode="w") as yaml_file:
             yaml_file.write(yaml_template)
 
         self.assertTrue(os.path.isfile(yaml_path))
 
-        os.mkdir("tmp/test_folder2")
-        self.assertTrue(os.path.isdir("tmp/test_folder2"))
+        os.mkdir("folder2")
+        os.mkdir("folder2/sub_folder2")
+        self.assertTrue(os.path.isdir("folder2"))
+        self.assertTrue(os.path.isdir("folder2/sub_folder2"))
 
         exit_code: int = 1
         if is_posix_os():
             exit_code = command_run.entry_point(args=["posix_parent"])
             self.assertEqual(0, exit_code)
             messages: str = escape_ansi(self.new_stdout.getvalue())
-            self.assertIn("tmp/test_folder2", messages)
+            self.assertIn("folder2/sub_folder2", messages)
 
         elif is_win_os():
             exit_code = command_run.entry_point(args=["windows_parent"])
             self.assertEqual(0, exit_code)
             messages: str = escape_ansi(self.new_stdout.getvalue())
-            self.assertIn("tmp\\test_folder2", messages)
+            self.assertIn("folder2\\sub_folder2", messages)
 
 
 if __name__ == '__main__':
