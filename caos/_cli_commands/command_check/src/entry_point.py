@@ -146,7 +146,7 @@ def main(args: List[str]) -> ExitCode:
             caos_command_print(
                 command=NAME,
                 message=ERROR_MESSAGE(
-                    "The following installed dependencies don't match the version in the 'caos.yml' file:\n{}"
+                    "The following installed dependencies don't match the versions in the 'caos.yml' file:\n{}"
                     .format("\n".join(wrong_version_deps_list))
                 )
             )

@@ -77,6 +77,45 @@ class TestCommandCheck(unittest.TestCase):
             "ERROR: The following dependencies are not installed in the virtual environment:\nrequests\ntensorflow\n", messages
         )
 
+    def test_check_command_installed_versions_dont_match(self):
+        exit_code: int = command_init.entry_point(args=[])
+        self.assertEqual(0, exit_code)
+
+        self.assertTrue(os.path.isfile(os.path.abspath(_CURRENT_DIR + "/caos.yml")))
+        with open(os.path.abspath(_CURRENT_DIR + "/caos.yml"), "w") as file:
+            file.write("""
+            virtual_environment: "venv"
+            dependencies:
+                pip: "23.2.1"
+                requests: "2.0.0"
+                tensorflow: https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.14.0-py3-none-any.whl     
+            """)
+
+        exit_code: int = command_update.entry_point(args=[])
+        self.assertEqual(0, exit_code)
+
+        with open(os.path.abspath(_CURRENT_DIR + "/caos.yml"), "w") as file:
+            file.write("""
+            virtual_environment: "venv"
+            dependencies:
+                pip: "20"
+                requests: "2.31.0"
+                tensorflow: https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-2.0.0-py3-none-any.whl     
+            """)
+
+        exit_code: int = command_check.entry_point(args=[])
+        self.assertEqual(1, exit_code)
+        messages: str = escape_ansi(self.new_stdout.getvalue())
+
+        self.assertIn(
+            "ERROR: The following installed dependencies don't match the versions in the 'caos.yml' file:",
+            messages
+        )
+
+        self.assertIn("\npip==23.2.1", messages)
+        self.assertIn("\nrequests==2.0.0", messages)
+        self.assertIn("\ntensorflow==1.14.0", messages)
+
 
 if __name__ == '__main__':
     unittest.main()
