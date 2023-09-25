@@ -43,7 +43,7 @@ def main(args: List[str], cwd_step: str = None, env_step: dict = None) -> ExitCo
     caos_context_env_command = \
         f"import os;" + \
         f"os.environ['_CAOS_CWD'] = os.getcwd();" + \
-        f"file = open('{os.getcwd()}/{caos_context_env_file}', 'w');" + \
+        f"file = open(r'{os.path.abspath(os.getcwd()+'/'+caos_context_env_file)}', 'w');" + \
         f"file.write(str(dict(os.environ)));" + \
         f"file.close();"
 
