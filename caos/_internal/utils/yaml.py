@@ -11,7 +11,7 @@ from caos._internal.exceptions import (
 
 from typing import List, Dict, Any
 
-Dependencies = Dict[str, str]
+Dependencies = Dict[str, Dict[str, str]]
 _TasksYaml = Dict[Any, List[str]]
 Tasks = Dict[str, List[str]]
 
@@ -95,7 +95,10 @@ def get_dependencies_from_yaml() -> Dependencies:
 
     result_dependencies: Dependencies = {}
     for dependency_name, version in dependencies.items():
-        result_dependencies[str(dependency_name).lower()] = generate_pip_ready_dependency(dependency_name, version)
+        result_dependencies[str(dependency_name).lower()] = {
+            "pip_ready_version": generate_pip_ready_dependency(dependency_name, version),
+            "user_requested_version": version
+        }
 
     return result_dependencies
 

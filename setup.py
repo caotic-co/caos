@@ -16,13 +16,17 @@ setup(
     long_description=full_description,
     long_description_content_type='text/markdown',
     url="https://github.com/caotic-co/caos/",
-    keywords='caos virtualenv dependencies manager poetry pip-tools npm maven composer ppm pipenv venv easy_install '
+    keywords='caos virtualenv dependencies manager poetry pip-tools npm pnpm bun maven composer pipenv venv easy_install '
              'setuptools wheel',
     classifiers=[
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: Implementation :: CPython",

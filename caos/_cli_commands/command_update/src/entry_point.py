@@ -57,10 +57,10 @@ def main(args: List[str]) -> ExitCode:
     is_unittest: bool = True if isinstance(sys.stdout, StringIO) else False
 
     if "pip" in dependencies:
-        if "pip" == dependencies.get("pip"):
+        if "pip" == dependencies.get("pip")["pip_ready_version"]:
             dep: str = "pip"
         else:
-            dep: str = "pip{}".format(dependencies.get("pip"))
+            dep: str = "pip{}".format(dependencies.get("pip")["pip_ready_version"])
 
         caos_command_print(
             command=NAME,
@@ -96,12 +96,12 @@ def main(args: List[str]) -> ExitCode:
 
     deps: List[str] = []
     for dep_name, dep_version in dependencies.items():
-        if dep_name == dep_version:
+        if dep_name == dep_version["pip_ready_version"]:
             dep = dep_name
-        elif dep_version.endswith(".whl") or dep_version.endswith(".dist-info") or dep_version.endswith(".tar.gz"):
-            dep = dep_version
+        elif dep_version["pip_ready_version"].endswith(".whl") or dep_version["pip_ready_version"].endswith(".dist-info") or dep_version["pip_ready_version"].endswith(".tar.gz"):
+            dep = dep_version["pip_ready_version"]
         else:
-            dep = "{}{}".format(dep_name, dep_version)
+            dep = "{}{}".format(dep_name, dep_version["pip_ready_version"])
 
         deps.append(dep)
 

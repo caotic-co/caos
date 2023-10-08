@@ -5,7 +5,7 @@ from tests import run
 
 if __name__ == "__main__":
     if is_supported_os():
-        print("Running tests...")
+        print("[INFO] Running tests...")
         run.main()
     else:
-        raise UnsupportedOS("Only Windows and UNIX Like OSs are supported")
+        raise UnsupportedOS("[ERROR] Only Windows and UNIX Like OSs are supported")
