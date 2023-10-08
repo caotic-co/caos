@@ -85,7 +85,6 @@ def main(args: List[str], cwd_step: str = None, env_step: dict = None) -> ExitCo
                 env_step = ast.literal_eval(f.read())
                 cwd_step = env_step["_CAOS_CWD"]
 
-    if os.path.isfile(caos_context_env_file):
-        os.remove(caos_context_env_file)
+            os.remove(caos_context_env_file)
 
     return ExitCode(0)
