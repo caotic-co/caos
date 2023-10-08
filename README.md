@@ -6,7 +6,7 @@
 [![](https://img.shields.io/github/actions/workflow/status/caotic-co/caos/python-package.yml
 )](https://github.com/caotic-co/caos/actions/workflows/python-package.yml)
 
-The "caos" Python library is a dependency management and task automation tool that simplifies the management of project dependencies and tasks within Python development. Similar to npm or pnpm in the JavaScript ecosystem, caos allows developers to:
+The **"caos"** Python library is a dependency management and task automation tool that works for **Python 3.6, 3.7, 3,8, 3.9, 3.10, 3.11, and 3.12** that requires only **pip** and **virtualenv**. It simplifies the management of project dependencies and tasks within Python development. Similar to npm or pnpm in the JavaScript ecosystem, caos allows developers to do:
 
 * **Dependency Tracking:** Easily track project dependencies using semantic versioning in a YAML file, eliminating the need for a traditional requirements.txt file.
 
@@ -20,12 +20,10 @@ Overall, the "caos" library empowers Python developers with a streamlined and us
 
 -----
 
-# Installation
+# Requirements
 
 Make sure that you have a working **Python >= 3.6** with **pip** and **virtualenv** installed and then execute   
-~~~
-$ pip install caos
-~~~
+
 
 Example of a web project using CAOS
 ------------
@@ -126,10 +124,6 @@ if __name__ == '__main__':
 **Efficient Task Automation:** Custom tasks defined in "caos.yml" facilitate automation of common development tasks, enhancing productivity.
 
 **Improved Project Maintenance:** This setup ensures that the project remains organized, allowing for easier collaboration and maintenance.
-
-This is the content of the **main.py** file presented in the example:
-
-This is the content of the **test.py** file presented in the example:
 
 -----
 
