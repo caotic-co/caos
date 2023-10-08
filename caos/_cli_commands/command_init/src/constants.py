@@ -20,12 +20,12 @@ virtual_environment: {VENV_NAME}
 
 dependencies:
   pip: latest
-#  requests: 2.0.0  # Allow only Exact version
-#  numpy: ^1.18.2 # Allow only Minor version changes
-#  flask: ~1.1.0  # Allow only Patch version changes
-#  flask: ./Flask-1.1.2.tar.gz # Local tar.gz package
-#  tensorflow: ./local_libs/tensorflow-1.13.1-py3-none-any.whl # Local WHl package
-#  tensorflow: https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.14.0-py3-none-any.whl # Remote WHl package
+#  requests: 2.31.0  # Allow only Exact version
+#  numpy: ^1.26.0 # Allow only Minor version changes
+#  flask: ~3.0.0  # Allow only Patch version changes
+#  flask: ./flask-3.0.0.tar.gz # Local tar.gz package
+#  colorama: ./local_libs/colorama-0.4.6-py2.py3-none-any.whl # Local WHl package
+#  colorama: https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl 
 
 tasks:
   unittest:

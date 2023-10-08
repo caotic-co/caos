@@ -77,7 +77,7 @@ def main(args: List[str]) -> ExitCode:
         )
         return ExitCode(1)
 
-    pip_list_dependency_regex = re.compile("^(?P<name>.+)(( )+)(\()?(?P<version>((\d+)(\.\d+)?(\.\d+)?))(\))?$")
+    pip_list_dependency_regex = re.compile(r"^(?P<name>.+)(( )+)(\()?(?P<version>((\d+)(\.\d+)?(\.\d+)?))(\))?$")
     pip_list_output_by_lines = [line.strip() for line in pip_list_process.stdout.split("\n")]
 
     installed_deps: Dict[str: str] = {}

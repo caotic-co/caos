@@ -74,6 +74,8 @@ def main(args: List[str], cwd_step: str = None, env_step: dict = None) -> ExitCo
             print(step_process.stdout)
 
         if step_process.returncode != 0:
+            if os.path.isfile(caos_context_env_file):
+                os.remove(caos_context_env_file)
             raise StepExecutionError("Within the task '{}' the step '{}' returned a non zero exit code"
                                      .format(task_name, step))
 
