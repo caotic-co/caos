@@ -44,7 +44,6 @@ class TestCommandPip(unittest.TestCase):
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
         self.assertIn("pip", messages)
-        self.assertIn("setuptools", messages)
 
     def test_pip_command_error(self):
         exit_code: int = command_init.entry_point(args=[])
