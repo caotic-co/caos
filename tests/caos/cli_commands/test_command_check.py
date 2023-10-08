@@ -39,7 +39,7 @@ class TestCommandCheck(unittest.TestCase):
                 pip: "latest"
                 flask: "^2"
                 requests: "~2.0.0"
-                colorama: https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl    
+                colorama: https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.3-py2.py3-none-any.whl    
             """)
 
         exit_code: int = command_update.entry_point(args=[])
@@ -65,7 +65,7 @@ class TestCommandCheck(unittest.TestCase):
             dependencies:
                 pip: "latest"
                 requests: "2.0.0"
-                colorama: https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl      
+                colorama: https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.3-py2.py3-none-any.whl      
             """)
 
 
@@ -89,7 +89,7 @@ class TestCommandCheck(unittest.TestCase):
                 pip: "latest"
                 flask: "^2"
                 requests: "~2.0.0"
-                colorama: https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl    
+                colorama: https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.3-py2.py3-none-any.whl    
             """)
 
         exit_code: int = command_update.entry_point(args=[])
@@ -115,7 +115,7 @@ class TestCommandCheck(unittest.TestCase):
 
         self.assertIn("\npip==", messages)
         self.assertIn("\nrequests==2", messages)
-        self.assertIn("\ncolorama==0.4.6", messages)
+        self.assertIn("\ncolorama==0.4.3", messages)
 
 
 if __name__ == '__main__':
