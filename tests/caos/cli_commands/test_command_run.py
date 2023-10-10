@@ -183,6 +183,7 @@ class TestCommandRun(unittest.TestCase):
         self.assertTrue(os.path.isfile(yaml_path))
 
         self._restore_stdout()
+        command_run.entry_point(args=["false_task_posix"])
         if is_posix_os():
             with self.assertRaises(Exception) as context:
                 command_run.entry_point(args=["false_task_posix"])
