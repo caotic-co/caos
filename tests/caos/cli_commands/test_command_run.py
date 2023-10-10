@@ -119,7 +119,7 @@ class TestCommandRun(unittest.TestCase):
         tasks:           
           true_task_posix:
             - |
-              if true &> /dev/null; then
+              if true; then
                 echo [TRUE]
               else
                 echo [FALSE]
@@ -158,7 +158,7 @@ class TestCommandRun(unittest.TestCase):
         tasks:                          
           false_task_posix:
             - |
-              if false &> /dev/null; then
+              if false; then
                 echo [TRUE]
               else
                 echo [FALSE]
