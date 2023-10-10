@@ -128,12 +128,7 @@ class TestCommandRun(unittest.TestCase):
           
           true_task_windows:
             - |
-              if 1 equ 1(
-                echo [TRUE]
-              ) else (
-                echo [FALSE]
-                exit 1
-              )
+              if 1 equ 1 (echo [TRUE]) else ((echo [FALSE]) && exit 1)
         """
 
         yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
@@ -167,12 +162,7 @@ class TestCommandRun(unittest.TestCase):
           
           false_task_windows:
             - |
-              if 1 equ 2(
-                echo [TRUE]
-              ) else (
-                echo [FALSE]
-                exit 1
-              )        
+              if 1 equ 2 (echo [TRUE]) else ((echo [FALSE]) && exit 1)  
         """
 
         yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
