@@ -182,10 +182,7 @@ class TestCommandRun(unittest.TestCase):
 
         self.assertTrue(os.path.isfile(yaml_path))
 
-        self._restore_stdout()
-        print("false_task_posix")
-        exit_code = command_run.entry_point(args=["false_task_posix"])
-        print("exit_code", exit_code)
+        command_run.entry_point(args=["false_task_posix"])
 
 
         if is_win_os():
