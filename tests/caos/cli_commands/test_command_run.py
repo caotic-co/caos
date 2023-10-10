@@ -91,7 +91,6 @@ class TestCommandRun(unittest.TestCase):
 
         self.assertTrue(os.path.isfile(yaml_path))
 
-        self._restore_stdout()
         with self.assertRaises(Exception) as context:
             command_run.entry_point(args=["bye"])
         self.assertIn("No task named 'bye' was found", str(context.exception))
@@ -183,6 +182,7 @@ class TestCommandRun(unittest.TestCase):
 
         self.assertTrue(os.path.isfile(yaml_path))
 
+        self._restore_stdout()
         if is_posix_os():
             with self.assertRaises(Exception) as context:
                 command_run.entry_point(args=["false_task_posix"])
