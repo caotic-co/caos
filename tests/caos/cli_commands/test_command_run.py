@@ -182,8 +182,11 @@ class TestCommandRun(unittest.TestCase):
 
         self.assertTrue(os.path.isfile(yaml_path))
 
-        command_run.entry_point(args=["false_task_posix"])
-
+        if is_posix_os():
+            with self.assertRaises(Exception) as context:
+                command_run.entry_point(args=["false_task_posix"])
+            self.assertIn("Within the task 'false_task_posix' the step", str(context.exception))
+            self.assertIn("returned a non zero exit code", str(context.exception))
 
         if is_win_os():
             with self.assertRaises(Exception) as context:
@@ -193,7 +196,6 @@ class TestCommandRun(unittest.TestCase):
 
         messages: str = escape_ansi(self.new_stdout.getvalue())
         self.assertIn("[FALSE]", messages)
-
 
     def test_run_incomplete_command_failure(self):
         yaml_template = """\
