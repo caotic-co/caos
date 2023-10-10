@@ -117,14 +117,23 @@ class TestCommandRun(unittest.TestCase):
     def test_run_multi_line_command_successful(self):
         yaml_template = """\
         tasks:           
-          true_task:
+          true_task_posix:
             - |
               if true &> /dev/null; then
                 echo [TRUE]
               else
                 echo [FALSE]
                 exit 1
-              fi      
+              fi
+          
+          true_task_windows:
+            - |
+              if 1 equ 1(
+                echo [TRUE]
+              ) else (
+                echo [FALSE]
+                exit 1
+              )
         """
 
         yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
@@ -134,21 +143,36 @@ class TestCommandRun(unittest.TestCase):
 
         self.assertTrue(os.path.isfile(yaml_path))
 
-        command_run.entry_point(args=["true_task"])
+        if is_posix_os():
+            exit_code: int = command_run.entry_point(args=["true_task_posix"])
+            self.assertEqual(0, exit_code)
+        if is_win_os():
+            exit_code: int = command_run.entry_point(args=["true_task_windows"])
+            self.assertEqual(0, exit_code)
+
         messages: str = escape_ansi(self.new_stdout.getvalue())
         self.assertIn("[TRUE]", messages)
 
     def test_run_multi_line_command_failure(self):
         yaml_template = """\
         tasks:                          
-          false_task:
+          false_task_posix:
             - |
               if false &> /dev/null; then
                 echo [TRUE]
               else
                 echo [FALSE]
                 exit 1
-              fi        
+              fi
+          
+          false_task_windows:
+            - |
+              if 1 equ 2(
+                echo [TRUE]
+              ) else (
+                echo [FALSE]
+                exit 1
+              )        
         """
 
         yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
@@ -158,14 +182,21 @@ class TestCommandRun(unittest.TestCase):
 
         self.assertTrue(os.path.isfile(yaml_path))
 
+        if is_posix_os():
+            with self.assertRaises(Exception) as context:
+                command_run.entry_point(args=["false_task_posix"])
+            self.assertIn("Within the task 'false_task_posix' the step", str(context.exception))
+            self.assertIn("returned a non zero exit code", str(context.exception))
 
-        with self.assertRaises(Exception) as context:
-            command_run.entry_point(args=["false_task"])
+        if is_win_os():
+            with self.assertRaises(Exception) as context:
+                command_run.entry_point(args=["false_task_windows"])
+            self.assertIn("Within the task 'false_task_windows' the step", str(context.exception))
+            self.assertIn("returned a non zero exit code", str(context.exception))
 
         messages: str = escape_ansi(self.new_stdout.getvalue())
         self.assertIn("[FALSE]", messages)
-        self.assertIn("Within the task 'false_task' the step", str(context.exception))
-        self.assertIn("returned a non zero exit code", str(context.exception))
+
 
     def test_run_incomplete_command_failure(self):
         yaml_template = """\
