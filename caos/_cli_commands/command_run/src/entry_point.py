@@ -62,7 +62,7 @@ def main(args: List[str], cwd_step: str = None, env_step: dict = None) -> ExitCo
 
         if is_win_os():
             step_process: subprocess.CompletedProcess = subprocess.run(
-                f"{step}\nif %errorlevel% equ 0 ({added_caos_commands}) else (exit %errorlevel%)",
+                f"{step} && if %errorlevel% equ 0 ({added_caos_commands}) else (exit %errorlevel%)",
                 stdout=subprocess.PIPE if is_unittest else sys.stdout,
                 stderr=subprocess.STDOUT,
                 stdin=sys.stdin,
