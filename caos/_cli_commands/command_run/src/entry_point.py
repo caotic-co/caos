@@ -59,16 +59,30 @@ def main(args: List[str], cwd_step: str = None, env_step: dict = None) -> ExitCo
         # The current Unittest for this redirects the stdout to a StringIO() buffer, which is not compatible with
         # subprocess, so for this scenario a subprocess.PIPE is used instead of the sys.stdout to be able to capture
         # the output in the unittests
-        step_process: subprocess.CompletedProcess = subprocess.run(
-            f"{step} && {added_caos_commands}",
-            stdout=subprocess.PIPE if is_unittest else sys.stdout,
-            stderr=subprocess.STDOUT,
-            stdin=sys.stdin,
-            cwd=cwd_step,
-            env=env_step,
-            universal_newlines=True,
-            shell=True
-        )
+
+        if is_win_os():
+            step_process: subprocess.CompletedProcess = subprocess.run(
+                f"{step}\nif %errorlevel% equ 0 ({added_caos_commands}) else (exit %errorlevel%)",
+                stdout=subprocess.PIPE if is_unittest else sys.stdout,
+                stderr=subprocess.STDOUT,
+                stdin=sys.stdin,
+                cwd=cwd_step,
+                env=env_step,
+                universal_newlines=True,
+                shell=True
+            )
+        else:
+            step_process: subprocess.CompletedProcess = subprocess.run(
+                f"{step}\nif [ $? -eq 0 ]; then {added_caos_commands}; else exit $?; fi",
+                stdout=subprocess.PIPE if is_unittest else sys.stdout,
+                stderr=subprocess.STDOUT,
+                stdin=sys.stdin,
+                cwd=cwd_step,
+                env=env_step,
+                universal_newlines=True,
+                shell=True
+            )
+
 
         if is_unittest and step_process.stdout:
             print(step_process.stdout)

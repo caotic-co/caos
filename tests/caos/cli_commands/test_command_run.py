@@ -4,6 +4,7 @@ import shutil
 import unittest
 from io import StringIO
 from caos._internal.utils.os import is_posix_os, is_win_os
+from caos._cli_commands import command_init
 from caos._cli_commands import command_run
 from caos._internal.constants import CAOS_YAML_FILE_NAME
 from caos._internal.console.tools import escape_ansi
@@ -112,6 +113,86 @@ class TestCommandRun(unittest.TestCase):
             command_run.entry_point(args=["hello"])
 
         self.assertIn("Within the task 'hello' the step 'exit 1' returned a non zero exit code", str(context.exception))
+
+    def test_run_multi_line_command_successful(self):
+        yaml_template = """\
+        tasks:           
+          true_task:
+            - |
+              if true &> /dev/null; then
+                echo [TRUE]
+              else
+                echo [FALSE]
+                exit 1
+              fi      
+        """
+
+        yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
+        self.assertFalse(os.path.isfile(yaml_path))
+        with open(file=yaml_path, mode="w") as yaml_file:
+            yaml_file.write(yaml_template)
+
+        self.assertTrue(os.path.isfile(yaml_path))
+
+        command_run.entry_point(args=["true_task"])
+        messages: str = escape_ansi(self.new_stdout.getvalue())
+        self.assertIn("[TRUE]", messages)
+
+    def test_run_multi_line_command_failure(self):
+        yaml_template = """\
+        tasks:                          
+          false_task:
+            - |
+              if false &> /dev/null; then
+                echo [TRUE]
+              else
+                echo [FALSE]
+                exit 1
+              fi        
+        """
+
+        yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
+        self.assertFalse(os.path.isfile(yaml_path))
+        with open(file=yaml_path, mode="w") as yaml_file:
+            yaml_file.write(yaml_template)
+
+        self.assertTrue(os.path.isfile(yaml_path))
+
+
+        with self.assertRaises(Exception) as context:
+            command_run.entry_point(args=["false_task"])
+
+        messages: str = escape_ansi(self.new_stdout.getvalue())
+        self.assertIn("[FALSE]", messages)
+        self.assertIn("Within the task 'false_task' the step", str(context.exception))
+        self.assertIn("returned a non zero exit code", str(context.exception))
+
+    def test_run_incomplete_command_failure(self):
+        yaml_template = """\
+        virtual_environment: venv
+        
+        tasks:                          
+          incomplete_task:
+            - |
+              caos pip install        
+        """
+
+        yaml_path: str = os.path.abspath(CAOS_YAML_FILE_NAME)
+        self.assertFalse(os.path.isfile(yaml_path))
+        with open(file=yaml_path, mode="w") as yaml_file:
+            yaml_file.write(yaml_template)
+
+        self.assertTrue(os.path.isfile(yaml_path))
+
+        exit_code: int = command_init.entry_point(args=[""])
+        self.assertEqual(0, exit_code)
+
+        with self.assertRaises(Exception) as context:
+            command_run.entry_point(args=["incomplete_task"])
+
+        messages: str = escape_ansi(self.new_stdout.getvalue())
+        self.assertIn("Within the task 'incomplete_task' the step", str(context.exception))
+        self.assertIn("returned a non zero exit code", str(context.exception))
 
     def test_run_command_recursion(self):
         yaml_template = """\
