@@ -239,7 +239,10 @@ class TestCommandRun(unittest.TestCase):
 
         messages: str = escape_ansi(self.new_stdout.getvalue())
 
-        self.assertIn("1\n\n2\n\n3\n\n", messages)
+        if is_posix_os():
+            self.assertIn("1\n\n2\n\n3\n\n", messages)
+        elif is_win_os():
+            self.assertIn("1 \n\n2 \n\n3 \n\n", messages)
 
     def test_run_command_recursion_exceeded(self):
         yaml_template = """\
