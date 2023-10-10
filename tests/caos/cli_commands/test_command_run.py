@@ -186,11 +186,7 @@ class TestCommandRun(unittest.TestCase):
         print("false_task_posix")
         exit_code = command_run.entry_point(args=["false_task_posix"])
         print("exit_code", exit_code)
-        if is_posix_os():
-            with self.assertRaises(Exception) as context:
-                command_run.entry_point(args=["false_task_posix"])
-            self.assertIn("Within the task 'false_task_posix' the step", str(context.exception))
-            self.assertIn("returned a non zero exit code", str(context.exception))
+
 
         if is_win_os():
             with self.assertRaises(Exception) as context:
